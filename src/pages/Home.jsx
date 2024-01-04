@@ -10,8 +10,7 @@ const HomePage = () => {
                 </div>
                 <section className="frontpage-about">
                     <p className="frontpage-about-text">
-                        Welcome to CleanSweep, where we make household chores fun and fair! Track your tasks, see their value as if they were paid, and compare with your partner. Discover a balanced home life with our easy-to-use app, designed for teamwork and appreciation.
-                        Join us in celebrating and equalizing the unseen efforts of home life!
+                        Welcome to CleanSlate, the app that makes household chores fun and fair! Log your chores, see their value in real money, and compare with your partner. Discover a playful way to encourage a balanced share of home tasks.
                     </p>
                 </section>
                 <div className="frontpage-btn-wrapper">

@@ -7,9 +7,22 @@ body {
 }
 
 .frontpage-image-wrapper {
-	width: 60vw;
+	width: 50vw;
 	margin: 0 auto;
 }
+/*@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.frontpage-image-wrapper img {
+	opacity: 0;
+	animation: fadeIn 1s ease-in forwards;
+}*/
 
 .frontpage-image-wrapper img {
 	object-fit: scale-down;
@@ -21,6 +34,24 @@ body {
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
+}
+
+@keyframes slideInFromLeft {
+	0% {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+.frontpage-about {
+	line-height: 1.6;
+	font-size: 17px;
+	opacity: 0;
+	animation: slideInFromLeft 1.2s ease-out forwards;
 }
 
 .homepage-btns {

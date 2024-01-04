@@ -1,0 +1,92 @@
+header {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+}
+
+.header-content {
+	width: 95vw;
+	margin: 0 auto;
+	justify-content: space-between;
+	display: flex;
+	flex-direction: column;
+}
+
+.logo-burger-row {
+	height: 100%;
+	width: 90%;
+	display: flex;
+	margin: 1em auto;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.row-section {
+	width: 50%;
+	display: contents;
+}
+
+.logo-wrapper {
+	width: 50px;
+	padding: 0;
+}
+
+.logo,
+.menu-icon {
+	object-fit: contain;
+}
+
+.menu-icon-wrapper {
+	width: 50px;
+	background: none;
+	border: none;
+}
+
+.menu-icon-wrapper:hover {
+	cursor: pointer;
+}
+
+.nav-wrapper {
+	opacity: 0;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.open {
+	opacity: 1;
+	max-height: 400px;
+	transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.navlist {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 0em 2em;
+}
+
+.nav-item {
+	border-left: 2px solid rgba(255, 255, 255, 0.438);
+}
+
+nav a {
+	color: black;
+	font-size: 1.2em;
+	display: block;
+	height: 100%;
+	padding: 0.5em 0em;
+}
+
+.nav-item a {
+	transition: all 0.3s ease-in-out;
+	text-indent: 2em;
+	letter-spacing: 2.2px;
+}
+
+.nav-item a:hover {
+	background-color: rgba(255, 255, 255, 0.178);
+	text-indent: 1em;
+	transition: text-indent 0.3s ease-in-out;
+	padding-right: 1em;
+}

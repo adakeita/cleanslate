@@ -1,0 +1,28 @@
+body {
+	background-color: var(--bg-green);
+	background-image: url("../../assets/img/bgr-widgets.png");
+	background-position: bottom;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.frontpage-image-wrapper {
+	width: 60vw;
+	margin: 2em auto;
+}
+
+.frontpage-image-wrapper img {
+	object-fit: scale-down;
+}
+
+.frontpage-btn-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.homepage-btns {
+	box-shadow: 3px 2px 0px 0px rgb(85 102 76);
+	margin: 0 1em;
+}

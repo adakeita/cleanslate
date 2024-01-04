@@ -12,10 +12,10 @@
 body {
 	margin: 0;
 	padding: 0;
-	height: 100vh;
+	min-height: 100vh;
 	width: 100vw;
 	box-sizing: border-box;
-	overflow-y: hidden;
+	overflow-x: hidden;
 }
 
 img {
@@ -30,7 +30,13 @@ h1 {
 a {
 	color: black;
 	font-family: "DM Sans";
+	font-weight: 400;
 	text-decoration: none;
+}
+
+p {
+	font-family: "DM Sans";
+	font-weight: 300;
 }
 
 .page-container {

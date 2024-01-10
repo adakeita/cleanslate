@@ -7,7 +7,7 @@ const PrivacyPolicy = () => {
 
                 1. Introduction
 
-                Welcome to CleanSlate. This privacy policy explains how we handle the personal information of our users. As a student project, our aim is to respect and protect your data while providing a demonstration of our application's capabilities.
+                Welcome to CleanSlate. This privacy policy explains how we handle the personal information of our users. As a student project, our aim is to respect and protect your data while providing a demonstration of our applications capabilities.
 
                 2. Data Collection and Use
 

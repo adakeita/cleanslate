@@ -1,21 +1,24 @@
 import { useState } from 'react';
-import { signUp } from "../../lib/api"; // Adjust this import path as necessary
+import supabase from '../../lib/supabaseClient';
 
-const SignupForm = () => {
+function SignupForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
-    const [pronouns, setPronouns] = useState('they/them');
+    const [pronouns, setPronouns] = useState('');
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        try {
-            const user = await signUp(email, password, name, username, pronouns);
-            console.log("Signup successful, user:", user);
-            // Redirect or further actions after successful signup
-        } catch (error) {
-            alert(error.message);
+
+        const { error } = await supabase.auth.signUp({ email, password, first_name: firstName, last_name: lastName, username, pronouns });
+
+        if (error) {
+            console.error('Error signing up:', error);
+        } else {
+            console.log('User signed up successfully');
+            // You don't need to insert user details manually here
         }
     };
 
@@ -23,18 +26,18 @@ const SignupForm = () => {
         <form onSubmit={handleSignup}>
             <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required />
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" required />
-            <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Name" required />
+            <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="First Name" required />
+            <input type="text" value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Last Name" required />
             <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" required />
             <select value={pronouns} onChange={e => setPronouns(e.target.value)}>
                 <option value="they/them">They/Them</option>
-                <option value="he/him">He/Him</option>
                 <option value="she/her">She/Her</option>
-                {/* Add more options as needed */}
+                <option value="he/him">He/Him</option>
             </select>
             <button type="submit">Sign Up</button>
         </form>
     );
-};
+}
 
 export default SignupForm;
 

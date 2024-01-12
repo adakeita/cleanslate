@@ -1,33 +1,52 @@
 import { useState } from 'react';
-import { useNavigate } from '@tanstack/react-router';
 import { updateUserDetails } from '../../lib/api';
-import './userdetails.css';
+import PropTypes from 'prop-types';
 import avatar1 from '../../assets/avatar/avatar1.png';
 import avatar2 from '../../assets/avatar/avatar2.png';
+import './userdetails.css';
 
-const UserDetails = () => {
+const UserDetails = ({ onComplete }) => {
     const [username, setUsername] = useState('');
     const [pronouns, setPronouns] = useState('they/them');
     const [avatar, setAvatar] = useState('');
-    const isAvatarSelected = (avatarSrc) => avatar === avatarSrc;
+    const [usernameError, setUsernameError] = useState('');
+    const [avatarError, setAvatarError] = useState('');
 
-    const navigate = useNavigate();
+    const isAvatarSelected = (avatarSrc) => avatar === avatarSrc;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        let isValid = true;
+        if (!username.trim()) {
+            setUsernameError('Please enter a username.');
+            isValid = false;
+        } else {
+            setUsernameError('');
+        }
+
+        if (avatar === '') {
+            setAvatarError('Please select an avatar.');
+            isValid = false;
+        } else {
+            setAvatarError('');
+        }
+
+        if (!isValid) return;
+
         try {
             await updateUserDetails(username, pronouns, avatar);
-            navigate({ to: "/dashboard" });
+            onComplete();
         } catch (error) {
             alert(error.message);
         }
     };
 
     return (
-        <form className="complete-profileform" onSubmit={handleSubmit}>
-            <h1 className="complete-profileform-title">Complete your profile</h1>
-            <div className="complete-profileform-content">
-                <section className="avatar-select-wrapper">
+        <form className="complete-user-detailform" onSubmit={handleSubmit}>
+            <h1 className="complete-user-detailform-title">Complete your profile</h1>
+            <div className="complete-user-detailform-content">
+                <section className={`avatar-select-wrapper ${avatarError ? 'avatar-invalid' : ''}`}>
                     <label>Select an avatar:</label>
                     <div className="avatar-img-row">
                         <div className={`avatar-img-container ${isAvatarSelected(avatar1) ? 'selected' : ''}`}>
@@ -37,11 +56,19 @@ const UserDetails = () => {
                             <img src={avatar2} alt="Avatar 2" onClick={() => setAvatar(avatar2)} />
                         </div>
                     </div>
+                    {avatarError && <p className="error-message">{avatarError}</p>}
                 </section>
                 <section className="user-detail-fields">
-                    <div className="user-detail-col">
+                    <div className={`user-detail-col ${usernameError ? 'input-invalid' : ''}`}>
                         <label className='user-detail-label'>Username:</label>
-                        <input className="complete-user-input" type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
+                        <input
+                            className="complete-user-input"
+                            type="text"
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                            placeholder="Username"
+                        />
+                        {usernameError && <p className="error-message">{usernameError}</p>}
                     </div>
                     <div className="user-detail-col">
                         <label className='user-detail-label'>Pronouns:</label>
@@ -56,6 +83,11 @@ const UserDetails = () => {
             <button className="btn-rounded complete-user-btn" type="submit">That&apos;s me!</button>
         </form>
     );
+};
+
+
+UserDetails.propTypes = {
+    onComplete: PropTypes.func.isRequired,
 };
 
 export default UserDetails;

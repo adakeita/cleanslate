@@ -47,6 +47,40 @@ export const updateUserDetails = async (username, pronouns, avatar) => {
 	}
 };
 
+export const linkUserToHousehold = async (householdName, sizeInSqm) => {
+	const { data } = await supabase.auth.getUser();
+	const user = data.user;
+
+	if (!user) throw new Error("No user logged in.");
+
+	// Check if the household exists
+	let { data: household, error } = await supabase
+		.from("household_details")
+		.select("household_id")
+		.eq("household_name", householdName)
+		.single();
+
+	if (error && error.message !== "No rows found") throw error;
+
+	// If the household doesn't exist, create a new one
+	if (!household) {
+		({ data: household, error } = await supabase
+			.from("household_details")
+			.insert([{ household_name: householdName, size_in_sqm: sizeInSqm }])
+			.single());
+
+		if (error) throw error;
+	}
+
+	// Link the user to the household
+	const { error: linkError } = await supabase
+		.from("user_details")
+		.update({ household_id: household.household_id })
+		.eq("user_id", user.id);
+
+	if (linkError) throw linkError;
+};
+
 export const signIn = async (email, password) => {
 	const { user, error } = await supabase.auth.signIn({ email, password });
 	if (error) throw error;

@@ -1,10 +1,10 @@
-.complete-profileform {
+.complete-user-detailform {
 	margin: 2em auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
+	width: 90%;
 	max-width: 550px;
 	height: 100%;
 	padding: 2em 0em;
@@ -13,7 +13,7 @@
 	box-shadow: 3px 5px 0px 0 rgba(0, 0, 0, 0.2);
 }
 
-.complete-profileform-content {
+.complete-user-detailform-content {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -72,6 +72,19 @@
 }
 
 .complete-user-btn:hover {
+	transform: scale(1.1);
 	background-color: #59723c;
 	color: white;
+}
+
+.error-message {
+	color: red;
+	margin: 5px 0;
+}
+.input-invalid input {
+	border: 1px solid red;
+}
+
+.avatar-invalid {
+	border: 1px solid red;
 }

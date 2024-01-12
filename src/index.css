@@ -39,6 +39,11 @@ p {
 	font-weight: 300;
 }
 
+label {
+	font-family: "DM Sans";
+	font-weight: 400;
+}
+
 .page-container {
 	width: 80vw;
 	min-height: 70vh;

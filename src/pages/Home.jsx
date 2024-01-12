@@ -1,4 +1,5 @@
 import "./pagestyles/home.css";
+import { Link } from "@tanstack/react-router";
 import cleanSlateHome from "../assets/img/CleanSlate.png";
 
 const HomePage = () => {
@@ -14,7 +15,9 @@ const HomePage = () => {
                     </p>
                 </section>
                 <div className="frontpage-btn-wrapper">
-                    <button className="btn-rounded homepage-btns">Sign In</button>
+                    <Link to="/register" className="btn-rounded homepage-btns">
+                        <button className="btn-rounded homepage-btns">Sign In</button>
+                    </Link>
                     <button className="btn-rounded homepage-btns">Sign Up</button>
                 </div>
             </div>

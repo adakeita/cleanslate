@@ -1,6 +1,8 @@
 import { Router, Route, RootRoute } from "@tanstack/react-router";
 import HomePage from "./pages/Home";
 import RegisterPage from "./pages/Register";
+import CompleteProfile from "./pages/CompleteProfile";
+import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/Login";
 import Root from "./App";
 
@@ -22,13 +24,31 @@ const registerRoute = new Route({
 	component: RegisterPage,
 });
 
+const completeProfileRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: "/completeprofile",
+	component: CompleteProfile,
+});
+
+const dashboardRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: "/dashboard",
+	component: Dashboard,
+});
+
 const loginRoute = new Route({
 	getParentRoute: () => rootRoute,
 	path: "/login",
 	component: LoginPage,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, registerRoute, loginRoute]);
+const routeTree = rootRoute.addChildren([
+	indexRoute,
+	registerRoute,
+	completeProfileRoute,
+	dashboardRoute,
+	loginRoute,
+]);
 
 export const router = new Router({ routeTree });
 

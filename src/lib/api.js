@@ -47,38 +47,51 @@ export const updateUserDetails = async (username, pronouns, avatar) => {
 	}
 };
 
-export const linkUserToHousehold = async (householdName, sizeInSqm) => {
-	const { data } = await supabase.auth.getUser();
-	const user = data.user;
+export const linkUserToHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
+	const { data: userData, error: userError } = await supabase.auth.getUser();
+	if (userError) throw userError;
 
+	const user = userData.user;
 	if (!user) throw new Error("No user logged in.");
 
-	// Check if the household exists
-	let { data: household, error } = await supabase
+	// Check if a household with the given name already exists
+	let { data: households, error } = await supabase
 		.from("household_details")
 		.select("household_id")
-		.eq("household_name", householdName)
-		.single();
+		.eq("household_name", householdName);
 
 	if (error && error.message !== "No rows found") throw error;
 
-	// If the household doesn't exist, create a new one
-	if (!household) {
-		({ data: household, error } = await supabase
+	let householdId;
+	if (households && households.length > 0) {
+		// Household already exists
+		householdId = households[0].household_id;
+	} else {
+		// Create a new household
+		const { data: newHousehold, error: newHouseholdError } = await supabase
 			.from("household_details")
-			.insert([{ household_name: householdName, size_in_sqm: sizeInSqm }])
-			.single());
+			.insert([
+				{
+					household_name: householdName,
+					size_in_sqm: sizeInSqm,
+					number_of_rooms: numberOfRooms,
+				},
+			])
+			.single();
 
-		if (error) throw error;
+		if (newHouseholdError) throw newHouseholdError;
+		householdId = newHousehold.household_id;
 	}
 
 	// Link the user to the household
 	const { error: linkError } = await supabase
 		.from("user_details")
-		.update({ household_id: household.household_id })
+		.update({ household_id: householdId })
 		.eq("user_id", user.id);
 
 	if (linkError) throw linkError;
+
+	console.log("User linked to household successfully.");
 };
 
 export const signIn = async (email, password) => {

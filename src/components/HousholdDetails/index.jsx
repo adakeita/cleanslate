@@ -5,14 +5,24 @@ import './housedetails.css';
 
 const HouseholdDetails = () => {
     const [householdName, setHouseholdName] = useState('');
-    const [numberOfRooms, setNumberOfRooms] = useState('');
+    const [numberOfRooms, setNumberOfRooms] = useState('1');
     const [houseSize, setHouseSize] = useState('');
     const navigate = useNavigate();
+
+    const incrementRooms = () => {
+        const currentRooms = parseInt(numberOfRooms, 10); // Parse as integer
+        setNumberOfRooms(currentRooms + 1);
+    };
+
+    const decrementRooms = () => {
+        const currentRooms = parseInt(numberOfRooms, 10); // Parse as integer
+        setNumberOfRooms(currentRooms > 1 ? currentRooms - 1 : 1);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await linkUserToHousehold(householdName);
+            await linkUserToHousehold(householdName, houseSize, numberOfRooms); // Pass all values
             navigate({ to: "/dashboard" });
         } catch (error) {
             alert(error.message);
@@ -49,14 +59,11 @@ const HouseholdDetails = () => {
                     </div>
                     <div className="household-col">
                         <label className='householdform-label' htmlFor="number-of-rooms">No. rooms</label>
-                        <select className='household-inputfield' value={numberOfRooms} onChange={(e) => setNumberOfRooms(e.target.value)}>
-                            <option value="">Select number of rooms</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5+">5+</option>
-                        </select>
+                        <div className='room-btn-container'>
+                            <button type="button" onClick={decrementRooms}>-</button>
+                            <span className='current-room-selection'>{numberOfRooms}</span>
+                            <button type="button" onClick={incrementRooms}>+</button>
+                        </div>
                     </div>
                     <div className="household-col">
                         <label className='householdform-label' htmlFor="house-size">House Size (kvm)</label>

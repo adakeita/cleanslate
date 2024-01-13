@@ -20,7 +20,7 @@ const SignupForm = () => {
     };
 
     return (
-        <form onSubmit={handleSignup}>
+        <form className="signup-form" onSubmit={handleSignup}>
             <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
             <button type="submit">Sign Up</button>

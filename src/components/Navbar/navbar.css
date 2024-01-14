@@ -27,8 +27,14 @@ header {
 }
 
 .logo-wrapper {
-	width: 50px;
+	width: 60px;
 	padding: 0;
+	transition: all 0.3s ease-in-out;
+}
+
+.logo-wrapper:hover {
+	rotate: -15deg;
+	transform: scale(1.1);
 }
 
 .logo,
@@ -37,13 +43,15 @@ header {
 }
 
 .menu-icon-wrapper {
-	width: 50px;
+	width: 60px;
 	background: none;
 	border: none;
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
 }
 
 .menu-icon-wrapper:hover {
-	cursor: pointer;
+	transform: scale(1.1);
 }
 
 .nav-wrapper {
@@ -55,7 +63,7 @@ header {
 
 .open {
 	opacity: 1;
-	max-height: 400px;
+	max-height: 200px;
 	transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
 }
 
@@ -79,6 +87,7 @@ nav a {
 }
 
 .nav-item a {
+	font-size: 16px;
 	transition: all 0.3s ease-in-out;
 	text-indent: 2em;
 	letter-spacing: 2.2px;

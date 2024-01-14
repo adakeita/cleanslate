@@ -16,6 +16,7 @@ body {
 	width: 100vw;
 	box-sizing: border-box;
 	overflow-x: hidden;
+	background-color: var(--bg-green);
 }
 
 img {
@@ -24,6 +25,14 @@ img {
 }
 
 h1 {
+	font-family: "DM Serif Display";
+}
+
+h2 {
+	font-family: "DM Serif Display";
+}
+
+h3 {
 	font-family: "DM Serif Display";
 }
 
@@ -45,8 +54,8 @@ label {
 }
 
 .page-container {
-	width: 80vw;
-	min-height: 70vh;
+	width: 85vw;
+	min-height: 85vh;
 	margin: 0 auto;
 }
 
@@ -54,4 +63,10 @@ label {
 	border-radius: 30px;
 	border: 1px solid black;
 	padding: 1em 2em;
+}
+
+.btn-squared {
+	font-family: "DM Serif Display";
+	border-radius: 10px;
+	padding: 10px 5px;
 }

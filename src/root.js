@@ -3,6 +3,7 @@ import HomePage from "./pages/Home";
 import RegisterPage from "./pages/Register";
 import CompleteProfile from "./pages/CompleteProfile";
 import Dashboard from "./pages/Dashboard";
+import ProfilePage from "./pages/Profile";
 import LoginPage from "./pages/Login";
 import Root from "./App";
 
@@ -30,6 +31,12 @@ const completeProfileRoute = new Route({
 	component: CompleteProfile,
 });
 
+const profileRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: "/profile",
+	component: ProfilePage,
+});
+
 const dashboardRoute = new Route({
 	getParentRoute: () => rootRoute,
 	path: "/dashboard",
@@ -48,6 +55,7 @@ const routeTree = rootRoute.addChildren([
 	completeProfileRoute,
 	dashboardRoute,
 	loginRoute,
+	profileRoute,
 ]);
 
 export const router = new Router({ routeTree });

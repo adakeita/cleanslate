@@ -44,7 +44,7 @@ const UserDetails = ({ onComplete }) => {
 
     return (
         <form className="complete-user-detailform" onSubmit={handleSubmit}>
-            <h1 className="complete-user-detailform-title">Complete your profile</h1>
+            <h1 className="complete-user-detailform-title">Profile Details</h1>
             <div className="complete-user-detailform-content">
                 <section className={`avatar-select-wrapper ${avatarError ? 'avatar-invalid' : ''}`}>
                     <label>Select an avatar:</label>
@@ -80,7 +80,7 @@ const UserDetails = ({ onComplete }) => {
                     </div>
                 </section>
             </div>
-            <button className="btn-rounded complete-user-btn" type="submit">That&apos;s me!</button>
+            <button className="btn-squared complete-user-btn" type="submit">That&apos;s me!</button>
         </form>
     );
 };

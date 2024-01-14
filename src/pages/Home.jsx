@@ -15,7 +15,7 @@ const HomePage = () => {
                     </p>
                 </section>
                 <div className="frontpage-btn-wrapper">
-                    <Link to="/register" className="btn-rounded homepage-btns">
+                    <Link to="/register" className="btn-link">
                         <button className="btn-rounded homepage-btns">Sign In</button>
                     </Link>
                     <button className="btn-rounded homepage-btns">Sign Up</button>

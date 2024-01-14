@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import NavLink from "./NavLink";
 import hamburgerIcon from "../../assets/svg/hamburger.svg";
 import closeIcon from "../../assets/svg/close.svg";
-import logo from "../../assets/img/cs-logo.png";
+import logo from "../../assets/img/cs-logo2.png";
 import "./navbar.css";
 
 const Navbar = () => {

@@ -47,55 +47,153 @@ export const updateUserDetails = async (username, pronouns, avatar) => {
 	}
 };
 
-export const linkUserToHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
-	const { data: userData, error: userError } = await supabase.auth.getUser();
-	if (userError) throw userError;
-
-	const user = userData.user;
-	if (!user) throw new Error("No user logged in.");
-
-	// Check if a household with the given name already exists
-	let { data: households, error } = await supabase
-		.from("household_details")
-		.select("household_id")
-		.eq("household_name", householdName);
-
-	if (error && error.message !== "No rows found") throw error;
-
-	let householdId;
-	if (households && households.length > 0) {
-		// Household already exists
-		householdId = households[0].household_id;
-	} else {
-		// Create a new household
-		const { data: newHousehold, error: newHouseholdError } = await supabase
-			.from("household_details")
-			.insert([
-				{
-					household_name: householdName,
-					size_in_sqm: sizeInSqm,
-					number_of_rooms: numberOfRooms,
-				},
-			])
-			.single();
-
-		if (newHouseholdError) throw newHouseholdError;
-		householdId = newHousehold.household_id;
-	}
-
-	// Link the user to the household
-	const { error: linkError } = await supabase
-		.from("user_details")
-		.update({ household_id: householdId })
-		.eq("user_id", user.id);
-
-	if (linkError) throw linkError;
-
-	console.log("User linked to household successfully.");
-};
-
 export const signIn = async (email, password) => {
 	const { user, error } = await supabase.auth.signIn({ email, password });
 	if (error) throw error;
 	return user;
+};
+
+const createNewHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
+	try {
+		// Insert new household
+		const { error: insertError } = await supabase.from("household_details").insert([
+			{
+				household_name: householdName,
+				size_in_sqm: sizeInSqm,
+				number_of_rooms: numberOfRooms,
+			},
+		]);
+
+		if (insertError) {
+			console.error("Error inserting new household:", insertError);
+			throw new Error("Failed to create new household.");
+		}
+
+		// Query for the newly created household
+		const { data: newHousehold, error: queryError } = await supabase
+			.from("household_details")
+			.select("household_id")
+			.eq("household_name", householdName)
+			.single();
+
+		if (queryError) {
+			console.error("Error querying new household:", queryError);
+			throw new Error("Failed to retrieve new household.");
+		}
+
+		if (!newHousehold || !newHousehold.household_id) {
+			throw new Error("New household creation failed or household_id is missing.");
+		}
+
+		return newHousehold;
+	} catch (error) {
+		console.error("Error in createNewHousehold function:", error);
+		throw error;
+	}
+};
+
+export const linkUserToHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
+	try {
+		// Get current user
+		const { data: userData, error: userError } = await supabase.auth.getUser();
+		if (userError) throw userError;
+		const user = userData.user;
+		if (!user) throw new Error("No user logged in.");
+
+		// Check if a household with the given name already exists
+		let { data: households, error: householdError } = await supabase
+			.from("household_details")
+			.select("household_id")
+			.eq("household_name", householdName);
+
+		if (householdError) throw householdError;
+
+		let householdId;
+
+		// If no existing household, create a new one
+		if (!households || households.length === 0) {
+			const createdHousehold = await createNewHousehold(
+				householdName,
+				sizeInSqm,
+				numberOfRooms
+			);
+			householdId = createdHousehold.household_id;
+		} else {
+			// Use the existing household ID
+			householdId = households[0].household_id;
+		}
+
+		// Link the user to the household
+		const { error: linkError } = await supabase
+			.from("user_details")
+
+			.update({ household_id: householdId })
+			.eq("user_id", user.id);
+
+		if (linkError) throw linkError;
+
+		console.log("User linked to household successfully.");
+	} catch (error) {
+		console.error("Error in linkUserToHousehold function:", error);
+		throw error;
+	}
+};
+
+export const getCompleteUser = async () => {
+	try {
+		// Get the current user
+		const { data: userData, error: userError } = await supabase.auth.getUser();
+		if (userError) throw userError;
+
+		const user = userData.user;
+		if (!user) throw new Error("No user logged in.");
+
+		// Get user details from "user_details" table
+		const { data: userDetails, error: userDetailsError } = await supabase
+			.from("user_details")
+			.select("username", "pronouns", "avatar")
+			.eq("user_id", user.id)
+			.single();
+
+		if (userDetailsError) throw userDetailsError;
+
+		// Get household details from "household_details" table
+		const { data: householdDetails, error: householdDetailsError } = await supabase
+			.from("household_details")
+			.select("household_name", "number_of_rooms", "size_in_sqm")
+			.eq("id", user.household_id)
+			.single();
+
+		if (householdDetailsError) throw householdDetailsError;
+
+		// Get other users in the same household
+		const { data: otherUsers, error: otherUsersError } = await supabase
+			.from("user_details")
+			.select("username", "pronouns", "avatar")
+			.eq("household_id", user.household_id)
+			.neq("user_id", user.id);
+
+		if (otherUsersError) throw otherUsersError;
+
+		// Create a complete user object with information about other users in the household
+		const completeUser = {
+			id: user.id,
+			email: user.email,
+			username: userDetails.username,
+			pronouns: userDetails.pronouns,
+			avatar: userDetails.avatar,
+			household: {
+				id: user.household_id,
+				name: householdDetails.household_name,
+				numberOfRooms: householdDetails.number_of_rooms,
+				sizeInSqm: householdDetails.size_in_sqm,
+				users: otherUsers ? otherUsers : [], // Conditional inclusion of the "users" array
+			},
+		};
+
+		return completeUser;
+	} catch (error) {
+		console.error("Error getting complete user:", error);
+		throw error;
+	}
 };

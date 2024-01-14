@@ -1,4 +1,4 @@
-body {
+#homePageContainer {
 	background-color: var(--bg-green);
 	background-image: url("../../assets/img/bgr-widgets.png");
 	background-position: bottom;
@@ -48,6 +48,9 @@ body {
 }
 
 .frontpage-about {
+	background-color: #add09ca3;
+	padding: 0.5em 2em;
+	border-radius: 5px;
 	line-height: 1.6;
 	font-size: 17px;
 	opacity: 0;

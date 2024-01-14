@@ -33,7 +33,7 @@ const HouseholdDetails = () => {
         <>
             <section className="household-info">
                 <p className="household-info-txt">
-                    Almost there! Let's get your household set up!
+                    Almost there! Let&apos;s get your household set up!
                 </p>
                 <p className="household-info-txt">
                     Choose a unique household name to connect with your partner or flatmates, and let us know the size of your place in square meters.
@@ -60,9 +60,9 @@ const HouseholdDetails = () => {
                     <div className="household-col">
                         <label className='householdform-label' htmlFor="number-of-rooms">No. rooms</label>
                         <div className='room-btn-container'>
-                            <button type="button" onClick={decrementRooms}>-</button>
+                            <button className='room-btn' type="button" onClick={decrementRooms}>-</button>
                             <span className='current-room-selection'>{numberOfRooms}</span>
-                            <button type="button" onClick={incrementRooms}>+</button>
+                            <button className='room-btn' type="button" onClick={incrementRooms}>+</button>
                         </div>
                     </div>
                     <div className="household-col">
@@ -82,7 +82,7 @@ const HouseholdDetails = () => {
                         </select>
                     </div>
                 </div>
-                <button className='btn-rounded' type="submit">Submit</button>
+                <button className='btn-squared householdform-btn' type="submit">Submit</button>
             </form>
         </>
     );

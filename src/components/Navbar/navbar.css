@@ -5,6 +5,7 @@ header {
 }
 
 .header-content {
+	position: relative;
 	width: 95vw;
 	margin: 0 auto;
 	justify-content: space-between;
@@ -55,23 +56,30 @@ header {
 }
 
 .nav-wrapper {
+	position: absolute;
+	width: 100%;
+	top: 100%;
+	left: 0;
+	z-index: 10;
 	opacity: 0;
+	background-color: var(--bg-green);
 	max-height: 0;
 	overflow: hidden;
-	transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+	transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 .open {
 	opacity: 1;
-	max-height: 200px;
-	transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+	max-height: 210px;
+	transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 .navlist {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	padding: 0em 2em;
+	padding: 0.5em 2em;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.438);
 }
 
 .nav-item {
@@ -98,4 +106,41 @@ nav a {
 	text-indent: 1em;
 	transition: text-indent 0.3s ease-in-out;
 	padding-right: 1em;
+}
+
+.logout-col {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.logout-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+.logout-content:hover {
+	transform: scale(1.1);
+	text-decoration: underline;
+}
+
+.logout-img-container {
+	width: 40px;
+	border: none;
+}
+
+.nav-logout-item {
+	width: 100%;
+}
+
+.logout-btn {
+	font-size: 16px;
+	letter-spacing: 1.5px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	justify-content: flex-end;
 }

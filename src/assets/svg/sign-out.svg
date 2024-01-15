@@ -1,10 +1,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="-2.4 -2.4 28.80 28.80" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" transform="matrix(-1, 0, 0, 1, 0, 0)" stroke="#ffffff">
+<svg width="800px" height="800px" viewBox="-1.7 -1.7 20.40 20.40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="si-glyph si-glyph-sign-out" fill="#000000">
 <g id="SVGRepo_bgCarrier" stroke-width="0"/>
 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-<g id="SVGRepo_iconCarrier">
-<path d="M8 10H7V1h15v22H7v-8h1v7h13V2H8zM.742 12.465l3.89 3.89.708-.707L2.69 13H15v-1H2.621l2.661-2.661-.707-.707z"/>
-<path fill="none" d="M0 0h24v24H0z"/>
-</g>
+<g id="SVGRepo_iconCarrier"> <title>913</title> <defs> </defs> <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g transform="translate(1.000000, 0.000000)" fill="#000000"> <g> <path d="M8.99511719,4.91699982 L10.9866943,4.91699982 L10.9866943,-1.83121302e-07 L0,-1.59161573e-11 L8.026,2.666 L8.026,14.917 L0.321,13 L0.106,13.829 L8.99511719,15.9820557 L8.99511719,12.8970557 L10.9866943,12.9149998 L10.9866943,9.04199982 L8.99511719,9.04199982 L8.99511719,4.91699982 Z" class="si-glyph-fill"> </path> <path d="M14.904,7 L12.034,4.068 L12.034,6.055 L10,6.055 L10,7.971 L12.034,7.971 L12.034,10.033 L14.904,7 Z" class="si-glyph-fill"> </path> </g> <rect x="6" y="8" width="0.958" height="0.916" class="si-glyph-fill"> </rect> </g> </g> </g>
 </svg>

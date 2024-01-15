@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import NavLink from "./NavLink";
+import { signOut } from "../../lib/api";
+import { useAuth } from "../../hooks/useAuth";
 import hamburgerIcon from "../../assets/svg/hamburger.svg";
 import closeIcon from "../../assets/svg/close.svg";
 import logo from "../../assets/img/cs-logo2.png";
-import { signOut } from "../../lib/api";
-import { useAuth } from "../../hooks/useAuth";
+import logoutIcon from "../../assets/svg/sign-out.svg";
 import "./navbar.css";
 
 
@@ -58,14 +59,15 @@ const Navbar = () => {
                                     <li className="nav-item">
                                         <NavLink to="/dashboard">Dashboard</NavLink>
                                     </li>
-                                    <li className="nav-item">
-                                        <NavLink to="/my-overview">My Overview</NavLink>
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink to="/household-overview">Household Overview</NavLink>
-                                    </li>
-                                    <li className="nav-item">
-                                        <button onClick={handleLogout} className="logout-button">Logout</button>
+                                    <li className="nav-item nav-logout-item">
+                                        <section className="logout-col logout-container">
+                                            <div className="logout-content logout-element">
+                                                <div className="logout-img-container">
+                                                    <img src={logoutIcon} alt="logout-icon" className="logout-icon" />
+                                                </div>
+                                                <button onClick={handleLogout} className="logout-btn">Logout</button>
+                                            </div>
+                                        </section>
                                     </li>
                                 </>
                             )}

@@ -4,6 +4,7 @@
 	background-position: bottom;
 	background-repeat: no-repeat;
 	background-size: contain;
+	margin-bottom: 3em;
 }
 
 .frontpage-image-wrapper {
@@ -48,7 +49,7 @@
 }
 
 .frontpage-about {
-	background-color: #add09ca3;
+	background-color: #83a775b8;
 	padding: 0.5em 2em;
 	border-radius: 5px;
 	line-height: 1.6;
@@ -60,4 +61,45 @@
 .homepage-btns {
 	box-shadow: 3px 2px 0px 0px rgb(85 102 76);
 	margin: 0 1em;
+}
+
+.home-dashboard {
+	margin: 2em auto;
+	width: 30vw;
+}
+
+.home-dashboard a {
+	display: block;
+	padding: 15px 10px;
+	text-align: center;
+}
+
+.dashboard-btn {
+	background: white;
+	border: 1px solid black;
+	cursor: pointer;
+	box-shadow: 3px 2px 0px 0px rgb(85 102 76);
+}
+
+.dashboard-btn:hover {
+	background: #e6e6e6;
+}
+
+@media screen and (min-width: 640px) {
+	.frontpage-image-wrapper {
+		width: 30vw;
+		max-width: 230px;
+	}
+	.frontpage-btn-wrapper {
+		margin: 2em auto;
+	}
+	.frontpage-about {
+		margin: 2em auto;
+		width: 50vw;
+		font-size: 18px;
+	}
+
+	.home-dashboard {
+		max-width: 160px;
+	}
 }

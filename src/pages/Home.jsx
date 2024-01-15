@@ -27,6 +27,13 @@ const HomePage = () => {
                         </Link>
                     </div>
                 )}
+                {isAuthenticated && (
+                    <div className="home-dashboard">
+                        <Link to="/dashboard" className="btn-link dashboard-btn btn-squared">
+                            Dashboard
+                        </Link>
+                    </div>
+                )}
             </div>
         </>
     );

@@ -32,7 +32,7 @@
 }
 
 .footer-links-container a:hover {
-	color: #008080;
+	color: var(--bg-green);
 	text-decoration: underline;
 	transition: all 0.3s ease-in-out;
 }
@@ -75,9 +75,8 @@
 }
 
 .github-container:hover {
-	rotate: -60deg;
+	rotate: 60deg;
 	transform: scale(1.1);
-	transition: all 0.3s ease-in-out;
 }
 
 @media screen and (max-width: 640px) {
@@ -100,7 +99,7 @@
 	}
 
 	.footer-logo-wrapper {
-		width: 35%;
+		width: 20%;
 		margin: auto;
 	}
 
@@ -118,8 +117,8 @@
 	}
 
 	.github-container {
-		margin: 2em auto 0px;
-		width: 20%;
+		margin: 1.5em auto 0;
+		width: 15%;
 	}
 
 	.footer-links-container a {

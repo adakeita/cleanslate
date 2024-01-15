@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Serif+Display&display=swap");
 
 :root {
-	--bg-green: #add09c;
+	--bg-green: #8ab878;
 }
 
 * {
@@ -17,6 +17,10 @@ body {
 	box-sizing: border-box;
 	overflow-x: hidden;
 	background-color: var(--bg-green);
+}
+
+main {
+	margin: 10vh auto;
 }
 
 img {
@@ -57,6 +61,21 @@ label {
 	width: 85vw;
 	min-height: 85vh;
 	margin: 0 auto;
+}
+
+.no-scroll {
+	overflow: hidden;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
 }
 
 .btn-rounded {

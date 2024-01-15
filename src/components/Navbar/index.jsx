@@ -4,13 +4,27 @@ import NavLink from "./NavLink";
 import hamburgerIcon from "../../assets/svg/hamburger.svg";
 import closeIcon from "../../assets/svg/close.svg";
 import logo from "../../assets/img/cs-logo2.png";
+import { signOut } from "../../lib/api";
+import { useAuth } from "../../hooks/useAuth";
 import "./navbar.css";
+
+
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const isAuthenticated = useAuth();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+
+    const handleLogout = async () => {
+        try {
+            await signOut();
+            isAuthenticated(false);
+        } catch (error) {
+            console.error('Error signing out:', error.message);
+        }
     };
 
     return (
@@ -37,11 +51,24 @@ const Navbar = () => {
                                 <NavLink to="/">Home</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/my-overview">My Overview</NavLink>
+                                <NavLink to="/about">About</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink to="/household-overview">Household Overview</NavLink>
-                            </li>
+                            {isAuthenticated && (
+                                <>
+                                    <li className="nav-item">
+                                        <NavLink to="/dashboard">Dashboard</NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/my-overview">My Overview</NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/household-overview">Household Overview</NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <button onClick={handleLogout} className="logout-button">Logout</button>
+                                    </li>
+                                </>
+                            )}
                         </ul>
                     </nav>
                 </div>

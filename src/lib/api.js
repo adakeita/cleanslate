@@ -48,9 +48,21 @@ export const updateUserDetails = async (username, pronouns, avatar) => {
 };
 
 export const signIn = async (email, password) => {
-	const { user, error } = await supabase.auth.signIn({ email, password });
-	if (error) throw error;
-	return user;
+	try {
+		const { data, error } = await supabase.auth.signInWithPassword({
+			email: email,
+			password: password,
+		});
+
+		if (error) {
+			throw error;
+		}
+
+		return data;
+	} catch (error) {
+		console.error("Error signing in:", error.message);
+		throw error;
+	}
 };
 
 const createNewHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
@@ -139,6 +151,42 @@ export const linkUserToHousehold = async (householdName, sizeInSqm, numberOfRoom
 	}
 };
 
+export const joinExistingHousehold = async (householdName) => {
+	try {
+		// Get current user
+		const { data: userData, error: userError } = await supabase.auth.getUser();
+		if (userError) throw userError;
+		const user = userData.user;
+		if (!user) throw new Error("No user logged in.");
+
+		// Check if the household exists
+		let { data: households, error: householdError } = await supabase
+			.from("household_details")
+			.select("household_id")
+			.eq("household_name", householdName);
+
+		if (householdError) throw householdError;
+
+		if (!households || households.length === 0) {
+			throw new Error("Household does not exist.");
+		}
+
+		// Link the user to the existing household
+		const householdId = households[0].household_id;
+		const { error: linkError } = await supabase
+			.from("user_details")
+			.update({ household_id: householdId })
+			.eq("user_id", user.id);
+
+		if (linkError) throw linkError;
+
+		console.log("User joined household successfully.");
+	} catch (error) {
+		console.error("Error in joinExistingHousehold function:", error);
+		throw error;
+	}
+};
+
 export const getCompleteUser = async () => {
 	try {
 		// Get the current user
@@ -195,5 +243,19 @@ export const getCompleteUser = async () => {
 	} catch (error) {
 		console.error("Error getting complete user:", error);
 		throw error;
+	}
+};
+
+export const signOut = async () => {
+	try {
+		const { error } = await supabase.auth.signOut();
+		if (error) throw error;
+
+		localStorage.removeItem("access_token");
+		localStorage.removeItem("username");
+		localStorage.removeItem("theme");
+		localStorage.removeItem("supabase.auth.session");
+	} catch (error) {
+		console.error("Error signing out:", error);
 	}
 };

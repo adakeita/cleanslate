@@ -95,7 +95,7 @@ const HouseholdDetails = () => {
                         </>
                     )}
                 </div>
-                {feedbackMessage && <p className="feedback-message">{feedbackMessage}</p>}m
+                {feedbackMessage && <p className="feedback-message">{feedbackMessage}</p>}
                 <button className='btn-squared householdform-btn' type="submit">
                     {joinExisting ? "Join Household" : "Create Household"}
                 </button>

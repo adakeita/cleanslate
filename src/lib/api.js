@@ -246,6 +246,57 @@ export const getCompleteUser = async () => {
 	}
 };
 
+export const logChore = async (subcategory_id, duration_in_sessions) => {
+	try {
+		// Get the current user ID
+		const { data: userData, error: userError } = await supabase.auth.getUser();
+		if (userError) throw userError;
+
+		const user_id = userData.user.id;
+
+		// Insert the chore log into the database without monetary_value
+		const { error: insertError } = await supabase.from("chore_log").insert([
+			{
+				user_id: user_id,
+				subcategory_id: subcategory_id,
+				duration_in_sessions: duration_in_sessions,
+			},
+		]);
+
+		if (insertError) {
+			console.error("Error logging chore:", insertError);
+			throw new Error("Failed to log chore.");
+		}
+
+		console.log("Chore logged successfully.");
+	} catch (error) {
+		console.error("Error in logChore function:", error);
+		throw error;
+	}
+};
+
+export const fetchChoreCategories = async () => {
+	try {
+		const { data: categories, error: categoriesError } = await supabase.from(
+			"chore_categories"
+		).select(`
+                category_id,
+                category_name,
+                chore_subcategories (subcategory_id, subcategory_name)
+            `);
+
+		if (categoriesError) {
+			console.error("Error fetching categories:", categoriesError);
+			throw new Error(categoriesError.message || "Error fetching categories.");
+		}
+
+		return categories;
+	} catch (error) {
+		console.error("Error in fetchChoreCategories function:", error);
+		throw error;
+	}
+};
+
 export const signOut = async () => {
 	try {
 		const { error } = await supabase.auth.signOut();

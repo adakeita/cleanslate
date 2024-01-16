@@ -23,6 +23,7 @@ const Navbar = () => {
         try {
             await signOut();
             isAuthenticated(false);
+            return
         } catch (error) {
             console.error('Error signing out:', error.message);
         }
@@ -45,7 +46,7 @@ const Navbar = () => {
                         </button>
                     </section>
                 </section>
-                <div className={`nav-wrapper ${isMenuOpen ? 'open' : 'closed'}`}>
+                <div className={`nav-wrapper ${isMenuOpen ? 'open' : 'closed'} ${!isAuthenticated ? 'small' : 'large'}`}>
                     <nav role="navigation" className="navigation">
                         <ul className="navlist">
                             <li className="nav-item">
@@ -62,10 +63,12 @@ const Navbar = () => {
                                     <li className="nav-item nav-logout-item">
                                         <section className="logout-col logout-container">
                                             <div className="logout-content logout-element">
-                                                <div className="logout-img-container">
-                                                    <img src={logoutIcon} alt="logout-icon" className="logout-icon" />
-                                                </div>
-                                                <button onClick={handleLogout} className="logout-btn">Logout</button>
+                                                <button className="logout-btn" onClick={handleLogout}>
+                                                    <div className="logout-img-container">
+                                                        <img src={logoutIcon} alt="logout-icon" className="logout-icon" />
+                                                    </div>
+                                                    <p className="logout-txt">Logout</p>
+                                                </button>
                                             </div>
                                         </section>
                                     </li>

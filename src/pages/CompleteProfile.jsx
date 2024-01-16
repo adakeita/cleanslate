@@ -4,7 +4,6 @@ import HouseholdDetails from "../components/HousholdDetails";
 
 
 const CompleteProfile = () => {
-
     const [userDetailsCompleted, setUserDetailsCompleted] = useState(false);
 
     return (

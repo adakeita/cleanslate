@@ -5,6 +5,8 @@ import CompleteProfile from "./pages/CompleteProfile";
 import Dashboard from "./pages/Dashboard";
 import ProfilePage from "./pages/Profile";
 import LoginPage from "./pages/Login";
+import HouseholdPage from "./pages/Household";
+import OverviewPage from "./pages/Overview";
 import AboutPage from "./pages/About";
 import Root from "./App";
 
@@ -50,6 +52,18 @@ const loginRoute = new Route({
 	component: LoginPage,
 });
 
+const householdRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: "/household",
+	component: HouseholdPage,
+});
+
+const overviewRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: "/overview",
+	component: OverviewPage,
+});
+
 const aboutRoute = new Route({
 	getParentRoute: () => rootRoute,
 	path: "/about",
@@ -64,6 +78,8 @@ const routeTree = rootRoute.addChildren([
 	loginRoute,
 	profileRoute,
 	aboutRoute,
+	householdRoute,
+	overviewRoute,
 ]);
 
 export const router = new Router({ routeTree });

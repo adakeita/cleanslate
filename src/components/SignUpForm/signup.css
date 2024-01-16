@@ -48,13 +48,13 @@
 	font-size: 16px;
 	font-weight: 600;
 	letter-spacing: 1.2px;
-	background-color: #add09c;
+	background-color: var(--btn-green);
 	box-shadow: 3px 5px 0px 0 rgba(0, 0, 0, 0.2);
 	transition: all 0.3s ease-in-out;
 	cursor: pointer;
 }
 
 .signup-btn:hover {
-	background-color: #7c966f;
+	background-color: var(--btn-green-hover);
 	transform: scale(1.05);
 }

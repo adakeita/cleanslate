@@ -42,18 +42,6 @@ const HouseholdDetails = () => {
 
     return (
         <>
-            <section className="household-info">
-                <p className="household-info-txt">
-                    Almost there! Let&apos;s get your household set up!
-                </p>
-                <p className="household-info-txt">
-                    Choose a unique household name to connect with your partner or flatmates, and let us know the size of your place in square meters.
-                </p>
-                <p className="household-info-txt">
-                    This helps us to tailor chores and tips specifically for your living space. Your details are kept private and are just for making sure our suggestions hit the spot!
-                </p>
-            </section>
-
             <form className='household-form' onSubmit={handleSubmit}>
                 <h1 className='household-form-title'>Household details</h1>
                 <div className="household-form-content">

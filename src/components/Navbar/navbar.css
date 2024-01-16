@@ -74,6 +74,11 @@ header {
 	transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
+.small {
+	max-height: 100px;
+	transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
 .navlist {
 	display: flex;
 	flex-direction: column;
@@ -112,19 +117,6 @@ nav a {
 	justify-content: flex-end;
 }
 
-.logout-content {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	cursor: pointer;
-	transition: all 0.3s ease-in-out;
-}
-
-.logout-content:hover {
-	transform: scale(1.1);
-	text-decoration: underline;
-}
-
 .logout-img-container {
 	width: 40px;
 	border: none;
@@ -135,11 +127,23 @@ nav a {
 }
 
 .logout-btn {
-	font-size: 16px;
-	letter-spacing: 1.5px;
+	width: 65px;
 	background: none;
 	border: none;
 	cursor: pointer;
 	display: flex;
-	justify-content: flex-end;
+	flex-direction: column;
+	align-items: center;
+	transition: all 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+	transform: scale(1.1);
+	text-decoration: underline;
+}
+
+.logout-txt {
+	margin: 0;
+	font-size: 16px;
+	letter-spacing: 1.2px;
 }

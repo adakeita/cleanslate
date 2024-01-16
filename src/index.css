@@ -2,6 +2,11 @@
 
 :root {
 	--bg-green: #83a775;
+	--btn-green: #c6f6b3;
+	--btn-green-hover: #738e68;
+	--btn-green-dark-hover: #425839;
+	--btn-teal: #78a7a1;
+	--btn-teal-hover: #5f8b89;
 }
 
 * {
@@ -55,6 +60,10 @@ p {
 label {
 	font-family: "DM Sans";
 	font-weight: 400;
+}
+
+button {
+	cursor: pointer;
 }
 
 .page-container {

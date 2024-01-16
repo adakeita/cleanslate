@@ -19,17 +19,17 @@ const HomePage = () => {
                 </section>
                 {!isAuthenticated && (
                     <div className="frontpage-btn-wrapper">
-                        <Link to="/login" className="btn-link">
-                            <button className="btn-squared homepage-btns">Sign In</button>
+                        <Link role="button" to="/login" className="homepage-link login-btn-homepage btn-squared homepage-btns">
+                            Login
                         </Link>
-                        <Link to="/register" className="homepage-link">
-                            <button className="btn-squared homepage-btns">Register</button>
+                        <Link role="button" to="/register" className="register-btn-homepage homepage-link btn-squared homepage-btns">
+                            Register
                         </Link>
                     </div>
                 )}
                 {isAuthenticated && (
                     <div className="home-dashboard">
-                        <Link to="/dashboard" className="btn-link dashboard-btn btn-squared">
+                        <Link aria-roledescription="button" role="burron" to="/dashboard" className="btn-link dashboard-btn btn-squared">
                             Dashboard
                         </Link>
                     </div>

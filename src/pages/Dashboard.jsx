@@ -1,4 +1,6 @@
 import { Link } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
+import { getCompleteUser } from "../lib/api";
 import ChoreDropdown from "../components/ChoreDropdown";
 import UserOverview from "../assets/img/usertaskbtn.png";
 import HouseholdOverview from "../assets/img/household-btn.png";
@@ -6,6 +8,27 @@ import "./pagestyles/dashboard.css";
 
 
 const Dashboard = () => {
+    const [userDetails, setUserDetails] = useState({
+        username: '',
+        avatar: '',
+    });
+
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            try {
+                const completeUser = await getCompleteUser();
+                setUserDetails({
+                    username: completeUser.username,
+                    avatar: completeUser.avatar,
+                });
+            } catch (error) {
+                console.error("Error fetching user details:", error);
+            }
+        };
+
+        fetchUserDetails();
+    }, []);
+
 
     return (
         <div id="dashboardContainer" className="page-container">
@@ -13,10 +36,10 @@ const Dashboard = () => {
                 <div className="dashboard-content">
                     <section className="dashboard-profile">
                         <div className="dashboard-img-container">
-                            <img src="" alt="profile-img" className="dashboard-img" />
+                            <img src={userDetails.avatar} alt="profile-img" className="dashboard-img" />
                         </div>
                         <div className="dashboard-name-container">
-                            <h2 className="dashboard-name">Name</h2>
+                            <h1 className="dashboard-name">Hi {userDetails.username || 'Loading...'}!</h1>
                         </div>
                     </section>
                     <section className="log-activity">

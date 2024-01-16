@@ -199,31 +199,40 @@ export const getCompleteUser = async () => {
 		// Get user details from "user_details" table
 		const { data: userDetails, error: userDetailsError } = await supabase
 			.from("user_details")
-			.select("username", "pronouns", "avatar")
+			.select("username, pronouns, avatar, household_id")
 			.eq("user_id", user.id)
 			.single();
 
 		if (userDetailsError) throw userDetailsError;
 
-		// Get household details from "household_details" table
-		const { data: householdDetails, error: householdDetailsError } = await supabase
-			.from("household_details")
-			.select("household_name", "number_of_rooms", "size_in_sqm")
-			.eq("id", user.household_id)
-			.single();
+		let householdDetails = null;
+		if (userDetails && userDetails.household_id) {
+			// Get household details from "household_details" table
+			const { data: fetchedHouseholdDetails, error: householdDetailsError } =
+				await supabase
+					.from("household_details")
+					.select("household_name, number_of_rooms, size_in_sqm")
+					.eq("household_id", userDetails.household_id)
+					.single();
 
-		if (householdDetailsError) throw householdDetailsError;
+			if (householdDetailsError) throw householdDetailsError;
+			householdDetails = fetchedHouseholdDetails;
+		}
 
 		// Get other users in the same household
-		const { data: otherUsers, error: otherUsersError } = await supabase
-			.from("user_details")
-			.select("username", "pronouns", "avatar")
-			.eq("household_id", user.household_id)
-			.neq("user_id", user.id);
+		let otherUsers = [];
+		if (userDetails && userDetails.household_id) {
+			const { data: fetchedOtherUsers, error: otherUsersError } = await supabase
+				.from("user_details")
+				.select("username, pronouns, avatar")
+				.eq("household_id", userDetails.household_id)
+				.neq("user_id", user.id);
 
-		if (otherUsersError) throw otherUsersError;
+			if (otherUsersError) throw otherUsersError;
+			otherUsers = fetchedOtherUsers;
+		}
 
-		// Create a complete user object with information about other users in the household
+		// Create a complete user object
 		const completeUser = {
 			id: user.id,
 			email: user.email,
@@ -238,6 +247,9 @@ export const getCompleteUser = async () => {
 				users: otherUsers ? otherUsers : [], // Conditional inclusion of the "users" array
 			},
 		};
+
+		console.log("Complete user retrieved successfully.");
+		console.log(completeUser);
 
 		return completeUser;
 	} catch (error) {

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { updateUserDetails } from '../../lib/api';
 import PropTypes from 'prop-types';
 import avatar1 from '../../assets/avatar/avatar1.png';
+import alternateavatar1 from '../../assets/avatar/alternate-avatar1.png';
+import alternateavatar2 from '../../assets/avatar/alternate-avatar2.png';
 import avatar2 from '../../assets/avatar/avatar2.png';
 import './userdetails.css';
 
@@ -9,10 +11,22 @@ const UserDetails = ({ onComplete }) => {
     const [username, setUsername] = useState('');
     const [pronouns, setPronouns] = useState('they/them');
     const [avatar, setAvatar] = useState('');
+    const [alternateAvatar, setAlternateAvatar] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [avatarError, setAvatarError] = useState('');
 
     const isAvatarSelected = (avatarSrc) => avatar === avatarSrc;
+
+    const avatarToAlternateMap = {
+        [avatar1]: alternateavatar1,
+        [avatar2]: alternateavatar2,
+    };
+
+    const handleAvatarClick = (avatarSrc) => {
+        setAvatar(avatarSrc);
+        const alternateAvatarSrc = avatarToAlternateMap[avatarSrc];
+        setAlternateAvatar(alternateAvatarSrc || avatarSrc); // Fallback to avatarSrc if no alternate is found
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,7 +49,7 @@ const UserDetails = ({ onComplete }) => {
         if (!isValid) return;
 
         try {
-            await updateUserDetails(username, pronouns, avatar);
+            await updateUserDetails(username, pronouns, avatar, alternateAvatar);
             onComplete();
         } catch (error) {
             alert(error.message);
@@ -50,10 +64,10 @@ const UserDetails = ({ onComplete }) => {
                     <label>Select an avatar:</label>
                     <div className="avatar-img-row">
                         <div className={`avatar-img-container ${isAvatarSelected(avatar1) ? 'selected' : ''}`}>
-                            <img src={avatar1} alt="Avatar 1" onClick={() => setAvatar(avatar1)} />
+                            <img src={avatar1} alt="Avatar 1" onClick={() => handleAvatarClick(avatar1)} />
                         </div>
                         <div className={`avatar-img-container ${isAvatarSelected(avatar2) ? 'selected' : ''}`}>
-                            <img src={avatar2} alt="Avatar 2" onClick={() => setAvatar(avatar2)} />
+                            <img src={avatar2} alt="Avatar 2" onClick={() => handleAvatarClick(avatar2)} />
                         </div>
                     </div>
                     {avatarError && <p className="error-message">{avatarError}</p>}

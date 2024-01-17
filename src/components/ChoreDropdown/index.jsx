@@ -73,7 +73,7 @@ const ChoreDropdown = () => {
     return (
         <div className="chore-dropdown-container">
             <button className='dropdown-menu-btn' onClick={toggleDropdown}>
-                {dropdownOpen ? 'Close logger' : 'Log activity'} {dropdownOpen ? '▲' : '▼'}
+                {dropdownOpen ? 'Close menu' : 'Log activity'} {dropdownOpen ? ' ▲ ' : ' ▼ '}
             </button>
             {dropdownOpen && (
                 <>
@@ -82,6 +82,9 @@ const ChoreDropdown = () => {
                             {currentLevel === 'categories' && categories.map(category => (
                                 <li role='menuitem' className='dropdown-li dropdown-category-li' key={category.category_id} onClick={() => handleCategoryClick(category)}>
                                     {category.category_name}
+                                    <div className="dropdownli-icon-container">
+                                        <img src={plus} alt="plus-icon" className="dropdownli-icon" />
+                                    </div>
                                 </li>
                             ))}
                             {currentLevel === 'subcategories' && selectedCategory && (

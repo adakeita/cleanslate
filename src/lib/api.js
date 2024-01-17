@@ -24,7 +24,7 @@ export const signUp = async (email, password) => {
 	}
 };
 
-export const updateUserDetails = async (username, pronouns, avatar) => {
+export const updateUserDetails = async (username, pronouns, avatar, alternate_avatar) => {
 	try {
 		const { data, error: userError } = await supabase.auth.getUser();
 		if (userError) throw userError;
@@ -33,7 +33,9 @@ export const updateUserDetails = async (username, pronouns, avatar) => {
 			const user = data.user;
 			const { error: updateError } = await supabase
 				.from("user_details")
-				.insert([{ user_id: user.id, username, pronouns, avatar }], { upsert: true });
+				.insert([{ user_id: user.id, username, pronouns, avatar, alternate_avatar }], {
+					upsert: true,
+				});
 
 			if (updateError) throw updateError;
 
@@ -199,7 +201,7 @@ export const getCompleteUser = async () => {
 		// Get user details from "user_details" table
 		const { data: userDetails, error: userDetailsError } = await supabase
 			.from("user_details")
-			.select("username, pronouns, avatar, household_id")
+			.select("username, pronouns, avatar, alternate_avatar, household_id")
 			.eq("user_id", user.id)
 			.single();
 
@@ -224,7 +226,7 @@ export const getCompleteUser = async () => {
 		if (userDetails && userDetails.household_id) {
 			const { data: fetchedOtherUsers, error: otherUsersError } = await supabase
 				.from("user_details")
-				.select("username, pronouns, avatar")
+				.select("username, pronouns, avatar, alternate_avatar")
 				.eq("household_id", userDetails.household_id)
 				.neq("user_id", user.id);
 
@@ -239,6 +241,7 @@ export const getCompleteUser = async () => {
 			username: userDetails.username,
 			pronouns: userDetails.pronouns,
 			avatar: userDetails.avatar,
+			alternateAvatar: userDetails.alternate_avatar,
 			household: {
 				id: user.household_id,
 				name: householdDetails.household_name,

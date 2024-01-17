@@ -6,7 +6,6 @@ header {
 
 .header-content {
 	position: relative;
-	width: 95vw;
 	margin: 0 auto;
 	justify-content: space-between;
 	display: flex;
@@ -68,6 +67,18 @@ header {
 	transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
+.greenpage .nav-wrapper {
+	background-color: var(--bg-green);
+}
+
+.bluepage .nav-wrapper {
+	background-color: var(--bg-blue);
+}
+
+.yellowpage .nav-wrapper {
+	background-color: var(--bg-yellow);
+}
+
 .open {
 	opacity: 1;
 	max-height: 210px;
@@ -83,7 +94,7 @@ header {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	padding: 0.5em 2em;
+	padding: 0.5em 1em 1em;
 }
 
 .nav-item {
@@ -115,10 +126,12 @@ nav a {
 .logout-col {
 	display: flex;
 	justify-content: flex-end;
+	padding-right: 1em;
 }
 
 .logout-img-container {
-	width: 40px;
+	width: 35px;
+	height: 35px;
 	border: none;
 }
 
@@ -144,6 +157,6 @@ nav a {
 
 .logout-txt {
 	margin: 0;
-	font-size: 16px;
+	font-size: 13px;
 	letter-spacing: 1.2px;
 }

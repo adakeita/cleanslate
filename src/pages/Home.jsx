@@ -1,10 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { useAuth } from "../hooks/useAuth";
+import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
 import cleanSlateHome from "../assets/img/CleanSlate.png";
 import "./pagestyles/home.css";
 
 const HomePage = () => {
+
     const isAuthenticated = useAuth();
+    useUpdateBodyClass("/");
 
     return (
         <>
@@ -38,5 +41,6 @@ const HomePage = () => {
         </>
     );
 };
+
 
 export default HomePage;

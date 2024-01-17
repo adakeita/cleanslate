@@ -1,11 +1,12 @@
 import { Link } from '@tanstack/react-router';
 import PropTypes from 'prop-types';
 
-const NavLink = ({ to, children }) => {
+const NavLink = ({ to, children, onClose }) => {
     return (
         <Link
             to={to}
             className="navitem-link"
+            onClick={onClose}
             activeProps={{
                 style: {
                     textDecoration: 'underline 1px rgb(255 255 255 / 64%)',
@@ -25,7 +26,8 @@ const NavLink = ({ to, children }) => {
 
 NavLink.propTypes = {
     to: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    onClose: PropTypes.func.isRequired
 };
 
 export default NavLink;

@@ -1,4 +1,8 @@
+import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
+
 const AboutPage = () => {
+    useUpdateBodyClass("/about");
+
     return (
         <div className="about-page">
             <section className="frontpage-about">

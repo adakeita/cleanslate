@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import NavLink from "./NavLink";
 import { signOut } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
@@ -15,15 +16,24 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const isAuthenticated = useAuth();
 
+    const navigate = useNavigate();
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+
+    const closeMenu = () => {
+        setIsMenuOpen(false);
     };
 
     const handleLogout = async () => {
         try {
             await signOut();
-            isAuthenticated(false);
-            return
+            if (isAuthenticated && typeof isAuthenticated === 'function') {
+                isAuthenticated(false);
+            }
+            navigate({ to: "/" });
+            setIsMenuOpen(false);
         } catch (error) {
             console.error('Error signing out:', error.message);
         }
@@ -34,7 +44,7 @@ const Navbar = () => {
             <div className="header-content">
                 <section className="logo-burger-row">
                     <section className="row-section">
-                        <Link to="/" className="logo-link">
+                        <Link to="/" onClose={closeMenu} className="logo-link">
                             <div className="logo-wrapper">
                                 <img src={logo} alt="logo" className="logo" />
                             </div>
@@ -50,15 +60,15 @@ const Navbar = () => {
                     <nav role="navigation" className="navigation">
                         <ul className="navlist">
                             <li className="nav-item">
-                                <NavLink to="/">Home</NavLink>
+                                <NavLink to="/" onClose={closeMenu}>Home</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/about">About</NavLink>
+                                <NavLink to="/about" onClose={closeMenu}>About</NavLink>
                             </li>
                             {isAuthenticated && (
                                 <>
                                     <li className="nav-item">
-                                        <NavLink to="/dashboard">Dashboard</NavLink>
+                                        <NavLink to="/dashboard" onClose={closeMenu}>Dashboard</NavLink>
                                     </li>
                                     <li className="nav-item nav-logout-item">
                                         <section className="logout-col logout-container">

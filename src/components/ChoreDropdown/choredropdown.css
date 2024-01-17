@@ -7,7 +7,7 @@ button {
 
 .chore-dropdown-container {
 	background: white;
-	width: 50vw;
+	max-width: 245px;
 	margin: auto;
 	padding: 1em;
 	border-radius: 10px;
@@ -29,18 +29,30 @@ button {
 }
 
 .chore-dropdown-menu {
-	width: 80%;
+	width: 95%;
 	margin: 1em auto;
 	padding: 0;
 }
 
+.dropdownli-icon-container {
+	width: 15px;
+	height: 15px;
+}
+.dropdownli-icon-container:hover {
+	transform: scale(1.1);
+}
+
 .dropdown-li {
+	display: flex;
 	width: 100%;
 	font-size: 14px;
-	padding: 0.5em;
+	padding: 0.7em 0.2em;
 	font-family: "DM Sans", sans-serif;
+	text-align: left;
 	cursor: pointer;
 	transition: all 0.3s ease-in-out;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .dropdown-li:hover {

@@ -2,6 +2,8 @@
 
 :root {
 	--bg-green: #83a775;
+	--bg-blue: #b2c8ea;
+	--bg-yellow: #f0d66d;
 	--btn-green: #c6f6b3;
 	--btn-green-hover: #738e68;
 	--btn-green-dark-hover: #425839;
@@ -24,8 +26,36 @@ body {
 	background-color: var(--bg-green);
 }
 
-main {
-	margin: 5vh auto;
+.greenpage {
+	background-color: var(--bg-green);
+}
+
+.greenpage main {
+	background-image: url("/src/assets/img/bgr-widgets.png");
+	background-position: bottom;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.bluepage {
+	background-color: var(--bg-blue);
+}
+
+.bluepage main {
+	background-image: url("/src/assets/img/dashboard-widgets.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.yellowpage {
+	background-color: var(--bg-yellow);
+}
+.yellowpage main {
+	background-image: url("/src/assets/img/dashboard-widgets.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: initial;
 }
 
 img {
@@ -97,4 +127,17 @@ button {
 	font-family: "DM Serif Display";
 	border-radius: 10px;
 	padding: 10px 5px;
+}
+
+@media (min-width: 450px) {
+	.page-container {
+		width: 80vw;
+	}
+
+	.greenpage main {
+		background-image: url("/src/assets/img/bgr-widgets.png");
+		background-position: bottom;
+		background-repeat: repeat-x;
+		background-size: initial;
+	}
 }

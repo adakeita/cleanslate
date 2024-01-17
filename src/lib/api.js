@@ -201,7 +201,7 @@ export const getCompleteUser = async () => {
 		// Get user details from "user_details" table
 		const { data: userDetails, error: userDetailsError } = await supabase
 			.from("user_details")
-			.select("username, pronouns, avatar, alternate_avatar, household_id")
+			.select("id, username, pronouns, avatar, alternate_avatar, household_id")
 			.eq("user_id", user.id)
 			.single();
 
@@ -265,12 +265,23 @@ export const logChore = async (subcategory_id, duration_in_sessions) => {
 		const { data: userData, error: userError } = await supabase.auth.getUser();
 		if (userError) throw userError;
 
-		const user_id = userData.user.id;
+		const authUserId = userData.user.id;
+
+		const { data: userDetails, error: userDetailsError } = await supabase
+			.from("user_details")
+			.select("id")
+			.eq("user_id", authUserId)
+			.single();
+
+		if (userDetailsError) {
+			console.error("Error fetching user details:", userDetailsError);
+			throw new Error(userDetailsError.message || "Error fetching user details.");
+		}
 
 		// Insert the chore log into the database without monetary_value
 		const { error: insertError } = await supabase.from("chore_log").insert([
 			{
-				user_id: user_id,
+				user_detail_id: userDetails.id,
 				subcategory_id: subcategory_id,
 				duration_in_sessions: duration_in_sessions,
 			},

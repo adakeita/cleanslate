@@ -10,6 +10,14 @@ import "./pagestyles/dashboard.css";
 
 const Dashboard = () => {
     useUpdateBodyClass("/dashboard");
+
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+
+    const toggleDropdownOpen = (isOpen) => {
+        setIsDropdownOpen(isOpen);
+    };
+
     const [userDetails, setUserDetails] = useState({
         username: '',
         avatar: '',
@@ -38,19 +46,21 @@ const Dashboard = () => {
         <div id="dashboardContainer" className="page-container">
             <section className="dashboard-wrapper">
                 <div className="dashboard-content">
-                    <section className="dashboard-profile">
+                    <div className="dashboard-user-elements">
                         <div className="dashboard-img-container">
                             <img src={userDetails.alternateAvatar} alt="profile-img" className="dashboard-img" />
                         </div>
-                        <div className="dashboard-name-container">
-                            <h1 className="dashboard-name">Hi {userDetails.username || 'Loading...'}!</h1>
+                        <div className={`dashboard-name-dropdown ${isDropdownOpen ? 'dropdown-open' : ''}`}>
+                            <div className="dashboard-name-container">
+                                <h1 className="dashboard-name">Hi {userDetails.username || 'Loading...'}!</h1>
+                            </div>
+                            <section className="log-activity">
+                                <ChoreDropdown onToggleDropdown={toggleDropdownOpen} />
+                            </section>
                         </div>
-                    </section>
-                    <section className="log-activity">
-                        <ChoreDropdown />
-                    </section>
+                    </div>
                     <section className="overviews">
-                        <h2 className="overview-title">Overviews</h2>
+                        <h2 className="overview-title">Check the stats</h2>
                         <div className="overview-btn-container">
                             <Link to="/overview" className="overview-btn my-overview-btn">
                                 <div className="overview-btn-img-container">

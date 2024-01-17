@@ -234,6 +234,23 @@ export const getCompleteUser = async () => {
 			otherUsers = fetchedOtherUsers;
 		}
 
+		const { data: userChores, error: choresError } = await supabase
+			.from("chore_log")
+			.select(
+				`
+			log_id,
+			subcategory_id,
+			timestamp,
+			duration_in_sessions
+		`
+			)
+			.eq("user_detail_id", userDetails.id);
+
+		if (choresError) {
+			console.error("Error fetching user chores:", choresError);
+			throw new Error(choresError.message || "Error fetching user chores.");
+		}
+
 		// Create a complete user object
 		const completeUser = {
 			id: user.id,
@@ -243,15 +260,17 @@ export const getCompleteUser = async () => {
 			avatar: userDetails.avatar,
 			alternateAvatar: userDetails.alternate_avatar,
 			household: {
-				id: user.household_id,
-				name: householdDetails.household_name,
-				numberOfRooms: householdDetails.number_of_rooms,
-				sizeInSqm: householdDetails.size_in_sqm,
-				users: otherUsers ? otherUsers : [], // Conditional inclusion of the "users" array
+				id: userDetails.household_id,
+				name: householdDetails ? householdDetails.household_name : "",
+				numberOfRooms: householdDetails ? householdDetails.number_of_rooms : 0,
+				sizeInSqm: householdDetails ? householdDetails.size_in_sqm : 0,
+				users: otherUsers ? otherUsers : [],
 			},
+			chores: userChores,
 		};
 
 		console.log("Complete user retrieved successfully.");
+		console.log(completeUser);
 		return completeUser;
 	} catch (error) {
 		console.error("Error getting complete user:", error);
@@ -317,6 +336,57 @@ export const fetchChoreCategories = async () => {
 		return categories;
 	} catch (error) {
 		console.error("Error in fetchChoreCategories function:", error);
+		throw error;
+	}
+};
+
+export const getUserChoreOverview = async () => {
+	try {
+		// Get the complete user details including chores
+		const completeUser = await getCompleteUser();
+		if (!completeUser) throw new Error("User data not found.");
+
+		// Fetch the chore categories and their rates
+		const { data: categories, error: categoriesError } = await supabase
+			.from("chore_categories")
+			.select("category_id, category_name, rate_per_15_min");
+
+		if (categoriesError) throw categoriesError;
+
+		// Initialize the overview data structure
+		const overviewData = categories.map((category) => ({
+			category_name: category.category_name,
+			total_hours: 0,
+			total_cost: 0,
+		}));
+
+		// Calculate the total time and cost for each category based on the user's chore logs
+		completeUser.chores.forEach((chore) => {
+			const category = overviewData.find((c) => c.category_name === chore.category_name);
+			if (category) {
+				const hours = chore.duration_in_sessions * 0.25; // Assuming each session is 15 minutes, or 0.25 hours
+				category.total_hours += hours;
+				category.total_cost += hours * category.rate_per_15_min * 4; // Convert rate per 15 minutes to an hourly rate
+			}
+		});
+
+		// Calculate the grand totals
+		const grandTotalHours = overviewData.reduce(
+			(acc, category) => acc + category.total_hours,
+			0
+		);
+		const grandTotalCost = overviewData.reduce(
+			(acc, category) => acc + category.total_cost,
+			0
+		);
+
+		return {
+			overviewData,
+			grandTotalHours,
+			grandTotalCost,
+		};
+	} catch (error) {
+		console.error("Error getting user chore overview:", error);
 		throw error;
 	}
 };

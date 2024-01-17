@@ -91,6 +91,10 @@
 		width: 80vw;
 	}
 
+	.dashboard-name-dropdown.dropdown-open {
+		max-height: 50vh;
+	}
+
 	.overview-title {
 		width: 65vw;
 	}
@@ -119,6 +123,11 @@
 
 	.dashboard-name-dropdown {
 		width: 40%;
+		max-height: 20vh;
+	}
+
+	.dashboard-name-dropdown.dropdown-open {
+		max-height: 25vh;
 	}
 
 	.overviews {

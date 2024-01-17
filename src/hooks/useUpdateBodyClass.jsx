@@ -2,16 +2,21 @@ import { useEffect } from 'react';
 
 export const useUpdateBodyClass = (pathname) => {
     useEffect(() => {
-        if (pathname === '/') {
-            document.body.className = 'greenpage';
-        } else if (pathname === '/about' || pathname === '/completeprofile') {
-            document.body.className = 'greenpage';
-        } else if (pathname === '/overview' || pathname === '/household') {
-            document.body.className = 'bluepage';
-        } else if (pathname === '/dashboard') {
-            document.body.className = 'yellowpage';
-        } else {
-            document.body.className = '';
+        switch (pathname) {
+            case '/':
+            case '/about':
+            case '/completeprofile':
+                document.body.className = 'greenpage';
+                break;
+            case '/overview':
+            case '/household':
+                document.body.className = 'bluepage';
+                break;
+            case '/dashboard':
+                document.body.className = 'yellowpage';
+                break;
+            default:
+                document.body.className = '';
         }
     }, [pathname]);
 };

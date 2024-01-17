@@ -252,8 +252,6 @@ export const getCompleteUser = async () => {
 		};
 
 		console.log("Complete user retrieved successfully.");
-		console.log(completeUser);
-
 		return completeUser;
 	} catch (error) {
 		console.error("Error getting complete user:", error);

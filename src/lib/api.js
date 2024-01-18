@@ -344,6 +344,7 @@ export const getUserChoreOverview = async () => {
 	try {
 		// Get the complete user details including chores
 		const completeUser = await getCompleteUser();
+		console.log("Chores:", completeUser.chores);
 		if (!completeUser) throw new Error("User data not found.");
 
 		// Fetch the chore categories and their rates
@@ -351,28 +352,39 @@ export const getUserChoreOverview = async () => {
 			.from("chore_categories")
 			.select("category_id, category_name, rate_per_15_min");
 
+		console.log(categories);
+
 		if (categoriesError) throw categoriesError;
 
 		// Initialize the overview data structure
 		const overviewData = categories.map((category) => ({
 			category_name: category.category_name,
-			total_hours: 0,
+			total_minutes: 0,
 			total_cost: 0,
+			rate_per_15_min: category.rate_per_15_min,
 		}));
+
+		const subcategoryToCategoryMap = {
+			1: "Cleaning and Sanitation",
+			2: "HR",
+			3: "Food Service",
+			4: "Care Work",
+		};
 
 		// Calculate the total time and cost for each category based on the user's chore logs
 		completeUser.chores.forEach((chore) => {
-			const category = overviewData.find((c) => c.category_name === chore.category_name);
+			const categoryName = subcategoryToCategoryMap[chore.subcategory_id];
+			const category = overviewData.find((c) => c.category_name === categoryName);
 			if (category) {
-				const hours = chore.duration_in_sessions * 0.25; // Assuming each session is 15 minutes, or 0.25 hours
-				category.total_hours += hours;
-				category.total_cost += hours * category.rate_per_15_min * 4; // Convert rate per 15 minutes to an hourly rate
+				const minutes = chore.duration_in_sessions * 15;
+				category.total_minutes += minutes;
+				category.total_cost += (minutes / 60) * category.rate_per_15_min * 4;
 			}
 		});
 
 		// Calculate the grand totals
-		const grandTotalHours = overviewData.reduce(
-			(acc, category) => acc + category.total_hours,
+		const grandTotalMinutes = overviewData.reduce(
+			(acc, category) => acc + category.total_minutes,
 			0
 		);
 		const grandTotalCost = overviewData.reduce(
@@ -380,9 +392,12 @@ export const getUserChoreOverview = async () => {
 			0
 		);
 
+		console.log("User chore overview retrieved successfully.");
+		console.log(overviewData);
+
 		return {
 			overviewData,
-			grandTotalHours,
+			grandTotalMinutes,
 			grandTotalCost,
 		};
 	} catch (error) {

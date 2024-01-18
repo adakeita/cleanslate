@@ -2,14 +2,16 @@
 
 :root {
 	--bg-green: #83a775;
-	--bg-blue: #b2c8ea;
-	--bg-yellow: #f0d66d;
-	--yellow-shadow: 3px 3.5px 2px 0px rgb(127 113 59);
+	--bg-blue: #8295b2;
+	--blue-shadow: 3px 4px 1px 0px #5b6b82da;
+	--bg-yellow: #d1b07b;
+	--yellow-shadow: 3px 3.5px 2px 0px rgba(117, 97, 65, 0.92);
 	--btn-green: #c6f6b3;
 	--btn-green-hover: #738e68;
 	--btn-green-dark-hover: #425839;
 	--btn-teal: #78a7a1;
 	--btn-teal-hover: #5f8b89;
+	--grey-frame: rgba(255, 255, 255, 0.599);
 
 	--smooth-transition: all 0.3s ease-in-out;
 }

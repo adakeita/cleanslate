@@ -1,0 +1,13 @@
+.piechart-container {
+	margin: 0 auto;
+	background-color: var(--grey-frame);
+	padding: 3em 1em 1.5em;
+	border-radius: 20px;
+	box-shadow: var(--blue-shadow);
+	max-width: 380px;
+}
+
+.user-overview-title {
+	font-size: 35px;
+	text-align: center;
+}

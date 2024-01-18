@@ -1,0 +1,33 @@
+.total-cost-container {
+	margin: 3em auto;
+	background-color: var(--grey-frame);
+	padding: 20px;
+	max-width: 380px;
+	border-radius: 20px;
+	box-shadow: var(--blue-shadow);
+	text-align: center;
+}
+
+.total-cost-header {
+	font-family: "DM Sans", sans-serif;
+	margin-bottom: 10px;
+	font-size: 17px;
+	color: #333;
+}
+
+.total-cost-value {
+	display: inline-block;
+	background-color: #e0e0e0;
+	padding: 12px 25px;
+	border-radius: 20px;
+	margin-bottom: 10px;
+	font-size: 24px;
+	font-weight: bold;
+	border: 2px solid #62728a;
+}
+
+.total-time {
+	font-family: "DM Sans", sans-serif;
+	font-size: 14px;
+	color: black;
+}

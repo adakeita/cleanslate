@@ -63,6 +63,7 @@ header {
 	opacity: 0;
 	background-color: var(--bg-green);
 	max-height: 0;
+	border-bottom: 2px ridge #ffffff75;
 	overflow: hidden;
 	transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }

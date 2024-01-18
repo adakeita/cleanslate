@@ -1,0 +1,34 @@
+.custom-legend {
+	max-width: 300px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 1em auto;
+	padding: 1em 0 0;
+}
+
+.legend-item {
+	text-align: center;
+	display: flex;
+	height: 10vh;
+	width: 25%;
+	flex-direction: column;
+}
+
+.legend-color {
+	display: block;
+	height: 20px;
+	border: 2px solid white;
+}
+
+.legend-label {
+	font-family: "DM Sans", sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+@media screen and (max-width: 380px) {
+	.legend-item {
+		height: 12vh;
+	}
+}

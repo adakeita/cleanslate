@@ -1,28 +1,20 @@
 import supabase from "./supabaseClient";
 
-export const signUp = async (email, password) => {
-	if (!email || !password) {
-		throw new Error("Email and password are required.");
-	}
+// export const signUp = async (email, password) => {
+// 	if (!email || !password) {
+// 		throw new Error("Email and password are required.");
+// 	}
 
-	try {
-		const { data, error } = await supabase.auth.signUp({
-			email,
-			password,
-		});
-
-		if (error) {
-			console.error("Signup error:", error);
-			throw new Error(error.message || "Error during signup");
-		}
-
-		console.log("Signup successful:", data);
-		return data;
-	} catch (error) {
-		console.error("Signup process error:", error);
-		throw error;
-	}
-};
+// 	try {
+// 		const { user, error } = await supabase.auth.signUp({ email, password });
+// 		if (error) throw new Error(error.message || "Error during signup");
+// 		console.log("Signup successful:", user);
+// 		return user;
+// 	} catch (error) {
+// 		console.error("Signup process error:", error);
+// 		throw error;
+// 	}
+// };
 
 export const updateUserDetails = async (username, pronouns, avatar, alternate_avatar) => {
 	try {
@@ -49,27 +41,40 @@ export const updateUserDetails = async (username, pronouns, avatar, alternate_av
 	}
 };
 
-export const signIn = async (email, password) => {
-	try {
-		const { data, error } = await supabase.auth.signInWithPassword({
-			email: email,
-			password: password,
-		});
+// export const signIn = async (email, password) => {
+// 	if (!email || !password) {
+// 		throw new Error("Email and password are required.");
+// 	}
 
-		if (error) {
-			throw error;
-		}
-
-		return data;
-	} catch (error) {
-		console.error("Error signing in:", error.message);
-		throw error;
-	}
-};
+// 	try {
+// 		const { user, error } = await supabase.auth.signInWithPassword({ email, password });
+// 		if (error) throw new Error(error.message || "Error during sign-in");
+// 		return user;
+// 	} catch (error) {
+// 		console.error("Error signing in:", error);
+// 		throw error;
+// 	}
+// };
 
 const createNewHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
 	try {
-		// Insert new household
+		// Check if household with the same name already exists
+		const { data: existingHousehold, error: existingError } = await supabase
+			.from("household_details")
+			.select("household_id")
+			.eq("household_name", householdName)
+			.single();
+
+		if (existingError && existingError.code !== "PGRST116") {
+			// Exclude "No rows returned" error
+			throw existingError;
+		}
+
+		if (existingHousehold) {
+			throw new Error("Household name already taken.");
+		}
+
+		// Insert new household details
 		const { error: insertError } = await supabase.from("household_details").insert([
 			{
 				household_name: householdName,
@@ -83,7 +88,7 @@ const createNewHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
 			throw new Error("Failed to create new household.");
 		}
 
-		// Query for the newly created household
+		// Query for created household
 		const { data: newHousehold, error: queryError } = await supabase
 			.from("household_details")
 			.select("household_id")
@@ -106,41 +111,45 @@ const createNewHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
 	}
 };
 
-export const linkUserToHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
+export const linkUserToHousehold = async (
+	householdName,
+	sizeInSqm,
+	numberOfRooms,
+	joinExisting
+) => {
 	try {
-		// Get current user
 		const { data: userData, error: userError } = await supabase.auth.getUser();
 		if (userError) throw userError;
 		const user = userData.user;
 		if (!user) throw new Error("No user logged in.");
 
-		// Check if a household with the given name already exists
-		let { data: households, error: householdError } = await supabase
-			.from("household_details")
-			.select("household_id")
-			.eq("household_name", householdName);
-
-		if (householdError) throw householdError;
-
 		let householdId;
 
-		// If no existing household, create a new one
-		if (!households || households.length === 0) {
+		if (joinExisting) {
+			// Join an existing household
+			const { data: households, error: householdError } = await supabase
+				.from("household_details")
+				.select("household_id")
+				.eq("household_name", householdName);
+
+			if (householdError) throw householdError;
+			if (!households || households.length === 0)
+				throw new Error("Household does not exist.");
+
+			householdId = households[0].household_id;
+		} else {
+			// Create a new household
 			const createdHousehold = await createNewHousehold(
 				householdName,
 				sizeInSqm,
 				numberOfRooms
 			);
 			householdId = createdHousehold.household_id;
-		} else {
-			// Use the existing household ID
-			householdId = households[0].household_id;
 		}
 
 		// Link the user to the household
 		const { error: linkError } = await supabase
 			.from("user_details")
-
 			.update({ household_id: householdId })
 			.eq("user_id", user.id);
 
@@ -173,8 +182,9 @@ export const joinExistingHousehold = async (householdName) => {
 			throw new Error("Household does not exist.");
 		}
 
-		// Link the user to the existing household
 		const householdId = households[0].household_id;
+
+		// Link the user to household
 		const { error: linkError } = await supabase
 			.from("user_details")
 			.update({ household_id: householdId })
@@ -191,14 +201,14 @@ export const joinExistingHousehold = async (householdName) => {
 
 export const getCompleteUser = async () => {
 	try {
-		// Get the current user
+		// Current user
 		const { data: userData, error: userError } = await supabase.auth.getUser();
 		if (userError) throw userError;
 
 		const user = userData.user;
 		if (!user) throw new Error("No user logged in.");
 
-		// Get user details from "user_details" table
+		// Get user details from "user_details"
 		const { data: userDetails, error: userDetailsError } = await supabase
 			.from("user_details")
 			.select("id, username, pronouns, avatar, alternate_avatar, household_id")
@@ -209,7 +219,7 @@ export const getCompleteUser = async () => {
 
 		let householdDetails = null;
 		if (userDetails && userDetails.household_id) {
-			// Get household details from "household_details" table
+			// Get household details
 			const { data: fetchedHouseholdDetails, error: householdDetailsError } =
 				await supabase
 					.from("household_details")
@@ -221,7 +231,7 @@ export const getCompleteUser = async () => {
 			householdDetails = fetchedHouseholdDetails;
 		}
 
-		// Get other users in the same household
+		// other users in the same household
 		let otherUsers = [];
 		if (userDetails && userDetails.household_id) {
 			const { data: fetchedOtherUsers, error: otherUsersError } = await supabase
@@ -238,11 +248,14 @@ export const getCompleteUser = async () => {
 			.from("chore_log")
 			.select(
 				`
-			log_id,
-			subcategory_id,
-			timestamp,
-			duration_in_sessions
-		`
+				log_id,
+                subcategory_id,
+                timestamp,
+                duration_in_sessions,
+                total_minutes,
+                total_monetary_value,
+                category_id
+				`
 			)
 			.eq("user_detail_id", userDetails.id);
 
@@ -251,9 +264,10 @@ export const getCompleteUser = async () => {
 			throw new Error(choresError.message || "Error fetching user chores.");
 		}
 
-		// Create a complete user object
+		// Create a complete user
 		const completeUser = {
-			id: user.id,
+			authUserId: user.id,
+			userDetailsId: userDetails.id,
 			email: user.email,
 			username: userDetails.username,
 			pronouns: userDetails.pronouns,
@@ -297,7 +311,7 @@ export const logChore = async (subcategory_id, duration_in_sessions) => {
 			throw new Error(userDetailsError.message || "Error fetching user details.");
 		}
 
-		// Insert the chore log into the database without monetary_value
+		// Insert the chore log into the database
 		const { error: insertError } = await supabase.from("chore_log").insert([
 			{
 				user_detail_id: userDetails.id,
@@ -340,82 +354,53 @@ export const fetchChoreCategories = async () => {
 	}
 };
 
-export const getUserChoreOverview = async () => {
+export const getUserChoreOverview = async (userDetailId) => {
 	try {
-		// Get the complete user details including chores
-		const completeUser = await getCompleteUser();
-		console.log("Chores:", completeUser.chores);
-		if (!completeUser) throw new Error("User data not found.");
+		// Ensure userDetailId is an integer
+		const userDetailIdInt = parseInt(userDetailId, 10);
+		if (isNaN(userDetailIdInt)) {
+			throw new Error("Invalid user detail ID");
+		}
 
-		// Fetch the chore categories and their rates
+		// Call the stored procedure
+		const { data: aggregatedData, error: aggregationError } = await supabase.rpc(
+			"get_user_chore_overview",
+			{ user_detail_id_param: userDetailIdInt }
+		);
+		if (aggregationError) throw aggregationError;
+
+		// Fetch category names
 		const { data: categories, error: categoriesError } = await supabase
 			.from("chore_categories")
-			.select("category_id, category_name, rate_per_15_min");
-
-		console.log(categories);
-
+			.select("category_id, category_name");
 		if (categoriesError) throw categoriesError;
 
-		// Initialize the overview data structure
-		const overviewData = categories.map((category) => ({
-			category_name: category.category_name,
-			total_minutes: 0,
-			total_cost: 0,
-			rate_per_15_min: category.rate_per_15_min,
-		}));
-
-		const subcategoryToCategoryMap = {
-			1: "Cleaning and Sanitation",
-			2: "HR",
-			3: "Food Service",
-			4: "Care Work",
-		};
-
-		// Calculate the total time and cost for each category based on the user's chore logs
-		completeUser.chores.forEach((chore) => {
-			const categoryName = subcategoryToCategoryMap[chore.subcategory_id];
-			const category = overviewData.find((c) => c.category_name === categoryName);
-			if (category) {
-				const minutes = chore.duration_in_sessions * 15;
-				category.total_minutes += minutes;
-				category.total_cost += (minutes / 60) * category.rate_per_15_min * 4;
-			}
+		// Merge category names with aggregated data
+		const overviewData = categories.map((category) => {
+			const aggregatedCategory = aggregatedData.find(
+				(item) => item.category_id === category.category_id
+			);
+			return {
+				category_name: category.category_name,
+				category_id: category.category_id,
+				total_minutes: aggregatedCategory ? aggregatedCategory.total_minutes : 0,
+				total_cost: aggregatedCategory ? aggregatedCategory.total_cost : 0,
+			};
 		});
 
-		// Calculate the grand totals
-		const grandTotalMinutes = overviewData.reduce(
-			(acc, category) => acc + category.total_minutes,
-			0
-		);
-		const grandTotalCost = overviewData.reduce(
-			(acc, category) => acc + category.total_cost,
-			0
-		);
-
-		console.log("User chore overview retrieved successfully.");
-		console.log(overviewData);
-
-		return {
-			overviewData,
-			grandTotalMinutes,
-			grandTotalCost,
-		};
+		return overviewData;
 	} catch (error) {
-		console.error("Error getting user chore overview:", error);
+		console.error("Error in getUserChoreOverview function:", error);
 		throw error;
 	}
 };
 
-export const signOut = async () => {
-	try {
-		const { error } = await supabase.auth.signOut();
-		if (error) throw error;
-
-		localStorage.removeItem("access_token");
-		localStorage.removeItem("username");
-		localStorage.removeItem("theme");
-		localStorage.removeItem("supabase.auth.session");
-	} catch (error) {
-		console.error("Error signing out:", error);
-	}
-};
+// export const signOut = async () => {
+// 	try {
+// 		const { error } = await supabase.auth.signOut();
+// 		if (error) throw error;
+// 		console.log("Sign out successful");
+// 	} catch (error) {
+// 		console.error("Error signing out:", error);
+// 	}
+// };

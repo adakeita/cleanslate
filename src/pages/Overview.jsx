@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getUserChoreOverview } from '../lib/api';
+import { getUserChoreOverview, getCompleteUser } from '../lib/api';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -12,7 +12,6 @@ import {
 } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { useUpdateBodyClass } from '../hooks/useUpdateBodyClass';
-import { getCompleteUser } from "../lib/api";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import TotalCostComponent from '../components/TotalCostComponent';
 import '../styles/customlegend.css';
@@ -41,48 +40,32 @@ const OverviewPage = () => {
     });
 
     useEffect(() => {
-        const fetchUserDetails = async () => {
+        const handleResize = () => setIsMobile(window.innerWidth < 440);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
             try {
                 const completeUser = await getCompleteUser();
                 setUserDetails({
+                    authUserId: completeUser.authUserId,
+                    userDetailsId: completeUser.userDetailsId,
                     username: completeUser.username,
                 });
-            } catch (error) {
-                console.error("Error fetching user details:", error);
-            }
-        };
-        fetchUserDetails();
-    }, []);
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 440);
-        };
+                const overviewData = await getUserChoreOverview(completeUser.userDetailsId);
 
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    useEffect(() => {
-        const fetchOverview = async () => {
-            try {
-                const overview = await getUserChoreOverview();
-
-                setGrandTotalCost(overview.grandTotalCost);
-                setGrandTotalMinutes(overview.grandTotalMinutes);
-
-                const totalMinutes = overview.overviewData.reduce((acc, cat) => acc + cat.total_minutes, 0);
-                overview.overviewData.forEach(cat => {
-                    cat.percentage = totalMinutes > 0 ? ((cat.total_minutes / totalMinutes) * 100).toFixed(2) : 0;
-                });
+                const totalMinutes = overviewData.reduce((acc, item) => acc + item.total_minutes, 0);
+                const totalCost = overviewData.reduce((acc, item) => acc + item.total_cost, 0);
+                setGrandTotalCost(totalCost);
+                setGrandTotalMinutes(totalMinutes);
 
                 const pieData = {
-                    labels: overview.overviewData.map(cat => cat.category_name),
+                    labels: overviewData.map(item => item.category_name),
                     datasets: [{
-                        data: overview.overviewData.map(cat => cat.total_minutes),
+                        data: overviewData.map(item => item.total_minutes),
                         backgroundColor: [
                             'rgba(227, 147, 89, 0.8)',
                             'rgba(65, 129, 228, 0.8)',
@@ -95,39 +78,34 @@ const OverviewPage = () => {
 
                 const pieOptions = {
                     plugins: {
-                        legend: {
-                            display: false
-                        },
+                        legend: { display: false },
                         tooltip: {
                             callbacks: {
                                 label: function (tooltipItem) {
                                     const category = tooltipItem.label;
-                                    const percentage = overview.overviewData[tooltipItem.dataIndex].percentage;
+                                    const percentage = (pieData.datasets[0].data[tooltipItem.dataIndex] / totalMinutes * 100).toFixed(2);
                                     return `${category}: (${percentage}%)`;
                                 }
                             }
                         },
-                        // Conditionally apply the datalabels plugin based on the isMobile state
-                        ...(isMobile && {
-                            datalabels: {
-                                display: true,
-                                color: 'black',
-                                formatter: (value, context) => {
-                                    const percentage = overview.overviewData[context.dataIndex].percentage;
-                                    return `${percentage}%`;
-                                },
-                            }
-                        }),
+                        datalabels: isMobile ? {
+                            display: true,
+                            color: 'black',
+                            formatter: (value) => {
+                                const percentage = (value / totalMinutes * 100).toFixed(2);
+                                return `${percentage}%`;
+                            },
+                        } : { display: false },
                     }
                 };
 
                 setPieChartData({ data: pieData, options: pieOptions });
             } catch (error) {
-                console.error("Error fetching overview data:", error);
+                console.error("Error fetching data:", error);
             }
         };
 
-        fetchOverview();
+        fetchData();
     }, [isMobile]);
 
     const renderCustomLegend = () => {
@@ -150,30 +128,41 @@ const OverviewPage = () => {
         );
     };
 
+    const hasNoData = () => grandTotalMinutes === 0 && grandTotalCost === 0;
+
+    const renderNoDataMessage = () => (
+        <div className="no-data-message">
+            <p>Nothing to see here yet!</p>
+            <p>Start logging your chores to see them appear here.</p>
+        </div>
+    );
 
     return (
         <div className='page-container'>
-            <h1 className='user-overview-title'>{userDetails.username}&apos;s overview</h1>
-            {pieChartData ? (
-                <div className='piechart-container'>
-                    <Pie
-                        className='piechart'
-                        data={pieChartData.data}
-                        options={pieChartData.options}
-                        style={{ maxWidth: '300px', maxHeight: '300px', margin: '0 auto' }}
-                    />
-                    {renderCustomLegend()}
-                </div>
+            <h1 className='user-overview-title'>{userDetails?.username}&apos;s overview</h1>
+            {hasNoData() ? (
+                renderNoDataMessage()
             ) : (
-                <p>Loading Pie Chart...</p>
+                <>
+                    {pieChartData ? (
+                        <div className='piechart-container'>
+                            <Pie
+                                className='piechart'
+                                data={pieChartData.data}
+                                options={pieChartData.options}
+                                style={{ maxWidth: '300px', maxHeight: '300px', margin: '0 auto' }}
+                            />
+                            {renderCustomLegend()}
+                        </div>
+                    ) : (
+                        <p>Loading Pie Chart...</p>
+                    )}
+                    <TotalCostComponent
+                        totalCost={grandTotalCost}
+                        totalTime={`Time spent: ${Math.floor(grandTotalMinutes / 60)}h ${grandTotalMinutes % 60}min`}
+                    />
+                </>
             )}
-            <>
-                <TotalCostComponent
-                    totalCost={grandTotalCost}
-                    totalTime={`Time spent: ${Math.floor(grandTotalMinutes / 60)}h ${grandTotalMinutes % 60}min`}
-                />
-            </>
-
         </div>
     );
 };

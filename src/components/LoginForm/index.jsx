@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { signIn } from '../../lib/api';
+import { useState, useContext } from 'react';
+import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from '@tanstack/react-router';
 import './login.css';
 
 const LoginForm = () => {
+    const { signIn } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [password, setPassword] = useState('');

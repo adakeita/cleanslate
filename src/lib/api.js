@@ -58,7 +58,23 @@ export const updateUserDetails = async (username, pronouns, avatar, alternate_av
 
 const createNewHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
 	try {
-		//inesrt household details
+		// Check if household with the same name already exists
+		const { data: existingHousehold, error: existingError } = await supabase
+			.from("household_details")
+			.select("household_id")
+			.eq("household_name", householdName)
+			.single();
+
+		if (existingError && existingError.code !== "PGRST116") {
+			// Exclude "No rows returned" error
+			throw existingError;
+		}
+
+		if (existingHousehold) {
+			throw new Error("Household name already taken.");
+		}
+
+		// Insert new household details
 		const { error: insertError } = await supabase.from("household_details").insert([
 			{
 				household_name: householdName,
@@ -95,42 +111,45 @@ const createNewHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
 	}
 };
 
-export const linkUserToHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
+export const linkUserToHousehold = async (
+	householdName,
+	sizeInSqm,
+	numberOfRooms,
+	joinExisting
+) => {
 	try {
-		// current user or maybe i should switch to sessionP
-		//TODO: Decide if we want to use sessionP or not
 		const { data: userData, error: userError } = await supabase.auth.getUser();
 		if (userError) throw userError;
 		const user = userData.user;
 		if (!user) throw new Error("No user logged in.");
 
-		// Check household with the given name exists
-		let { data: households, error: householdError } = await supabase
-			.from("household_details")
-			.select("household_id")
-			.eq("household_name", householdName);
-
-		if (householdError) throw householdError;
-
 		let householdId;
 
-		// If no existing household, create a new one
-		if (!households || households.length === 0) {
+		if (joinExisting) {
+			// Join an existing household
+			const { data: households, error: householdError } = await supabase
+				.from("household_details")
+				.select("household_id")
+				.eq("household_name", householdName);
+
+			if (householdError) throw householdError;
+			if (!households || households.length === 0)
+				throw new Error("Household does not exist.");
+
+			householdId = households[0].household_id;
+		} else {
+			// Create a new household
 			const createdHousehold = await createNewHousehold(
 				householdName,
 				sizeInSqm,
 				numberOfRooms
 			);
 			householdId = createdHousehold.household_id;
-		} else {
-			// Use the existing household ID
-			householdId = households[0].household_id;
 		}
 
 		// Link the user to the household
 		const { error: linkError } = await supabase
 			.from("user_details")
-
 			.update({ household_id: householdId })
 			.eq("user_id", user.id);
 
@@ -145,8 +164,7 @@ export const linkUserToHousehold = async (householdName, sizeInSqm, numberOfRoom
 
 export const joinExistingHousehold = async (householdName) => {
 	try {
-		// Get current user, if any
-		//TODO: Chreck if i can get from localstorage instead
+		// Get current user
 		const { data: userData, error: userError } = await supabase.auth.getUser();
 		if (userError) throw userError;
 		const user = userData.user;
@@ -164,8 +182,9 @@ export const joinExistingHousehold = async (householdName) => {
 			throw new Error("Household does not exist.");
 		}
 
-		// Link the user to household
 		const householdId = households[0].household_id;
+
+		// Link the user to household
 		const { error: linkError } = await supabase
 			.from("user_details")
 			.update({ household_id: householdId })
@@ -182,14 +201,14 @@ export const joinExistingHousehold = async (householdName) => {
 
 export const getCompleteUser = async () => {
 	try {
-		// Get the current user
+		// Current user
 		const { data: userData, error: userError } = await supabase.auth.getUser();
 		if (userError) throw userError;
 
 		const user = userData.user;
 		if (!user) throw new Error("No user logged in.");
 
-		// Get user details from "user_details" table
+		// Get user details from "user_details"
 		const { data: userDetails, error: userDetailsError } = await supabase
 			.from("user_details")
 			.select("id, username, pronouns, avatar, alternate_avatar, household_id")

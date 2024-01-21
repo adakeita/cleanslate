@@ -14,6 +14,7 @@
 }
 
 .household-form-content {
+	margin: 1em auto;
 	width: 80%;
 	display: flex;
 	flex-direction: column;
@@ -81,4 +82,14 @@
 .householdform-btn:hover {
 	background-color: #7c966f;
 	transform: scale(1.05);
+}
+
+.feedback-message {
+	text-align: center;
+	padding: 1em 1em;
+}
+
+.toggle-join-create {
+	width: 100%;
+	font-size: 18px;
 }

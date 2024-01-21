@@ -177,12 +177,27 @@ export const joinExistingHousehold = async (householdName) => {
 			.eq("household_name", householdName);
 
 		if (householdError) throw householdError;
-
 		if (!households || households.length === 0) {
 			throw new Error("Household does not exist.");
 		}
 
 		const householdId = households[0].household_id;
+
+		const { data: householdMembers, error: membersError } = await supabase
+			.from("user_details")
+			.select("username")
+			.eq("household_id", householdId);
+
+		if (membersError) throw membersError;
+
+		if (householdMembers.length > 0) {
+			const memberNames = householdMembers.map((member) => member.username).join(", ");
+			return {
+				exists: true,
+				hasMembers: true,
+				memberNames: memberNames,
+			};
+		}
 
 		// Link the user to household
 		const { error: linkError } = await supabase
@@ -193,6 +208,11 @@ export const joinExistingHousehold = async (householdName) => {
 		if (linkError) throw linkError;
 
 		console.log("User joined household successfully.");
+		return {
+			exists: true,
+			hasMembers: false,
+			memberNames: "",
+		};
 	} catch (error) {
 		console.error("Error in joinExistingHousehold function:", error);
 		throw error;

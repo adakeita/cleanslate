@@ -1,20 +1,20 @@
 import supabase from "./supabaseClient";
 
-export const signUp = async (email, password) => {
-	if (!email || !password) {
-		throw new Error("Email and password are required.");
-	}
+// export const signUp = async (email, password) => {
+// 	if (!email || !password) {
+// 		throw new Error("Email and password are required.");
+// 	}
 
-	try {
-		const { user, error } = await supabase.auth.signUp({ email, password });
-		if (error) throw new Error(error.message || "Error during signup");
-		console.log("Signup successful:", user);
-		return user;
-	} catch (error) {
-		console.error("Signup process error:", error);
-		throw error;
-	}
-};
+// 	try {
+// 		const { user, error } = await supabase.auth.signUp({ email, password });
+// 		if (error) throw new Error(error.message || "Error during signup");
+// 		console.log("Signup successful:", user);
+// 		return user;
+// 	} catch (error) {
+// 		console.error("Signup process error:", error);
+// 		throw error;
+// 	}
+// };
 
 export const updateUserDetails = async (username, pronouns, avatar, alternate_avatar) => {
 	try {
@@ -41,20 +41,20 @@ export const updateUserDetails = async (username, pronouns, avatar, alternate_av
 	}
 };
 
-export const signIn = async (email, password) => {
-	if (!email || !password) {
-		throw new Error("Email and password are required.");
-	}
+// export const signIn = async (email, password) => {
+// 	if (!email || !password) {
+// 		throw new Error("Email and password are required.");
+// 	}
 
-	try {
-		const { user, error } = await supabase.auth.signInWithPassword({ email, password });
-		if (error) throw new Error(error.message || "Error during sign-in");
-		return user;
-	} catch (error) {
-		console.error("Error signing in:", error);
-		throw error;
-	}
-};
+// 	try {
+// 		const { user, error } = await supabase.auth.signInWithPassword({ email, password });
+// 		if (error) throw new Error(error.message || "Error during sign-in");
+// 		return user;
+// 	} catch (error) {
+// 		console.error("Error signing in:", error);
+// 		throw error;
+// 	}
+// };
 
 const createNewHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
 	try {
@@ -376,12 +376,12 @@ export const getUserChoreOverview = async (userDetailId) => {
 	}
 };
 
-export const signOut = async () => {
-	try {
-		const { error } = await supabase.auth.signOut();
-		if (error) throw error;
-		console.log("Sign out successful");
-	} catch (error) {
-		console.error("Error signing out:", error);
-	}
-};
+// export const signOut = async () => {
+// 	try {
+// 		const { error } = await supabase.auth.signOut();
+// 		if (error) throw error;
+// 		console.log("Sign out successful");
+// 	} catch (error) {
+// 		console.error("Error signing out:", error);
+// 	}
+// };

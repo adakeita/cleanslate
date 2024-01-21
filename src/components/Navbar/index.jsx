@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "@tanstack/react-router";
 import { useNavigate } from "@tanstack/react-router";
 import NavLink from "./NavLink";
-import { signOut } from "../../lib/api";
-import { useAuth } from "../../hooks/useAuth";
+import { AuthContext } from "../../contexts/AuthContext";
 import hamburgerIcon from "../../assets/svg/hamburger.svg";
 import closeIcon from "../../assets/svg/close.svg";
 import logo from "../../assets/img/cs-logo2.png";
@@ -14,7 +13,7 @@ import "./navbar.css";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const isAuthenticated = useAuth();
+    const { isAuthenticated, signOut } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -29,9 +28,6 @@ const Navbar = () => {
     const handleLogout = async () => {
         try {
             await signOut();
-            if (isAuthenticated && typeof isAuthenticated === 'function') {
-                isAuthenticated(false);
-            }
             navigate({ to: "/" });
             setIsMenuOpen(false);
         } catch (error) {

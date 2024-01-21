@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { signUp } from "../../lib/api";
+import { useState, useContext } from 'react';
+import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from '@tanstack/react-router';
 import './signup.css';
 
 const SignupForm = () => {
+    const { signUp } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');

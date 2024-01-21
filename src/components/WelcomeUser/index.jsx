@@ -1,43 +1,48 @@
 import PropTypes from 'prop-types';
+import "./welcomeuser.css";
 
-
-const WelcomeUser = ({ onComplete }) => {
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+const WelcomeUser = ({ onAcknowledge }) => {
+    const handleAcknowledge = () => {
         try {
-            onComplete();
+            onAcknowledge();
         } catch (error) {
-            alert(error.message);
+            alert("An error occurred. Please try again.");
         }
     };
 
     return (
-        <div className="welcome-container">
+        <div className="welcome-container page-container">
             <div className="header wrapper">
-                <h1>Welcome to CleanSlate</h1>
-                <p>Let&apos;s get you started!</p>
+                <h1>Welcome to CleanSlate!</h1>
+                <p>We&apos;re excited to have you on board!</p>
             </div>
             <section className="welcome-txt-wrapper">
                 <p className="welcome-txt">
-                    Almost there! Let&apos;s get your household set up!
+                    We&apos;re almost ready to get your profile up and running.
+                    <br />
+                    By providing some details about yourself and your living space,
+                    you&apos;ll help us create a personalized experience tailored for you and your household.
                 </p>
                 <p className="welcome-txt">
-                    Choose a unique household name to connect with your partner or flatmates, and let us know the size of your place in square meters.
-                </p>
-                <p className="welcome-txt">
-                    This helps us to tailor chores and tips specifically for your living space. Your details are kept private and are just for making sure our suggestions hit the spot!
+                    The information you provide is essential for the functionality and ongoing improvement of CleanSlate.
+                    We value your privacy and ensure that your data is secure and used solely for enhancing your experience with our app.
                 </p>
             </section>
-            <button onClick={handleSubmit}>
-                Get Started
+            <section className="privacy-policy">
+                <p className="privacy-txt">
+                    For more information on how we handle your data, please review our <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+                </p>
+            </section>
+            <button className="welcome-btn btn-squared" onClick={handleAcknowledge}>
+                Got it, let&apos;s go!
             </button>
-        </div >
-    )
+        </div>
+    );
 };
 
 WelcomeUser.propTypes = {
-    onComplete: PropTypes.func.isRequired,
+    onAcknowledge: PropTypes.func.isRequired,
 };
 
 export default WelcomeUser;
+

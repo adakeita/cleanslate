@@ -1,12 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { useAuth } from "../hooks/useAuth";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
 import cleanSlateHome from "../assets/img/CleanSlate.png";
 import "./pagestyles/home.css";
 
 const HomePage = () => {
 
-    const isAuthenticated = useAuth();
+    const { isAuthenticated } = useContext(AuthContext);
     useUpdateBodyClass("/");
 
     return (

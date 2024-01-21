@@ -1,36 +1,38 @@
 const PrivacyPolicy = () => {
     return (
-        <div>
-            <h1 className="privacy-header">Cleanslate Privacy Policy</h1>
-            <p className="privacy-text">
-                Last Updated: 05/1/2024
+        <div className="privacy-policy">
+            <h1>Privacy Policy</h1>
+            <p>Last Updated: [21/01/2024]</p>
 
-                1. Introduction
+            <section>
+                <h2>Introduction</h2>
+                <p>
+                    Welcome to CleanSlate, a web application dedicated to shedding light on unpaid domestic labor within households.
+                    At CleanSlate, we prioritize the privacy and security of your data. This Privacy Policy is designed to inform
+                    you about how we collect, use, and protect your personal information. If you have any questions or concerns
+                    about this policy, please contact us at <a href="mailto:hello@adakeita.dev">hello@adakeita.dev</a>.
+                </p>
+            </section>
 
-                Welcome to CleanSlate. This privacy policy explains how we handle the personal information of our users. As a student project, our aim is to respect and protect your data while providing a demonstration of our applications capabilities.
-
-                2. Data Collection and Use
-
-                We collect the following types of information:
-
-                Personal Information: This includes your name and email address, which we obtain when you sign up using Google OAuth. We use this information to create and manage your user account.
-                Household Information: This includes details about your household, such as the number of adults, children, and pets, and the size of your living space. We use this information to personalize the application experience.
-                We do not share your personal information with third parties nor do we use it for commercial purposes.
-
-                3. Data Security
-
-                We take reasonable steps to protect the information you provide from loss, misuse, unauthorized access, disclosure, alteration, or destruction.
-
-                4. Changes to this Privacy Policy
-
-                We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
-
-                5. Contact Us
-
-                If you have any questions about this Privacy Policy, please contact us at [Your Contact Information].
-            </p>
+            <section>
+                <h2>Information We Collect</h2>
+                <p>We collect the following types of information from our users:</p>
+                <ul>
+                    <li>Email and User Information: We collect your email address, username, preferred pronoun, and an avatar.
+                        This information helps us personalize your CleanSlate experience and connect households together if multiple
+                        users register with the same household.</li>
+                    <li>Household Information: We collect data related to your household, including the household name
+                        (determined by the user), approximate size in square meters (kvm), and the number of rooms. This data is solely
+                        used to improve and evolve the application and facilitate connections between households.</li>
+                    <li>User-Generated Data: Information you provide through forms on our platform.</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Contact Us</h2>
+                <p>If you have questions or concerns about this Privacy Policy or your data, please contact us at <a href="mailto:hello@adakeita.dev">hello@adakeita.dev</a>.</p>
+            </section>
         </div>
-    )
-}
+    );
+};
 
 export default PrivacyPolicy;

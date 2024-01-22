@@ -8,6 +8,7 @@ const HouseholdDetails = () => {
     const [householdName, setHouseholdName] = useState('');
     const [numberOfRooms, setNumberOfRooms] = useState('1');
     const [houseSize, setHouseSize] = useState('');
+    const [householdId, setHouseholdId] = useState(null);
     const [joinExisting, setJoinExisting] = useState(false);
     const [householdNameError, setHouseholdNameError] = useState('');
     const [houseSizeError, setHouseSizeError] = useState('');
@@ -52,21 +53,19 @@ const HouseholdDetails = () => {
             return;
         }
 
-        if (joinExisting) {
-            return;
-        }
-
         try {
-            await linkUserToHousehold(householdName, houseSize, numberOfRooms, joinExisting);
-            setFeedbackMessage("Household created successfully!");
+            const linkedHousehold = await linkUserToHousehold(householdName, houseSize, numberOfRooms, joinExisting);
+            setFeedbackMessage(joinExisting ? "Successfully joined the household!" : "Household created successfully!");
+            setHouseholdId(linkedHousehold.household_id); // Update householdId state
             navigate({ to: "/dashboard" });
         } catch (error) {
             setFeedbackMessage(error.message || "An error occurred.");
         }
     };
 
-    const handleJoinSuccess = () => {
+    const handleJoinSuccess = (joinedHouseholdId) => {
         setFeedbackMessage("Successfully joined the household!");
+        setHouseholdId(joinedHouseholdId);
         navigate({ to: "/dashboard" });
     };
 
@@ -92,6 +91,7 @@ const HouseholdDetails = () => {
                         <JoinExistingHousehold
                             onJoinSuccess={handleJoinSuccess}
                             onCancel={handleCancelJoin}
+                            householdId={householdId}
                         />
                     ) : (
                         <>
@@ -119,8 +119,19 @@ const HouseholdDetails = () => {
                                 <div className="household-col">
                                     <label className='householdform-label' htmlFor="house-size">House Size (kvm)</label>
                                     <select className='household-inputfield' value={houseSize} onChange={(e) => setHouseSize(e.target.value)}>
-                                        {/* House size options */}
+                                        <option value="">Select size</option>
+                                        <option value="20">Up to 20 kvm</option>
+                                        <option value="40">Up to 40 kvm</option>
+                                        <option value="60">Up to 60 kvm</option>
+                                        <option value="80">Up to 80 kvm</option>
+                                        <option value="100">Up to 100 kvm</option>
+                                        <option value="120">Up to 120 kvm</option>
+                                        <option value="140">Up to 140 kvm</option>
+                                        <option value="160">Up to 160 kvm</option>
+                                        <option value="180">Up to 180 kvm</option>
+                                        <option value="200+">200 kvm or more</option>
                                     </select>
+                                    {houseSizeError && !joinExisting && <p className="error-message">{houseSizeError}</p>}
                                     {houseSizeError && <p className="error-message">{houseSizeError}</p>}
                                 </div>
                             </div>

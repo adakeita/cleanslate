@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { getCompleteUser } from "../lib/api";
+import { UserDetailsProvider } from "../contexts/UserDetailsContext"
 import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
 import ChoreDropdown from "../components/ChoreDropdown";
 import UserOverview from "../assets/img/usertaskbtn.png";
@@ -44,40 +45,42 @@ const Dashboard = () => {
 
     return (
         <div id="dashboardContainer" className="page-container">
-            <section className="dashboard-wrapper">
-                <div className="dashboard-content">
-                    <div className="dashboard-user-elements">
-                        <div className="dashboard-img-container">
-                            <img src={userDetails.alternateAvatar} alt="profile-img" className="dashboard-img" />
-                        </div>
-                        <div className={`dashboard-name-dropdown ${isDropdownOpen ? 'dropdown-open' : ''}`}>
-                            <div className="dashboard-name-container">
-                                <h1 className="dashboard-name">Hi {userDetails.username || 'Loading...'}!</h1>
+            <UserDetailsProvider>
+                <section className="dashboard-wrapper">
+                    <div className="dashboard-content">
+                        <div className="dashboard-user-elements">
+                            <div className="dashboard-img-container">
+                                <img src={userDetails.alternateAvatar} alt="profile-img" className="dashboard-img" />
                             </div>
-                            <section className="log-activity">
-                                <ChoreDropdown onToggleDropdown={toggleDropdownOpen} />
-                            </section>
+                            <div className={`dashboard-name-dropdown ${isDropdownOpen ? 'dropdown-open' : ''}`}>
+                                <div className="dashboard-name-container">
+                                    <h1 className="dashboard-name">Hi {userDetails.username || 'Loading...'}!</h1>
+                                </div>
+                                <section className="log-activity">
+                                    <ChoreDropdown onToggleDropdown={toggleDropdownOpen} />
+                                </section>
+                            </div>
                         </div>
+                        <section className="overviews">
+                            <h2 className="overview-title">Check the stats</h2>
+                            <div className="overview-btn-container">
+                                <Link to="/overview" className="overview-btn my-overview-btn">
+                                    <div className="overview-btn-img-container">
+                                        <img src={UserOverview} alt="overview-img" className="overview-btn-img" />
+                                    </div>
+                                    <p className="overview-btn-txt">My Overview</p>
+                                </Link>
+                                <Link to="/household" className="overview-btn my-overview-btn">
+                                    <div className="overview-btn-img-container">
+                                        <img src={HouseholdOverview} alt="overview-img" className="overview-btn-img" />
+                                    </div>
+                                    <p className="overview-btn-txt">Household</p>
+                                </Link>
+                            </div>
+                        </section>
                     </div>
-                    <section className="overviews">
-                        <h2 className="overview-title">Check the stats</h2>
-                        <div className="overview-btn-container">
-                            <Link to="/overview" className="overview-btn my-overview-btn">
-                                <div className="overview-btn-img-container">
-                                    <img src={UserOverview} alt="overview-img" className="overview-btn-img" />
-                                </div>
-                                <p className="overview-btn-txt">My Overview</p>
-                            </Link>
-                            <Link to="/household" className="overview-btn my-overview-btn">
-                                <div className="overview-btn-img-container">
-                                    <img src={HouseholdOverview} alt="overview-img" className="overview-btn-img" />
-                                </div>
-                                <p className="overview-btn-txt">Household</p>
-                            </Link>
-                        </div>
-                    </section>
-                </div>
-            </section>
+                </section>
+            </UserDetailsProvider>
         </div>
     )
 };

@@ -125,6 +125,8 @@ export const linkUserToHousehold = async (
 
 		let householdId;
 
+		console.log("Current user ID:", user.id);
+
 		if (joinExisting) {
 			// Join an existing household
 			const { data: households, error: householdError } = await supabase
@@ -155,7 +157,8 @@ export const linkUserToHousehold = async (
 
 		if (linkError) throw linkError;
 
-		console.log("User linked to household successfully.");
+		console.log("User linked to household successfully. Household ID:", householdId);
+		return { household_id: householdId };
 	} catch (error) {
 		console.error("Error in linkUserToHousehold function:", error);
 		throw error;
@@ -411,6 +414,59 @@ export const getUserChoreOverview = async (userDetailId) => {
 		return overviewData;
 	} catch (error) {
 		console.error("Error in getUserChoreOverview function:", error);
+		throw error;
+	}
+};
+
+export const getHouseholdChoreOverview = async () => {
+	try {
+		// Current user
+		const { data: userData, error: userError } = await supabase.auth.getUser();
+		if (userError) throw userError;
+
+		const user = userData.user;
+		if (!user) throw new Error("No user logged in.");
+
+		// Get user details from "user_details"
+		const { data: userDetails, error: userDetailsError } = await supabase
+			.from("user_details")
+			.select("id, household_id")
+			.eq("user_id", user.id)
+			.single();
+
+		if (userDetailsError) throw userDetailsError;
+
+		const householdId = userDetails.household_id;
+		if (!householdId) {
+			throw new Error("User is not linked to a household.");
+		}
+
+		// Fetch household members
+		const { data: members, error: membersError } = await supabase
+			.from("user_details")
+			.select("id, username, avatar")
+			.eq("household_id", householdId);
+		if (membersError) throw membersError;
+
+		// Fetch chores for each member
+		for (const member of members) {
+			const { data: chores, error: choresError } = await supabase
+				.from("chore_log")
+				.select("total_minutes, total_monetary_value")
+				.eq("user_detail_id", member.id);
+			if (choresError) throw choresError;
+
+			// Aggregate data
+			member.totalMinutes = chores.reduce((acc, chore) => acc + chore.total_minutes, 0);
+			member.totalValue = chores.reduce(
+				(acc, chore) => acc + chore.total_monetary_value,
+				0
+			);
+		}
+
+		return members;
+	} catch (error) {
+		console.error("Error in getHouseholdChoreOverview function:", error);
 		throw error;
 	}
 };

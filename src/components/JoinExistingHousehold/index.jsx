@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { linkUserToHousehold } from '../../lib/api';
 import { joinExistingHousehold } from '../../lib/api';
 import './joinexisting.css';
 
@@ -31,12 +32,13 @@ const JoinExistingHousehold = ({ onJoinSuccess, onCancel }) => {
 
     const handleJoin = async () => {
         try {
-            await joinExistingHousehold(householdName, true);
-            onJoinSuccess();
+            const { household_id } = await linkUserToHousehold(householdName, null, null, true);
+            onJoinSuccess(household_id);
         } catch (error) {
             setMessage(error.message || "An error occurred.");
         }
     };
+
 
     return (
         <div className='join-existing-wrapper household-col'>

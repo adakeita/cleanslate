@@ -1,56 +1,26 @@
 import { useState, useEffect } from 'react';
-import { getHouseholdChoreOverview } from '../lib/api';
-import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
+import { getHouseholdChoreOverview, getHouseholdChoreOverviewForDoubleBar } from '../lib/api';
+import HouseholdPie from '../components/HousholdPie';
+import DoubleBarChart from '../components/DoubleBarChart';
 import HouseholdCostComponent from '../components/HouseholdCostComponent';
+import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
 import './pagestyles/household.css';
-
-ChartJS.register(ArcElement, Tooltip, Legend);
 
 const HouseholdPage = () => {
     useUpdateBodyClass("/household");
 
-    const [pieChartData, setPieChartData] = useState(null);
+    const [pieChartData, setPieChartData] = useState([]);
+    const [doubleBarChartData, setDoubleBarChartData] = useState([]);
     const [totalHouseholdValue, setTotalHouseholdValue] = useState(0);
-
 
     useEffect(() => {
         const fetchHouseholdData = async () => {
             try {
-                const householdData = await getHouseholdChoreOverview();
+                const fetchedHouseholdData = await getHouseholdChoreOverview();
+                setPieChartData(fetchedHouseholdData);
 
-                // Preparing pie chart data
-                const labels = householdData.map(member => member.username);
-                const totalMinutes = householdData.map(member => member.totalMinutes);
-
-                const totalValue = householdData.reduce((acc, member) => acc + member.totalValue, 0);
+                const totalValue = fetchedHouseholdData.reduce((acc, member) => acc + member.totalValue, 0);
                 setTotalHouseholdValue(totalValue);
-
-                const data = {
-                    labels,
-                    datasets: [{
-                        data: totalMinutes,
-                        backgroundColor: [
-                            // Add different colors for each slice
-                            'rgba(255, 99, 132, 0.5)',
-                            'rgba(54, 162, 235, 0.5)',
-                            'rgba(255, 206, 86, 0.5)',
-                            'rgba(75, 192, 192, 0.5)',
-                            // ... more colors as needed
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            // ... more border colors as needed
-                        ],
-                        borderWidth: 1
-                    }]
-                };
-
-                setPieChartData(data);
 
             } catch (error) {
                 console.error("Error fetching household data:", error);
@@ -59,17 +29,30 @@ const HouseholdPage = () => {
         fetchHouseholdData();
     }, []);
 
+    useEffect(() => {
+        const fetchDoubleHouseholdData = async () => {
+            try {
+                const fetchedDoubleHouseholdData = await getHouseholdChoreOverviewForDoubleBar();
+                setDoubleBarChartData(fetchedDoubleHouseholdData); // Use a separate state variable for double bar chart data
+            } catch (error) {
+                console.error("Error fetching double bar chart data:", error);
+            }
+        };
+        fetchDoubleHouseholdData();
+    }, []);
+
     return (
         <div className='page-container'>
             <h1 className='household-title'>Household Overview</h1>
-            {pieChartData ? (
-                <div className='piechart-container'>
-                    <Pie data={pieChartData} />
-                </div>
+            {pieChartData.length > 0 && doubleBarChartData.length > 0 ? (
+                <>
+                    <HouseholdPie householdData={pieChartData} />
+                    <DoubleBarChart data={doubleBarChartData} /> {/* Pass the correct data to DoubleBarChart */}
+                    <HouseholdCostComponent totalValue={totalHouseholdValue} />
+                </>
             ) : (
                 <p>Loading Household Data...</p>
             )}
-            <HouseholdCostComponent totalValue={totalHouseholdValue} />
         </div>
     );
 };

@@ -375,7 +375,7 @@ export const logChore = async (subcategory_id, duration_in_sessions) => {
 			throw new Error(userDetailsError.message || "Error fetching user details.");
 		}
 
-		// Insert the chore log into the database
+		// Insert the chore log
 		const { error: insertError } = await supabase.from("chore_log").insert([
 			{
 				user_detail_id: userDetails.id,
@@ -508,6 +508,64 @@ export const getHouseholdChoreOverview = async () => {
 		return members;
 	} catch (error) {
 		console.error("Error in getHouseholdChoreOverview function:", error);
+		throw error;
+	}
+};
+
+export const getHouseholdChoreOverviewForDoubleBar = async () => {
+	try {
+		const { data: userData, error: userError } = await supabase.auth.getUser();
+		if (userError) throw userError;
+		const user = userData.user;
+		if (!user) throw new Error("No user logged in.");
+
+		const { data: userDetails, error: userDetailsError } = await supabase
+			.from("user_details")
+			.select("id, household_id")
+			.eq("user_id", user.id)
+			.single();
+
+		if (userDetailsError) throw userDetailsError;
+
+		const householdId = userDetails.household_id;
+		if (!householdId) {
+			throw new Error("User is not linked to a household.");
+		}
+
+		const { data: members, error: membersError } = await supabase
+			.from("user_details")
+			.select("id, username, avatar")
+			.eq("household_id", householdId);
+		if (membersError) throw membersError;
+
+		if (members.length !== 2) {
+			throw new Error("Household does not have exactly two members.");
+		}
+
+		const memberData = [];
+		for (const member of members) {
+			const { data: chores, error: choresError } = await supabase
+				.from("chore_log")
+				.select("total_minutes, total_monetary_value")
+				.eq("user_detail_id", member.id);
+			if (choresError) throw choresError;
+
+			const totalMinutes = chores.reduce((acc, chore) => acc + chore.total_minutes, 0);
+			const totalValue = chores.reduce(
+				(acc, chore) => acc + chore.total_monetary_value,
+				0
+			);
+
+			memberData.push({
+				username: member.username,
+				totalMinutes,
+				totalValue,
+			});
+		}
+
+		return memberData;
+	} catch (error) {
+		console.error("Error in getHouseholdChoreOverviewForDoubleBar function:", error);
 		throw error;
 	}
 };

@@ -5,20 +5,30 @@ import './doublebarchart.css';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const UserBarChart = ({ data, backgroundColor, borderColor, reversed }) => {
-    const labels = reversed ? ['', ''] : ['Total Minutes', 'Total Value'];
+const CategoryLabels = ({ categories }) => (
+    <div className="category-labels">
+        {categories.map((category, index) => (
+            <div key={index} className="category-label">{category.category}</div>
+        ))}
+    </div>
+);
 
+CategoryLabels.propTypes = {
+    categories: PropTypes.arrayOf(PropTypes.shape({
+        category: PropTypes.string.isRequired,
+    })).isRequired,
+};
+
+const UserBarChart = ({ data, username, backgroundColor, borderColor, reversed, style }) => {
     const chartData = {
-        labels: labels,
-        datasets: [
-            {
-                label: data.username,
-                data: reversed ? [data.totalMinutes * -1, data.totalValue * -1] : [data.totalMinutes, data.totalValue],
-                backgroundColor: backgroundColor,
-                borderColor: borderColor,
-                borderWidth: 1,
-            },
-        ],
+        labels: data.map(() => ''), // No labels on the bars
+        datasets: [{
+            label: username,
+            data: data.map(d => reversed ? -d.percentage : d.percentage),
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
+            borderWidth: 1,
+        }],
     };
 
     const chartOptions = {
@@ -27,70 +37,69 @@ const UserBarChart = ({ data, backgroundColor, borderColor, reversed }) => {
             x: {
                 beginAtZero: true,
                 ticks: {
-                    callback: value => Math.abs(value),
+                    callback: value => Math.abs(value) + '%',
                     max: 100,
-                }
+                },
+                grid: {
+                    display: false,
+                },
             },
         },
         plugins: {
             tooltip: {
                 callbacks: {
-                    label: function (context) {
-                        let label = context.dataset.label || '';
-
-                        if (label) {
-                            label += ': ';
-                        }
-                        if (context.parsed.x !== null) {
-                            label += Math.abs(context.parsed.x);
-                        }
-                        return label;
-                    }
+                    label: context => `${context.label}: ${Math.abs(context.parsed.x)}%`
                 }
             },
             legend: {
-                display: false, // Hide legend to control it separately
+                display: false,
             },
         },
-        responsive: false,
+        responsive: true,
         maintainAspectRatio: false,
     };
 
-    return <Bar data={chartData} options={chartOptions} />;
+    return (
+        <div style={style}>
+            <Bar data={chartData} options={chartOptions} />
+        </div>
+    );
 };
 
 UserBarChart.propTypes = {
-    data: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        totalMinutes: PropTypes.number.isRequired,
-        totalValue: PropTypes.number.isRequired,
-        reversed: PropTypes.bool,
-    }).isRequired,
+    data: PropTypes.arrayOf(PropTypes.shape({
+        category: PropTypes.string.isRequired,
+        percentage: PropTypes.number.isRequired,
+    })).isRequired,
+    username: PropTypes.string.isRequired,
     backgroundColor: PropTypes.string.isRequired,
     borderColor: PropTypes.string.isRequired,
     reversed: PropTypes.bool.isRequired,
+    style: PropTypes.object,
 };
 
 const DoubleBarChart = ({ userData }) => {
-    // Assuming userData is an array with two user objects
-    const user1Data = { ...userData[0], reversed: false }; // Normal orientation for user 1
-    const user2Data = { ...userData[1], reversed: true }; // Reversed orientation for user 2
+    const user1Data = userData[0] || { username: "User 1", categories: [] };
+    const user2Data = userData[1] || { username: "User 2", categories: [] };
 
     return (
         <div className="double-bar-chart-container">
             <UserBarChart
-                className="user1-chart"
-                data={user1Data}
+                data={user1Data.categories}
+                username={user1Data.username}
                 backgroundColor="rgba(54, 162, 235, 0.5)"
                 borderColor="rgba(54, 162, 235, 1)"
                 reversed={true}
+                style={{ width: "250px", margin: '0' }}
             />
+            <CategoryLabels categories={user1Data.categories} />
             <UserBarChart
-                className="user2-chart"
-                data={user2Data}
+                data={user2Data.categories}
+                username={user2Data.username}
                 backgroundColor="rgba(255, 206, 86, 0.5)"
                 borderColor="rgba(255, 206, 86, 1)"
                 reversed={false}
+                style={{ width: "250px", margin: '0' }}
             />
         </div>
     );
@@ -99,8 +108,10 @@ const DoubleBarChart = ({ userData }) => {
 DoubleBarChart.propTypes = {
     userData: PropTypes.arrayOf(PropTypes.shape({
         username: PropTypes.string.isRequired,
-        totalMinutes: PropTypes.number.isRequired,
-        totalValue: PropTypes.number.isRequired,
+        categories: PropTypes.arrayOf(PropTypes.shape({
+            category: PropTypes.string.isRequired,
+            percentage: PropTypes.number.isRequired,
+        })).isRequired,
     })).isRequired,
 };
 

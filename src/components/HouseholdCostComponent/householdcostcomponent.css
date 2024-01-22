@@ -1,0 +1,27 @@
+.household-cost-container {
+	width: 90%;
+	max-width: 380px;
+	margin: 2em auto;
+	padding: 1em;
+	border-radius: 20px;
+	background-color: var(--grey-frame);
+	box-shadow: var(--blue-shadow);
+}
+
+.household-cost-header {
+	font-family: DM serif display;
+	font-size: 20px;
+	margin: 1em auto;
+}
+
+.household-cost-value {
+	font-family: DM sans;
+	font-size: 18px;
+	margin: 1em auto;
+}
+
+@media screen and (max-width: 550px) {
+	.household-cost-container {
+		margin: 3em auto;
+	}
+}

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getHouseholdChoreOverview, getHouseholdChoreOverviewForDoubleBar } from '../lib/api';
+import { getHouseholdChoreOverview, getCompleteUser } from '../lib/api';
 import HouseholdPie from '../components/HousholdPie';
-import DoubleBarChart from '../components/DoubleBarChart';
 import HouseholdCostComponent from '../components/HouseholdCostComponent';
 import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
 import './pagestyles/household.css';
@@ -9,19 +8,18 @@ import './pagestyles/household.css';
 const HouseholdPage = () => {
     useUpdateBodyClass("/household");
 
-    const [pieChartData, setPieChartData] = useState([]);
-    const [doubleBarChartData, setDoubleBarChartData] = useState([]);
-    const [totalHouseholdValue, setTotalHouseholdValue] = useState(0);
+    const [householdData, setHouseholdData] = useState([]);
+    const [completeUser, setCompleteUser] = useState(null);
 
     useEffect(() => {
         const fetchHouseholdData = async () => {
             try {
                 const fetchedHouseholdData = await getHouseholdChoreOverview();
-                setPieChartData(fetchedHouseholdData);
+                setHouseholdData(fetchedHouseholdData);
 
-                const totalValue = fetchedHouseholdData.reduce((acc, member) => acc + member.totalValue, 0);
-                setTotalHouseholdValue(totalValue);
-
+                // Fetch completeUser data
+                const fetchedCompleteUser = await getCompleteUser();
+                setCompleteUser(fetchedCompleteUser);
             } catch (error) {
                 console.error("Error fetching household data:", error);
             }
@@ -29,26 +27,13 @@ const HouseholdPage = () => {
         fetchHouseholdData();
     }, []);
 
-    useEffect(() => {
-        const fetchDoubleHouseholdData = async () => {
-            try {
-                const fetchedDoubleHouseholdData = await getHouseholdChoreOverviewForDoubleBar();
-                setDoubleBarChartData(fetchedDoubleHouseholdData); // Use a separate state variable for double bar chart data
-            } catch (error) {
-                console.error("Error fetching double bar chart data:", error);
-            }
-        };
-        fetchDoubleHouseholdData();
-    }, []);
-
     return (
         <div className='page-container'>
             <h1 className='household-title'>Household Overview</h1>
-            {pieChartData.length > 0 && doubleBarChartData.length > 0 ? (
+            {householdData.length > 0 ? (
                 <>
-                    <HouseholdPie householdData={pieChartData} />
-                    <DoubleBarChart userData={doubleBarChartData} />
-                    <HouseholdCostComponent totalValue={totalHouseholdValue} />
+                    <HouseholdPie householdData={householdData} completeUser={completeUser} />
+                    <HouseholdCostComponent householdData={householdData} />
                 </>
             ) : (
                 <p>Loading Household Data...</p>
@@ -58,4 +43,5 @@ const HouseholdPage = () => {
 };
 
 export default HouseholdPage;
+
 

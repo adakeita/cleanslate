@@ -528,9 +528,7 @@ export const getHouseholdChoreOverviewForDoubleBar = async () => {
 		if (userDetailsError) throw userDetailsError;
 
 		const householdId = userDetails.household_id;
-		if (!householdId) {
-			throw new Error("User is not linked to a household.");
-		}
+		if (!householdId) throw new Error("User is not linked to a household.");
 
 		const { data: members, error: membersError } = await supabase
 			.from("user_details")
@@ -538,31 +536,46 @@ export const getHouseholdChoreOverviewForDoubleBar = async () => {
 			.eq("household_id", householdId);
 		if (membersError) throw membersError;
 
-		if (members.length !== 2) {
+		if (members.length !== 2)
 			throw new Error("Household does not have exactly two members.");
-		}
+
+		const { data: categoriesData, error: categoriesDataError } = await supabase
+			.from("chore_categories")
+			.select("category_id, category_name");
+		if (categoriesDataError) throw categoriesDataError;
 
 		const memberData = await Promise.all(
-			members.slice(0, 2).map(async (member) => {
+			members.map(async (member) => {
 				const { data: chores, error: choresError } = await supabase
 					.from("chore_log")
-					.select("total_minutes, total_monetary_value")
+					.select("category_id, total_minutes")
 					.eq("user_detail_id", member.id);
 				if (choresError) throw choresError;
 
+				// Calculate total minutes for the member
+				const totalMinutes = chores.reduce((acc, chore) => acc + chore.total_minutes, 0);
+
+				// Map category IDs to names and calculate percentages
+				const categories = categoriesData.map((category) => {
+					const totalCategoryMinutes = chores
+						.filter((c) => c.category_id === category.category_id)
+						.reduce((acc, chore) => acc + chore.total_minutes, 0);
+					const percentage =
+						totalMinutes > 0 ? (totalCategoryMinutes / totalMinutes) * 100 : 0;
+					return {
+						category: category.category_name,
+						percentage: parseFloat(percentage.toFixed(2)),
+					};
+				});
+
 				return {
 					username: member.username,
-					totalMinutes: chores.reduce((acc, chore) => acc + chore.total_minutes, 0),
-					totalValue: chores.reduce((acc, chore) => acc + chore.total_monetary_value, 0),
+					categories: categories,
 				};
 			})
 		);
 
-		// Ensure we have two elements in the array, even if some data is missing
-		return [
-			memberData[0] || { username: "User 1", totalMinutes: 0, totalValue: 0 },
-			memberData[1] || { username: "User 2", totalMinutes: 0, totalValue: 0 },
-		];
+		return memberData;
 	} catch (error) {
 		console.error("Error in getHouseholdChoreOverviewForDoubleBar function:", error);
 		throw error;

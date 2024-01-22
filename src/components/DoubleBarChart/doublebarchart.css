@@ -1,0 +1,8 @@
+.double-bar-chart-container {
+	display: flex;
+	flex-direction: row; /* or 'row-reverse' depending on the orientation you want */
+	align-items: center;
+	justify-content: center;
+}
+
+/* Additional styles as needed for spacing, sizing, etc. */

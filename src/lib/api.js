@@ -542,28 +542,27 @@ export const getHouseholdChoreOverviewForDoubleBar = async () => {
 			throw new Error("Household does not have exactly two members.");
 		}
 
-		const memberData = [];
-		for (const member of members) {
-			const { data: chores, error: choresError } = await supabase
-				.from("chore_log")
-				.select("total_minutes, total_monetary_value")
-				.eq("user_detail_id", member.id);
-			if (choresError) throw choresError;
+		const memberData = await Promise.all(
+			members.slice(0, 2).map(async (member) => {
+				const { data: chores, error: choresError } = await supabase
+					.from("chore_log")
+					.select("total_minutes, total_monetary_value")
+					.eq("user_detail_id", member.id);
+				if (choresError) throw choresError;
 
-			const totalMinutes = chores.reduce((acc, chore) => acc + chore.total_minutes, 0);
-			const totalValue = chores.reduce(
-				(acc, chore) => acc + chore.total_monetary_value,
-				0
-			);
+				return {
+					username: member.username,
+					totalMinutes: chores.reduce((acc, chore) => acc + chore.total_minutes, 0),
+					totalValue: chores.reduce((acc, chore) => acc + chore.total_monetary_value, 0),
+				};
+			})
+		);
 
-			memberData.push({
-				username: member.username,
-				totalMinutes,
-				totalValue,
-			});
-		}
-
-		return memberData;
+		// Ensure we have two elements in the array, even if some data is missing
+		return [
+			memberData[0] || { username: "User 1", totalMinutes: 0, totalValue: 0 },
+			memberData[1] || { username: "User 2", totalMinutes: 0, totalValue: 0 },
+		];
 	} catch (error) {
 		console.error("Error in getHouseholdChoreOverviewForDoubleBar function:", error);
 		throw error;

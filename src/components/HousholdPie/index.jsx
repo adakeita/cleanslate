@@ -38,12 +38,14 @@ const HouseholdPie = ({ householdData }) => {
                 'rgba(54, 162, 235, 0.5)',
                 'rgba(255, 206, 86, 0.5)',
                 'rgba(75, 192, 192, 0.5)',
+                // ... more colors as needed
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
                 'rgba(54, 162, 235, 1)',
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
+                // ... more border colors as needed
             ],
             borderWidth: 1
         }]

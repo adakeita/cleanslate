@@ -47,7 +47,7 @@ const HouseholdPage = () => {
             {pieChartData.length > 0 && doubleBarChartData.length > 0 ? (
                 <>
                     <HouseholdPie householdData={pieChartData} />
-                    <DoubleBarChart data={doubleBarChartData} /> {/* Pass the correct data to DoubleBarChart */}
+                    <DoubleBarChart userData={doubleBarChartData} />
                     <HouseholdCostComponent totalValue={totalHouseholdValue} />
                 </>
             ) : (

@@ -8,6 +8,7 @@ import LoginPage from "./pages/Login";
 import HouseholdPage from "./pages/Household";
 import OverviewPage from "./pages/Overview";
 import AboutPage from "./pages/About";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Root from "./App";
 
 const rootRoute = new RootRoute({
@@ -70,6 +71,12 @@ const aboutRoute = new Route({
 	component: AboutPage,
 });
 
+const privacyPolicyRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: "/privacypolicy",
+	component: PrivacyPolicy,
+});
+
 const routeTree = rootRoute.addChildren([
 	indexRoute,
 	registerRoute,
@@ -80,6 +87,7 @@ const routeTree = rootRoute.addChildren([
 	aboutRoute,
 	householdRoute,
 	overviewRoute,
+	privacyPolicyRoute,
 ]);
 
 export const router = new Router({ routeTree });

@@ -1,12 +1,18 @@
 import PropTypes from 'prop-types';
+import Modal from '../Modal';
+import { useState } from 'react';
 import "./welcomeuser.css";
 
 const WelcomeUser = ({ onAcknowledge }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+
     const handleAcknowledge = () => {
         try {
             onAcknowledge();
         } catch (error) {
-            alert("An error occurred. Please try again.");
+            setModalMessage(error.message);
+            setIsModalOpen(true);
         }
     };
 
@@ -39,6 +45,11 @@ const WelcomeUser = ({ onAcknowledge }) => {
                     Let&apos;s get started!
                 </button>
             </div>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <div className="modal-msg">
+                    {modalMessage}
+                </div>
+            </Modal>
         </div>
     );
 };

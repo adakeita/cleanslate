@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { Pie } from 'react-chartjs-2';
-import './overviewpie.css';
 import {
     Chart as ChartJS,
     CategoryScale,

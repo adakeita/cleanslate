@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { updateUserDetails } from '../../lib/api';
 import PropTypes from 'prop-types';
+import Modal from '../Modal';
 import avatar1 from '../../assets/avatar/avatar1.png';
 import alternateavatar1 from '../../assets/avatar/alternate-avatar1.png';
 import alternateavatar2 from '../../assets/avatar/alternate-avatar2.png';
@@ -14,6 +15,8 @@ const UserDetails = ({ onComplete }) => {
     const [alternateAvatar, setAlternateAvatar] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [avatarError, setAvatarError] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
 
     const isAvatarSelected = (avatarSrc) => avatar === avatarSrc;
 
@@ -52,7 +55,8 @@ const UserDetails = ({ onComplete }) => {
             await updateUserDetails(username, pronouns, avatar, alternateAvatar);
             onComplete();
         } catch (error) {
-            alert(error.message);
+            setModalMessage(error.message);
+            setIsModalOpen(true);
         }
     };
 
@@ -93,6 +97,11 @@ const UserDetails = ({ onComplete }) => {
                         </select>
                     </div>
                 </section>
+                <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                    <div className="modal-msg">
+                        {modalMessage}
+                    </div>
+                </Modal>
             </div>
             <button className="btn-squared complete-user-btn" type="submit">That&apos;s me!</button>
         </form>

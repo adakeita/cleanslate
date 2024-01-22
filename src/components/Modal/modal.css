@@ -22,12 +22,21 @@
 	z-index: 1001;
 }
 
+.modal-msg {
+	font-family: "DM Sans";
+	font-size: 18px;
+	font-weight: 500;
+	margin: 1em auto;
+}
+
 .close-modal-btn-container {
 	width: 100%;
 	text-align: end;
 }
 
 .close-modal-btn {
+	display: flex;
+	font-family: "DM Sans";
 	background-color: #f44336;
 	color: white;
 	border: none;
@@ -35,8 +44,8 @@
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
-	font-size: 15px;
+	font-size: 20px;
 	cursor: pointer;
 	border-radius: 5px;
-	text-align: left;
+	width: 40px;
 }

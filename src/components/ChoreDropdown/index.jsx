@@ -5,6 +5,7 @@ import plus from '../../assets/svg/plus.svg';
 import minus from '../../assets/svg/minus.svg';
 import checkmark from '../../assets/svg/checkmark.svg';
 import arrow from '../../assets/svg/back-arrow.svg';
+import Modal from '../Modal';
 import './choredropdown.css';
 
 const ChoreDropdown = ({ onToggleDropdown }) => {
@@ -14,6 +15,9 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSubcategory, setSelectedSubcategory] = useState(null);
     const [sessions, setSessions] = useState(1);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+
 
     useEffect(() => {
         const fetchCategoriesAndSubcategories = async () => {
@@ -51,21 +55,22 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
 
     const handleSubmit = async () => {
         if (!selectedSubcategory) {
-            alert("Please select a subcategory.");
+            setModalMessage("Please select a subcategory.");
+            setIsModalOpen(true);
             return;
         }
 
         try {
             await logChore(selectedSubcategory.subcategory_id, sessions);
-            alert("Chore logged successfully.");
+            setModalMessage("Chore logged successfully.");
             setSelectedCategory(null);
             setSelectedSubcategory(null);
             setSessions(1);
             setCurrentLevel('categories');
         } catch (error) {
-            console.error("Error logging chore:", error);
-            alert(error.message || "Error logging chore.");
+            setModalMessage(error.message || "Error logging chore.");
         }
+        setIsModalOpen(true);
     };
 
     const toggleDropdown = () => {
@@ -144,6 +149,11 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
                     )}
                 </div>
             </div>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <div className="modal-msg">
+                    {modalMessage}
+                </div>
+            </Modal>
         </div>
     );
 

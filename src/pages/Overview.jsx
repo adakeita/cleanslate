@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getUserChoreOverview, getCompleteUser } from '../lib/api';
+import { getUserChoreOverview, getCompleteUser, updateUserChores } from '../lib/api';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -49,13 +49,17 @@ const OverviewPage = () => {
         const fetchData = async () => {
             try {
                 const completeUser = await getCompleteUser();
+                await updateUserChores(completeUser.userDetailsId);
+                const updatedCompleteUser = JSON.parse(sessionStorage.getItem('completeUser'));
+
+
                 setUserDetails({
-                    authUserId: completeUser.authUserId,
-                    userDetailsId: completeUser.userDetailsId,
-                    username: completeUser.username,
+                    authUserId: updatedCompleteUser.authUserId,
+                    userDetailsId: updatedCompleteUser.userDetailsId,
+                    username: updatedCompleteUser.username,
                 });
 
-                const overviewData = await getUserChoreOverview(completeUser.userDetailsId);
+                const overviewData = await getUserChoreOverview(updatedCompleteUser.userDetailsId);
 
                 const totalMinutes = overviewData.reduce((acc, item) => acc + item.total_minutes, 0);
                 const totalCost = overviewData.reduce((acc, item) => acc + item.total_cost, 0);

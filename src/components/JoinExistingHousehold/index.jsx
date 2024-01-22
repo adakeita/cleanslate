@@ -12,23 +12,18 @@ const JoinExistingHousehold = ({ onJoinSuccess, onCancel }) => {
     const checkHouseholdExistence = async () => {
         try {
             const household = await joinExistingHousehold(householdName);
-            if (household.hasMembers) {
+            if (household.exists) {
                 setMessage(`Household '${householdName}' already has members: ${household.memberNames}. Did you mean to join this household?`);
                 setShowConfirmation(true);
             } else {
-                setMessage(`Household '${householdName}' does not have any members yet.`);
+                setMessage("Sorry, there doesn't seem to be a household by that name. Check your spelling and try again.");
                 setShowConfirmation(false);
             }
         } catch (error) {
-            if (error.message.includes("Household does not exist.")) {
-                setMessage("Sorry, there doesn't seem to be a household by that name. Check your spelling and try again.");
-            } else {
-                setMessage(error.message || "An error occurred.");
-            }
+            setMessage(error.message || "An error occurred.");
             setShowConfirmation(false);
         }
     };
-
 
     const handleJoin = async () => {
         try {

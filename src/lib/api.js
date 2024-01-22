@@ -224,6 +224,11 @@ export const joinExistingHousehold = async (householdName) => {
 
 export const getCompleteUser = async () => {
 	try {
+		const sessionData = sessionStorage.getItem("completeUser");
+		if (sessionData) {
+			return JSON.parse(sessionData);
+		}
+
 		// Current user
 		const { data: userData, error: userError } = await supabase.auth.getUser();
 		if (userError) throw userError;
@@ -306,11 +311,47 @@ export const getCompleteUser = async () => {
 			chores: userChores,
 		};
 
-		console.log("Complete user retrieved successfully.");
-		console.log(completeUser);
+		console.log("complete user retrieved sucessfully:", completeUser);
+
+		sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
+
+		console.log("complete user saved to session storage.");
+
 		return completeUser;
 	} catch (error) {
 		console.error("Error getting complete user:", error);
+		throw error;
+	}
+};
+
+export const updateUserChores = async (userDetailsId) => {
+	try {
+		const { data: userChores, error: choresError } = await supabase
+			.from("chore_log")
+			.select(
+				`
+				log_id,
+				subcategory_id,
+				timestamp,
+				duration_in_sessions,
+				total_minutes,
+				total_monetary_value,
+				category_id
+				`
+			)
+			.eq("user_detail_id", userDetailsId);
+
+		if (choresError) {
+			throw new Error(choresError.message || "Error fetching user chores.");
+		}
+
+		const completeUser = JSON.parse(sessionStorage.getItem("completeUser"));
+		completeUser.chores = userChores;
+		sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
+
+		console.log("User chores updated successfully.");
+	} catch (error) {
+		console.error("Error updating user chores:", error);
 		throw error;
 	}
 };

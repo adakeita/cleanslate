@@ -7,7 +7,6 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-
     const checkAuthState = useCallback(async () => {
         const { data: session } = await supabase.auth.getSession();
         setIsAuthenticated(!!session);

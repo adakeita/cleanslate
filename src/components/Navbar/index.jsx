@@ -28,6 +28,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         try {
             await signOut();
+            sessionStorage.clear();
             navigate({ to: "/" });
             setIsMenuOpen(false);
         } catch (error) {

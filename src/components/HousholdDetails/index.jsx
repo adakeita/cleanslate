@@ -56,7 +56,7 @@ const HouseholdDetails = () => {
         try {
             const linkedHousehold = await linkUserToHousehold(householdName, houseSize, numberOfRooms, joinExisting);
             setFeedbackMessage(joinExisting ? "Successfully joined the household!" : "Household created successfully!");
-            setHouseholdId(linkedHousehold.household_id); // Update householdId state
+            setHouseholdId(linkedHousehold.household_id);
             navigate({ to: "/dashboard" });
         } catch (error) {
             setFeedbackMessage(error.message || "An error occurred.");

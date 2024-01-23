@@ -82,6 +82,11 @@
 	transition: all 0.3s ease-in-out;
 }
 
+.household-overview-btn {
+	width: 110px;
+	height: 110px;
+}
+
 .overview-btn:hover {
 	transform: scale(1.05);
 }
@@ -97,6 +102,11 @@
 
 	.overview-title {
 		width: 65vw;
+	}
+
+	.household-overview-btn {
+		width: auto;
+		height: auto;
 	}
 }
 
@@ -123,11 +133,7 @@
 
 	.dashboard-name-dropdown {
 		width: 40%;
-		max-height: 20vh;
-	}
-
-	.dashboard-name-dropdown.dropdown-open {
-		max-height: 25vh;
+		min-height: 25vh;
 	}
 
 	.overviews {
@@ -148,8 +154,8 @@
 		justify-content: space-around;
 	}
 
-	.overview-btn {
-		width: 110px;
+	.household-overview-btn {
+		width: 115px;
 		height: 110px;
 	}
 }

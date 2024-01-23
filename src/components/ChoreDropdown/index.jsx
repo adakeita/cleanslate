@@ -100,6 +100,9 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
                             selectedCategory.chore_subcategories.map(subcategory => (
                                 <li role='menuitem' className='dropdown-li dropdown-subcategory-li' key={subcategory.subcategory_id} onClick={() => handleSubcategoryClick(subcategory)}>
                                     {subcategory.subcategory_name}
+                                    <div className="dropdownli-icon-container">
+                                        <img src={plus} alt="plus-icon" className="dropdownli-icon" />
+                                    </div>
                                 </li>
                             ))
                         )}

@@ -38,7 +38,7 @@ const WelcomeUser = ({ onAcknowledge }) => {
                 </section>
                 <section className="privacy-policy">
                     <p className="privacy-txt">
-                        For more information on how we handle your data, please review our <a href="/privacy-policy" target="/privacypolicy">Privacy Policy</a>.
+                        For more information on how we handle your data, please review our <a href="/privacypolicy" target="/privacypolicy">Privacy Policy</a>.
                     </p>
                 </section>
                 <button className="welcome-btn btn-squared" onClick={handleAcknowledge}>

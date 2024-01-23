@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
+import { useNavigate } from '@tanstack/react-router';
 import { useState, useEffect } from "react";
 import { getCompleteUser } from "../lib/api";
 import { UserDetailsProvider } from "../contexts/UserDetailsContext"
 import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
+import Modal from "../components/Modal";
 import ChoreDropdown from "../components/ChoreDropdown";
 import UserOverview from "../assets/img/usertaskbtn.png";
 import HouseholdOverview from "../assets/img/household-btn.png";
@@ -13,7 +15,8 @@ const Dashboard = () => {
     useUpdateBodyClass("/dashboard");
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
 
     const toggleDropdownOpen = (isOpen) => {
         setIsDropdownOpen(isOpen);
@@ -23,16 +26,19 @@ const Dashboard = () => {
         username: '',
         avatar: '',
         alternateAvatar: '',
+        household: null,
     });
 
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
                 const completeUser = await getCompleteUser();
+                console.log("Fetched complete user:", completeUser); // Debugging log
                 setUserDetails({
                     username: completeUser.username,
                     avatar: completeUser.avatar,
                     alternateAvatar: completeUser.alternateAvatar,
+                    household: completeUser.household,
                 });
             } catch (error) {
                 console.error("Error fetching user details:", error);
@@ -42,6 +48,17 @@ const Dashboard = () => {
         fetchUserDetails();
     }, []);
 
+
+    const navigate = useNavigate();
+
+    const handleHouseholdClick = () => {
+        if (userDetails.household && userDetails.household.users.length === 0) {
+            setModalMessage("You need to add someone to your household to compare tasks.");
+            setIsModalOpen(true);
+        } else {
+            navigate({ to: "/household" });
+        }
+    };
 
     return (
         <div id="dashboardContainer" className="page-container">
@@ -70,17 +87,20 @@ const Dashboard = () => {
                                     </div>
                                     <p className="overview-btn-txt">My Overview</p>
                                 </Link>
-                                <Link to="/household" className="overview-btn my-overview-btn">
+                                <button onClick={handleHouseholdClick} className="overview-btn household-overview-btn">
                                     <div className="overview-btn-img-container">
                                         <img src={HouseholdOverview} alt="overview-img" className="overview-btn-img" />
                                     </div>
                                     <p className="overview-btn-txt">Household</p>
-                                </Link>
+                                </button>
                             </div>
                         </section>
                     </div>
                 </section>
             </UserDetailsProvider>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                {modalMessage}
+            </Modal>
         </div>
     )
 };

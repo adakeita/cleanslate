@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from '@tanstack/react-router';
+import Modal from '../Modal';
 import './login.css';
 
 const LoginForm = () => {
@@ -9,6 +10,9 @@ const LoginForm = () => {
     const [emailError, setEmailError] = useState('');
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+
 
     const navigate = useNavigate();
 
@@ -34,7 +38,8 @@ const LoginForm = () => {
 
         try {
             await signIn(email, password);
-            alert('Login successful!');
+            setModalMessage("Login successful:)");
+            setIsModalOpen(true);
             navigate({ to: "/dashboard" });
         } catch (error) {
             setPasswordError(error.message);
@@ -70,6 +75,11 @@ const LoginForm = () => {
                     />
                     {passwordError && <p className="error-message">{passwordError}</p>}
                 </div>
+                <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                    <div className="modal-msg">
+                        {modalMessage}
+                    </div>
+                </Modal>
             </div>
             <button className='login-btn btn-squared' type="submit">Login</button>
         </form>

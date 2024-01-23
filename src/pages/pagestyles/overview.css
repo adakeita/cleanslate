@@ -8,6 +8,14 @@
 }
 
 .user-overview-title {
-	font-size: 35px;
+	font-size: 33px;
 	text-align: center;
+	margin: 2em auto;
+}
+
+@media (min-width: 410px) {
+	.user-overview-title {
+		font-size: 30px;
+		margin: 1em auto;
+	}
 }

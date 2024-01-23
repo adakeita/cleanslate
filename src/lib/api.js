@@ -125,6 +125,8 @@ export const linkUserToHousehold = async (
 
 		let householdId;
 
+		console.log("Current user ID:", user.id);
+
 		if (joinExisting) {
 			// Join an existing household
 			const { data: households, error: householdError } = await supabase
@@ -155,7 +157,8 @@ export const linkUserToHousehold = async (
 
 		if (linkError) throw linkError;
 
-		console.log("User linked to household successfully.");
+		console.log("User linked to household successfully. Household ID:", householdId);
+		return { household_id: householdId };
 	} catch (error) {
 		console.error("Error in linkUserToHousehold function:", error);
 		throw error;
@@ -177,12 +180,27 @@ export const joinExistingHousehold = async (householdName) => {
 			.eq("household_name", householdName);
 
 		if (householdError) throw householdError;
-
 		if (!households || households.length === 0) {
 			throw new Error("Household does not exist.");
 		}
 
 		const householdId = households[0].household_id;
+
+		const { data: householdMembers, error: membersError } = await supabase
+			.from("user_details")
+			.select("username")
+			.eq("household_id", householdId);
+
+		if (membersError) throw membersError;
+
+		if (householdMembers.length > 0) {
+			const memberNames = householdMembers.map((member) => member.username).join(", ");
+			return {
+				exists: true,
+				hasMembers: true,
+				memberNames: memberNames,
+			};
+		}
 
 		// Link the user to household
 		const { error: linkError } = await supabase
@@ -193,6 +211,11 @@ export const joinExistingHousehold = async (householdName) => {
 		if (linkError) throw linkError;
 
 		console.log("User joined household successfully.");
+		return {
+			exists: true,
+			hasMembers: false,
+			memberNames: "",
+		};
 	} catch (error) {
 		console.error("Error in joinExistingHousehold function:", error);
 		throw error;
@@ -201,6 +224,11 @@ export const joinExistingHousehold = async (householdName) => {
 
 export const getCompleteUser = async () => {
 	try {
+		const sessionData = sessionStorage.getItem("completeUser");
+		if (sessionData) {
+			return JSON.parse(sessionData);
+		}
+
 		// Current user
 		const { data: userData, error: userError } = await supabase.auth.getUser();
 		if (userError) throw userError;
@@ -283,11 +311,47 @@ export const getCompleteUser = async () => {
 			chores: userChores,
 		};
 
-		console.log("Complete user retrieved successfully.");
-		console.log(completeUser);
+		console.log("complete user retrieved sucessfully:", completeUser);
+
+		sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
+
+		console.log("complete user saved to session storage.");
+
 		return completeUser;
 	} catch (error) {
 		console.error("Error getting complete user:", error);
+		throw error;
+	}
+};
+
+export const updateUserChores = async (userDetailsId) => {
+	try {
+		const { data: userChores, error: choresError } = await supabase
+			.from("chore_log")
+			.select(
+				`
+				log_id,
+				subcategory_id,
+				timestamp,
+				duration_in_sessions,
+				total_minutes,
+				total_monetary_value,
+				category_id
+				`
+			)
+			.eq("user_detail_id", userDetailsId);
+
+		if (choresError) {
+			throw new Error(choresError.message || "Error fetching user chores.");
+		}
+
+		const completeUser = JSON.parse(sessionStorage.getItem("completeUser"));
+		completeUser.chores = userChores;
+		sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
+
+		console.log("User chores updated successfully.");
+	} catch (error) {
+		console.error("Error updating user chores:", error);
 		throw error;
 	}
 };
@@ -311,7 +375,7 @@ export const logChore = async (subcategory_id, duration_in_sessions) => {
 			throw new Error(userDetailsError.message || "Error fetching user details.");
 		}
 
-		// Insert the chore log into the database
+		// Insert the chore log
 		const { error: insertError } = await supabase.from("chore_log").insert([
 			{
 				user_detail_id: userDetails.id,
@@ -391,6 +455,129 @@ export const getUserChoreOverview = async (userDetailId) => {
 		return overviewData;
 	} catch (error) {
 		console.error("Error in getUserChoreOverview function:", error);
+		throw error;
+	}
+};
+
+export const getHouseholdChoreOverview = async () => {
+	try {
+		// Current user
+		const { data: userData, error: userError } = await supabase.auth.getUser();
+		if (userError) throw userError;
+
+		const user = userData.user;
+		if (!user) throw new Error("No user logged in.");
+
+		// Get user details from "user_details"
+		const { data: userDetails, error: userDetailsError } = await supabase
+			.from("user_details")
+			.select("id, household_id")
+			.eq("user_id", user.id)
+			.single();
+
+		if (userDetailsError) throw userDetailsError;
+
+		const householdId = userDetails.household_id;
+		if (!householdId) {
+			throw new Error("User is not linked to a household.");
+		}
+
+		// Fetch household members
+		const { data: members, error: membersError } = await supabase
+			.from("user_details")
+			.select("id, username, avatar")
+			.eq("household_id", householdId);
+		if (membersError) throw membersError;
+
+		// Fetch chores for each member
+		for (const member of members) {
+			const { data: chores, error: choresError } = await supabase
+				.from("chore_log")
+				.select("total_minutes, total_monetary_value")
+				.eq("user_detail_id", member.id);
+			if (choresError) throw choresError;
+
+			// Aggregate data
+			member.totalMinutes = chores.reduce((acc, chore) => acc + chore.total_minutes, 0);
+			member.totalValue = chores.reduce(
+				(acc, chore) => acc + chore.total_monetary_value,
+				0
+			);
+		}
+
+		return members;
+	} catch (error) {
+		console.error("Error in getHouseholdChoreOverview function:", error);
+		throw error;
+	}
+};
+
+export const getHouseholdChoreOverviewForDoubleBar = async () => {
+	try {
+		const { data: userData, error: userError } = await supabase.auth.getUser();
+		if (userError) throw userError;
+		const user = userData.user;
+		if (!user) throw new Error("No user logged in.");
+
+		const { data: userDetails, error: userDetailsError } = await supabase
+			.from("user_details")
+			.select("id, household_id")
+			.eq("user_id", user.id)
+			.single();
+
+		if (userDetailsError) throw userDetailsError;
+
+		const householdId = userDetails.household_id;
+		if (!householdId) throw new Error("User is not linked to a household.");
+
+		const { data: members, error: membersError } = await supabase
+			.from("user_details")
+			.select("id, username, avatar")
+			.eq("household_id", householdId);
+		if (membersError) throw membersError;
+
+		if (members.length !== 2)
+			throw new Error("Household does not have exactly two members.");
+
+		const { data: categoriesData, error: categoriesDataError } = await supabase
+			.from("chore_categories")
+			.select("category_id, category_name");
+		if (categoriesDataError) throw categoriesDataError;
+
+		const memberData = await Promise.all(
+			members.map(async (member) => {
+				const { data: chores, error: choresError } = await supabase
+					.from("chore_log")
+					.select("category_id, total_minutes")
+					.eq("user_detail_id", member.id);
+				if (choresError) throw choresError;
+
+				// Calculate total minutes for the member
+				const totalMinutes = chores.reduce((acc, chore) => acc + chore.total_minutes, 0);
+
+				// Map category IDs to names and calculate percentages
+				const categories = categoriesData.map((category) => {
+					const totalCategoryMinutes = chores
+						.filter((c) => c.category_id === category.category_id)
+						.reduce((acc, chore) => acc + chore.total_minutes, 0);
+					const percentage =
+						totalMinutes > 0 ? (totalCategoryMinutes / totalMinutes) * 100 : 0;
+					return {
+						category: category.category_name,
+						percentage: parseFloat(percentage.toFixed(2)),
+					};
+				});
+
+				return {
+					username: member.username,
+					categories: categories,
+				};
+			})
+		);
+
+		return memberData;
+	} catch (error) {
+		console.error("Error in getHouseholdChoreOverviewForDoubleBar function:", error);
 		throw error;
 	}
 };

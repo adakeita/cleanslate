@@ -22,11 +22,24 @@
 	justify-content: center;
 }
 
+.household-default-columns {
+	margin: 1.5em auto 0;
+	width: 80%;
+}
+
 .household-col {
 	width: 100%;
 	margin: 1em 0;
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+}
+
+.join-existing-wrapper {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	justify-content: center;
 }
 
@@ -66,11 +79,12 @@
 	background: #5bc94f77;
 }
 
-.householdform-btn {
+.householdform-btn,
+.check-household-btn {
 	width: 50%;
 	margin: 1.5em 0em;
 	border: 1.5px solid white;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 600;
 	letter-spacing: 1.2px;
 	background-color: #add09c;
@@ -79,9 +93,51 @@
 	cursor: pointer;
 }
 
-.householdform-btn:hover {
+.householdform-btn:hover,
+.check-household-btn:hover {
 	background-color: #7c966f;
 	transform: scale(1.05);
+}
+
+.household-confirm-btn-wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-evenly;
+	width: 80%;
+}
+
+.household-confirm-btn {
+	width: 30%;
+	margin: 1em 0;
+	border: 1.5px solid white;
+	font-size: 14px;
+	font-weight: normal;
+	letter-spacing: 1.2px;
+	background-color: #add09c;
+	box-shadow: 3px 5px 0px 0 rgba(0, 0, 0, 0.2);
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+}
+
+.household-confirm-btn:hover {
+	transform: scale(1.1);
+	letter-spacing: 1.2px;
+	font-weight: bold;
+}
+
+.yes-btn {
+	background-color: var(--btn-green-dark);
+	color: white;
+}
+
+.yes-btn:hover {
+	background-color: var(--btn-green-dark-hover);
+}
+
+.no-btn {
+	background-color: #c94f4f;
+	color: white;
 }
 
 .feedback-message {
@@ -89,7 +145,17 @@
 	padding: 1em 1em;
 }
 
+.check-household-inputfield {
+	width: 70%;
+	font-size: 14px;
+	padding: 1em 1em;
+}
+
+.check-household-msg {
+	text-align: center;
+	padding: 0 1em;
+}
+
 .toggle-join-create {
-	width: 100%;
-	font-size: 18px;
+	font-size: 16px;
 }

@@ -27,8 +27,51 @@
 	font-size: 14px;
 }
 
-@media screen and (max-width: 380px) {
+.household-custom-legend {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 1em auto;
+	justify-content: space-around;
+	height: 155px;
+	width: 80%;
+}
+
+.household-legend-item {
+	text-align: center;
+	display: block;
+	height: 60%;
+	width: 30%;
+}
+
+.household-legend-item img {
+	width: 100%;
+	height: 100%;
+	object-fit: scale-down;
+	border-radius: 100%;
+	background-color: white;
+}
+
+.legend-username {
+	font-family: "DM Sans", sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+@media screen and (max-width: 415px) {
 	.legend-item {
 		height: 12vh;
+	}
+
+	.household-custom-legend {
+		margin: 0.5em auto;
+		height: 135px;
+		width: 95%;
+	}
+
+	.household-legend-item img {
+		padding: 10px 5px;
 	}
 }

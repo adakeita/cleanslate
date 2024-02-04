@@ -33,9 +33,9 @@
 
 .frontpage-about {
 	text-align: center;
-	background-color: #83a775b8;
+	background-color: #83a77573;
 	padding: 0.5em 2em;
-	border-radius: 5px;
+	border-radius: 50px;
 	line-height: 1.6;
 	font-size: 17px;
 	opacity: 0;
@@ -44,7 +44,7 @@
 
 .frontpage-btn-wrapper {
 	width: 80vw;
-	margin: 3em auto;
+	margin: 1em auto 3em;
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;

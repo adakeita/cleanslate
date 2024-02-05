@@ -16,13 +16,10 @@ const HomePage = () => {
           <img src={cleanSlateHome} alt="frontpage-img" />
         </div>
         <section className="frontpage-about">
+          <p className="frontpage-about-text">Guess less, share more</p>
           <p className="frontpage-about-text">
-            CleanSlate, make your household chores fun and fair!
-          </p>
-          <p className="frontpage-about-text">
-            Log your chores, see their value in real money, and compare with
-            your partner. Discover a playful way to encourage a balanced share
-            of home tasks.
+            Discover a playful way to encourage a balanced share of home tasks
+            with CleanSlate.
           </p>
         </section>
         {!isAuthenticated && (

@@ -1,6 +1,6 @@
 .frontpage-image-wrapper {
-	width: 50vw;
-	margin: 0 auto;
+	width: 35vw;
+	margin: 2em auto;
 }
 /*@keyframes fadeIn {
 	from {
@@ -17,7 +17,8 @@
 }*/
 
 .frontpage-image-wrapper img {
-	object-fit: scale-down;
+	object-fit: cover;
+	height: 100%;
 }
 
 @keyframes slideInFromLeft {
@@ -32,12 +33,16 @@
 }
 
 .frontpage-about {
-	text-align: center;
-	background-color: #83a77573;
-	padding: 0.5em 2em;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	height: 20vh;
+	margin: 1em auto;
+	padding: 0.5em;
 	border-radius: 50px;
+	text-align: center;
 	line-height: 1.6;
-	font-size: 17px;
+	font-size: 16px;
 	opacity: 0;
 	animation: slideInFromLeft 1.2s ease-out forwards;
 }
@@ -85,13 +90,17 @@
 }
 
 .home-dashboard {
-	margin: 2em auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 1em auto 5em;
 	width: 30vw;
+	height: 10vh;
 }
 
 .home-dashboard a {
 	display: block;
-	padding: 15px 10px;
+	padding: 15px 20px;
 	text-align: center;
 }
 

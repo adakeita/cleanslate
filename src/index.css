@@ -25,15 +25,17 @@
 body {
 	margin: 0;
 	padding: 0;
-	height: 100vh;
+	height: 100%;
 	width: 100vw;
 	box-sizing: border-box;
 	overflow-x: hidden;
-	background-color: var(--bg-green);
+	background: rgb(167,192,158);
+	background: linear-gradient(177deg, rgba(167,192,158,1) 12%, rgba(74,150,220,1) 100%);
 }
 
 main {
-	margin: 3em auto;
+	margin: 0 auto;
+	overflow: hidden;
 }
 .greenpage main {
 	background-image: url("/src/assets/img/bgr-widgets.png");
@@ -103,8 +105,7 @@ button {
 
 .page-container {
 	width: 85vw;
-	min-height: 70vh;
-	margin: 0 auto;
+	margin: 2em auto;
 }
 
 .no-scroll {

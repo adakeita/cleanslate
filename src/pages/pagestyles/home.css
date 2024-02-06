@@ -72,11 +72,12 @@
 
 .homepage-btns {
 	display: block;
-	width: 30%;
+	width: 25%;
+	font-size: 23px;
 	text-align: center;
-	box-shadow: 3px 4px 0px 0px rgb(70 116 144);
+	box-shadow: 3px 4px #467490;
+	padding: 15px 10px;
 	cursor: pointer;
-	transition: all 0.3s ease-in-out;
 }
 
 .homepage-btns:hover {

@@ -5,7 +5,7 @@ import NavLink from "./NavLink";
 import { AuthContext } from "../../contexts/AuthContext";
 import hamburgerIcon from "../../assets/svg/hamburger.svg";
 import closeIcon from "../../assets/svg/close.svg";
-import logo from "../../assets/img/cs-logo2.png";
+import logo from "../../assets/img/cs-logo3.png";
 import logoutIcon from "../../assets/svg/sign-out.svg";
 import "./navbar.css";
 

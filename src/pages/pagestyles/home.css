@@ -1,6 +1,6 @@
 .frontpage-image-wrapper {
-	width: 50vw;
-	margin: 0 auto;
+	width: 35vw;
+	margin: 3em auto;
 }
 /*@keyframes fadeIn {
 	from {
@@ -17,7 +17,8 @@
 }*/
 
 .frontpage-image-wrapper img {
-	object-fit: scale-down;
+	object-fit: cover;
+	height: 100%;
 }
 
 @keyframes slideInFromLeft {
@@ -32,66 +33,97 @@
 }
 
 .frontpage-about {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	text-align: center;
-	background-color: #83a775b8;
-	padding: 0.5em 2em;
-	border-radius: 5px;
+	height: 16vh;
+	margin: 2em auto;
 	line-height: 1.6;
-	font-size: 17px;
+	font-size: 16px;
 	opacity: 0;
 	animation: slideInFromLeft 1.2s ease-out forwards;
 }
 
+.frontpage-about p {
+	margin: 0;
+	padding: 0;
+}
+
 .frontpage-btn-wrapper {
 	width: 80vw;
-	margin: 3em auto;
+	margin: 1em auto 3em;
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-around;
 	align-items: center;
 	height: 20vh;
 }
 
-.homepage-btns {
+/*.homepage-btns {
 	display: block;
 	width: 30%;
 	text-align: center;
 	box-shadow: 3px 2px 0px 0px rgb(85 102 76);
 	cursor: pointer;
 	transition: all 0.3s ease-in-out;
+}*/
+
+.homepage-btns {
+	display: block;
+	width: 25%;
+	font-size: 16px;
+	text-align: center;
+	box-shadow: 3px 4px #467490;
+	padding: 15px 10px;
+	cursor: pointer;
 }
 
 .homepage-btns:hover {
 	transform: scale(1.1);
 }
 
-.register-btn-homepage {
+/*.register-btn-homepage {
 	background: var(--btn-green);
 	border: 1.5px solid white;
+	transition: all 0.3s ease-in-out;
+}*/
+
+.register-btn-homepage {
+	background: linear-gradient(#9debf0, #2877ab);
+	border: 1.5px solid #e9eaf1;
+	color: #fff;
+	touch-action: manipulation;
 	transition: all 0.3s ease-in-out;
 }
 
 .register-btn-homepage:hover {
-	background: var(--btn-green-hover);
-	color: white;
+	background: linear-gradient(#7eacaf, #1b5072);
+	transition: all 0.3s ease-in-out;
 }
 
 .login-btn-homepage {
-	background: #ffc107;
-	border: 1.5px solid white;
+	background: linear-gradient(#bae7a9, #178194);
+	border: 1.5px solid #e9eaf1;
+	color: #fff;
+	transition: all 0.3s ease-in-out;
 }
 
 .login-btn-homepage:hover {
-	background: #c99c1b;
+	background: linear-gradient(#a4c498, #0f5b69);
 }
 
 .home-dashboard {
-	margin: 2em auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 1em auto 5em;
 	width: 30vw;
+	height: 15vh;
 }
 
 .home-dashboard a {
 	display: block;
-	padding: 15px 10px;
+	padding: 15px 20px;
 	text-align: center;
 }
 
@@ -106,22 +138,76 @@
 	background: #e6e6e6;
 }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 600px) {
+	.static-wrapper {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+
 	.frontpage-image-wrapper {
-		width: 30vw;
-		max-width: 230px;
+		width: 20vw;
 	}
 	.frontpage-btn-wrapper {
 		width: 50vw;
 		margin: 2em auto;
+		justify-content: space-around;
 	}
 	.frontpage-about {
 		margin: 2em auto;
-		width: 50vw;
-		font-size: 18px;
+		width: 35vw;
+		height: 18vh;
+		font-size: 14px;
+		justify-content: space-between;
+	}
+
+	.frontpage-about p {
+		margin: 0;
+		padding: 0;
+	}
+
+	.homepage-btns {
+		width: 30%;
+		font-size: 14px;
+		cursor: pointer;
 	}
 
 	.home-dashboard {
-		max-width: 160px;
+		margin: 1em auto 8em;
+	}
+
+	.home-dashboard a {
+		padding: 15px 30px;
+	}
+}
+
+@media screen and (min-width: 900px) {
+	.frontpage-image-wrapper {
+		width: 20vw;
+	}
+
+	.frontpage-about {
+		width: 30vw;
+		height: 25vh;
+		font-size: 17px;
+	}
+
+	.frontpage-btn-wrapper {
+		width: 40vw;
+		margin: 0 auto 4em;
+	}
+
+	.homepage-btns {
+		width: 28%;
+		font-size: 16px;
+	}
+
+	.home-dashboard {
+		margin: 1em auto 8em;
+	}
+
+	.home-dashboard a {
+		padding: 15px 30px;
 	}
 }

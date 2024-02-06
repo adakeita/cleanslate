@@ -35,12 +35,10 @@
 .frontpage-about {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
-	height: 15vh;
-	margin: 2em auto;
-	padding: 0.5em;
-	border-radius: 50px;
+	justify-content: space-between;
 	text-align: center;
+	height: 16vh;
+	margin: 2em auto;
 	line-height: 1.6;
 	font-size: 16px;
 	opacity: 0;
@@ -56,7 +54,7 @@
 	width: 80vw;
 	margin: 1em auto 3em;
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-around;
 	align-items: center;
 	height: 20vh;
 }
@@ -73,7 +71,7 @@
 .homepage-btns {
 	display: block;
 	width: 25%;
-	font-size: 23px;
+	font-size: 16px;
 	text-align: center;
 	box-shadow: 3px 4px #467490;
 	padding: 15px 10px;
@@ -140,7 +138,7 @@
 	background: #e6e6e6;
 }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 600px) {
 	.static-wrapper {
 		display: flex;
 		flex-direction: row;
@@ -154,17 +152,55 @@
 	.frontpage-btn-wrapper {
 		width: 50vw;
 		margin: 2em auto;
+		justify-content: space-around;
 	}
 	.frontpage-about {
 		margin: 2em auto;
 		width: 35vw;
-		height: 25vh;
-		font-size: 18px;
+		height: 18vh;
+		font-size: 14px;
+		justify-content: space-between;
 	}
 
 	.frontpage-about p {
 		margin: 0;
 		padding: 0;
+	}
+
+	.homepage-btns {
+		width: 30%;
+		font-size: 14px;
+		cursor: pointer;
+	}
+
+	.home-dashboard {
+		margin: 1em auto 8em;
+	}
+
+	.home-dashboard a {
+		padding: 15px 30px;
+	}
+}
+
+@media screen and (min-width: 900px) {
+	.frontpage-image-wrapper {
+		width: 20vw;
+	}
+
+	.frontpage-about {
+		width: 30vw;
+		height: 25vh;
+		font-size: 17px;
+	}
+
+	.frontpage-btn-wrapper {
+		width: 40vw;
+		margin: 0 auto 4em;
+	}
+
+	.homepage-btns {
+		width: 28%;
+		font-size: 16px;
 	}
 
 	.home-dashboard {

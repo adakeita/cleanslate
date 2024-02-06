@@ -10,8 +10,8 @@ const HomePage = () => {
   useUpdateBodyClass("/");
 
   return (
-    <>
-      <div id="homePageContainer" className="page-container">
+    <div id="homePageContainer" className="page-container">
+      <div className="static-wrapper">
         <div className="frontpage-image-wrapper">
           <img src={cleanSlateHome} alt="frontpage-img" />
         </div>
@@ -22,38 +22,38 @@ const HomePage = () => {
             with CleanSlate.
           </p>
         </section>
-        {!isAuthenticated && (
-          <div className="frontpage-btn-wrapper">
-            <Link
-              role="button"
-              to="/login"
-              className="homepage-link login-btn-homepage btn-squared homepage-btns"
-            >
-              Login
-            </Link>
-            <Link
-              role="button"
-              to="/register"
-              className="register-btn-homepage homepage-link btn-squared homepage-btns"
-            >
-              Register
-            </Link>
-          </div>
-        )}
-        {isAuthenticated && (
-          <div className="home-dashboard">
-            <Link
-              aria-roledescription="button"
-              role="burron"
-              to="/dashboard"
-              className="btn-link dashboard-btn btn-squared"
-            >
-              Dashboard
-            </Link>
-          </div>
-        )}
       </div>
-    </>
+      {!isAuthenticated && (
+        <div className="frontpage-btn-wrapper">
+          <Link
+            role="button"
+            to="/login"
+            className="homepage-link login-btn-homepage btn-squared homepage-btns"
+          >
+            Login
+          </Link>
+          <Link
+            role="button"
+            to="/register"
+            className="register-btn-homepage homepage-link btn-squared homepage-btns"
+          >
+            Register
+          </Link>
+        </div>
+      )}
+      {isAuthenticated && (
+        <div className="home-dashboard">
+          <Link
+            aria-roledescription="button"
+            role="burron"
+            to="/dashboard"
+            className="btn-link dashboard-btn btn-squared"
+          >
+            Dashboard
+          </Link>
+        </div>
+      )}
+    </div>
   );
 };
 

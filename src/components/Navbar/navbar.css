@@ -16,7 +16,7 @@ header {
 	height: 100%;
 	width: 90%;
 	display: flex;
-	margin: 2em auto 0 auto;
+	margin: 1em auto 0 auto;
 	align-items: center;
 	justify-content: space-between;
 }

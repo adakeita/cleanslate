@@ -51,7 +51,8 @@ main {
 }
 
 .bluepage {
-	background-color: var(--bg-blue);
+	background: rgb(199, 217, 244);
+	background: linear-gradient(180deg, rgba(199, 217, 244, 1) 10%, rgb(37 128 213) 75%);
 }
 
 .bluepage main {

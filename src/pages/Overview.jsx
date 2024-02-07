@@ -18,7 +18,7 @@ const OverviewPage = () => {
 
   const dateFilterOptions = ["day", "week", "month", "year", "all"].map(
     (option) => (
-      <label key={option}>
+      <label className="datefilter-label" key={option}>
         <input
           type="radio"
           name="dateFilter"
@@ -66,18 +66,24 @@ const OverviewPage = () => {
     fetchData();
   }, [filter]);
 
-  const hasNoData = overviewData.length === 0;
+  const hasNoData = overviewData.every(
+    (item) => item.total_minutes === 0 && item.total_monetary_value === 0
+  );
 
   return (
     <div className="page-container">
       <h1 className="user-overview-title">
         {userDetails?.username}&apos;s Overview
       </h1>
-      <div className="date-filter-options">{dateFilterOptions}</div>
+      <div className="datefilter-wrapper">
+        <div className="date-filter-options">{dateFilterOptions}</div>
+      </div>
       {hasNoData ? (
-        <div className="no-data-message">
-          <p>Nothing to see here yet!</p>
-          <p>Start logging your chores to see them appear here.</p>
+        <div className="no-data-wrapper">
+          <div className="no-data-message">
+            <p>Nothing to see here yet!</p>
+            <p>Start logging your work to see it appear here.</p>
+          </div>
         </div>
       ) : (
         <>

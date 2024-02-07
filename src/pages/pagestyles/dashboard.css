@@ -19,12 +19,10 @@
 
 .dashboard-name-dropdown {
 	width: 100%;
-	max-height: 20vh;
 	transition: all 0.5s ease-in-out;
 }
 
 .dashboard-name-dropdown.dropdown-open {
-	max-height: 45vh;
 	transition: all 0.5s ease-in-out;
 }
 
@@ -41,23 +39,30 @@
 }
 
 .overviews {
-	margin: 2.5em auto;
+	display: flex;
+	margin: 1.5em auto;
+	height: 25vh;
+	flex-direction: column;
+	justify-content: space-around;
 }
 
 .overview-title {
+	background: #ffffffba;
+	border-radius: 10px;
+	letter-spacing: 1.3px;
+	padding: 0.5em 0.3em;
 	text-align: left;
 	width: 60vw;
 	max-width: 265px;
 	margin: 0.7em auto;
+	box-shadow: 3px 3px 1px 0px #839c95;
 }
 
 .overview-btn-container {
-	max-width: 265px;
-	margin: auto;
 	display: flex;
 	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
+	justify-content: space-around;
+	align-items: stretch;
 }
 
 .overview-btn-img-container {
@@ -97,7 +102,6 @@
 	}
 
 	.dashboard-name-dropdown.dropdown-open {
-		max-height: 50vh;
 	}
 
 	.overview-title {

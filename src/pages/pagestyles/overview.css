@@ -3,6 +3,7 @@
 	padding: 1em 1em 2em;
 	border-radius: 0px 0px 20px 20px;
 	box-shadow: var(--blue-shadow);
+	max-width: 380px;
 }
 
 .no-data-message {

@@ -40,7 +40,7 @@ main {
 
 .greenpage {
 	background: rgb(167, 192, 158);
-	background: linear-gradient(180deg, rgba(167, 192, 158, 1) 10%, rgba(74, 150, 220, 1) 100%);
+	background: linear-gradient(180deg, rgba(167, 192, 158, 1) 6%, rgba(0, 133, 255, 1) 75%);
 }
 
 .greenpage main {
@@ -63,8 +63,8 @@ main {
 }
 
 .yellowpage {
-	background: rgb(254, 229, 129);
-	background: linear-gradient(177deg, rgba(254, 229, 129, 1) 0%, rgba(74, 150, 220, 1) 80%);
+	background: rgb(167, 192, 158);
+	background: linear-gradient(180deg, rgba(167, 192, 158, 1) 6%, rgba(0, 133, 255, 1) 75%);
 }
 .yellowpage main {
 	background-image: url(/src/assets/img/dashboard-widgets.png);

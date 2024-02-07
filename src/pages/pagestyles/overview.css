@@ -4,6 +4,7 @@
 	border-radius: 0px 0px 20px 20px;
 	box-shadow: var(--blue-shadow);
 	max-width: 380px;
+	margin: 0 auto;
 }
 
 .no-data-message {

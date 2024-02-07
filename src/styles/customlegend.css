@@ -1,18 +1,22 @@
 .custom-legend {
-	max-width: 300px;
+	height: 250px;
+	width: 20%;
+	/* width: 250px; */
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	align-items: center;
-	margin: 1em auto;
-	padding: 1em 0 0;
+	/* margin: 1em auto; */
+	/* padding: 1em 0 0; */
+	justify-content: space-between;
 }
 
 .legend-item {
 	text-align: center;
 	display: flex;
-	height: 10vh;
-	width: 25%;
+	height: 20vh;
+	width: 90%;
 	flex-direction: column;
+	align-items: stretch;
 }
 
 .legend-color {
@@ -24,7 +28,7 @@
 .legend-label {
 	font-family: "DM Sans", sans-serif;
 	font-weight: bold;
-	font-size: 14px;
+	font-size: 12px;
 }
 
 .household-custom-legend {

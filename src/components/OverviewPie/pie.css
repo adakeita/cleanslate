@@ -1,8 +1,10 @@
 .datefilter-wrapper {
     background-color: var(--grey-frame);
+    margin: 0 auto;
     padding: 1em 1em 0.5em;
     border-radius: 20px 20px 0px 0px;
     box-shadow: 3px 4px 0px 0px #617189;
+    max-width: 380px;
 }
 
 .date-filter-options {

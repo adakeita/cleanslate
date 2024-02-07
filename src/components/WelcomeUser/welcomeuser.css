@@ -3,6 +3,7 @@
 	flex-direction: column;
 	align-items: flex-start;
 	justify-content: space-between;
+	text-align: center;
 }
 
 .welcome-content-container {
@@ -11,34 +12,34 @@
 	align-items: flex-start;
 	padding: 0 1em;
 	margin: 0 auto;
-	background: #83a77596;
 }
 
 .welcome-btn {
 	display: block;
 	width: 40%;
 	margin: 1.5em auto;
-	border: 1.5px solid white;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 600;
 	letter-spacing: 1.2px;
-	background-color: var(--btn-green);
+	background: linear-gradient(#bae7a9, #178194);
+	border: 2px solid #e9eaf1;
 	box-shadow: 3px 5px 0px 0 rgba(0, 0, 0, 0.2);
 	transition: all 0.3s ease-in-out;
 	cursor: pointer;
+}
+
+.welcome-btn:hover {
+	background: linear-gradient(#a4c498, #0f5b69);
+	transform: scale(1.05);
 }
 
 .privacy-txt a {
 	font-weight: bold;
 }
 
-.welcome-btn:hover {
-	background-color: var(--btn-green-hover);
-	transform: scale(1.05);
-}
-
 @media screen and (max-width: 450px) {
 	.welcome-btn {
-		width: 75%;
+		width: 60%;
+		margin: 2em auto 1em;
 	}
 }

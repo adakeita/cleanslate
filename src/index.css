@@ -1,10 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Serif+Display&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
 
 :root {
-	--bg-green: #83a775;
+	--bg-green: rgb(167, 192, 158);
 	--bg-blue: #8295b2;
 	--blue-shadow: 3px 4px 1px 0px #5b6b82da;
-	--bg-yellow: #d1b07b;
+	--bg-yellow: #e9dc8c;
 	--yellow-shadow: 3px 3.5px 2px 0px rgba(117, 97, 65, 0.92);
 	--btn-green: #c6f6b3;
 	--btn-green-dark: #486b3a;
@@ -25,17 +26,23 @@
 body {
 	margin: 0;
 	padding: 0;
-	height: 100vh;
+	height: 100%;
 	width: 100vw;
 	box-sizing: border-box;
 	overflow-x: hidden;
-	background-color: var(--bg-green);
 }
 
 main {
 	margin: 0 auto;
+	min-height: 90vh;
 	overflow: hidden;
 }
+
+.greenpage {
+	background: rgb(167, 192, 158);
+	background: linear-gradient(180deg, rgba(167, 192, 158, 1) 10%, rgba(74, 150, 220, 1) 100%);
+}
+
 .greenpage main {
 	background-image: url("/src/assets/img/bgr-widgets.png");
 	background-position: bottom;
@@ -44,7 +51,8 @@ main {
 }
 
 .bluepage {
-	background-color: var(--bg-blue);
+	background: rgb(199, 217, 244);
+	background: linear-gradient(180deg, rgba(199, 217, 244, 1) 10%, rgb(37 128 213) 75%);
 }
 
 .bluepage main {
@@ -55,13 +63,15 @@ main {
 }
 
 .yellowpage {
-	background-color: var(--bg-yellow);
+	background: rgb(254, 229, 129);
+	background: linear-gradient(177deg, rgba(254, 229, 129, 1) 0%, rgba(74, 150, 220, 1) 80%);
 }
 .yellowpage main {
-	background-image: url("/src/assets/img/dashboard-widgets.png");
+	background-image: url(/src/assets/img/dashboard-widgets.png);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: initial;
+	overflow-y: scroll;
 }
 
 img {
@@ -70,15 +80,15 @@ img {
 }
 
 h1 {
-	font-family: "DM Serif Display";
+	font-family: "Abril Fatface";
 }
 
 h2 {
-	font-family: "DM Serif Display";
+	font-family: "Abril Fatface";
 }
 
 h3 {
-	font-family: "DM Serif Display";
+	font-family: "Abril Fatface";
 }
 
 a {
@@ -104,7 +114,8 @@ button {
 
 .page-container {
 	width: 85vw;
-	margin: 2em auto;
+	height: 100%;
+	margin: 5em auto;
 }
 
 .no-scroll {
@@ -137,6 +148,7 @@ button {
 @media (min-width: 450px) {
 	.page-container {
 		width: 80vw;
+		margin: 0.5em auto;
 	}
 
 	.greenpage main {

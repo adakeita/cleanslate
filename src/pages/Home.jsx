@@ -10,53 +10,50 @@ const HomePage = () => {
   useUpdateBodyClass("/");
 
   return (
-    <>
-      <div id="homePageContainer" className="page-container">
+    <div id="homePageContainer" className="page-container">
+      <div className="static-wrapper">
         <div className="frontpage-image-wrapper">
           <img src={cleanSlateHome} alt="frontpage-img" />
         </div>
         <section className="frontpage-about">
+          <p className="frontpage-about-text">Guess less, share more</p>
           <p className="frontpage-about-text">
-            CleanSlate, make your household chores fun and fair!
-          </p>
-          <p className="frontpage-about-text">
-            Log your chores, see their value in real money, and compare with
-            your partner. Discover a playful way to encourage a balanced share
-            of home tasks.
+            Discover a playful way to encourage a balanced share of home tasks
+            with CleanSlate.
           </p>
         </section>
-        {!isAuthenticated && (
-          <div className="frontpage-btn-wrapper">
-            <Link
-              role="button"
-              to="/login"
-              className="homepage-link login-btn-homepage btn-squared homepage-btns"
-            >
-              Login
-            </Link>
-            <Link
-              role="button"
-              to="/register"
-              className="register-btn-homepage homepage-link btn-squared homepage-btns"
-            >
-              Register
-            </Link>
-          </div>
-        )}
-        {isAuthenticated && (
-          <div className="home-dashboard">
-            <Link
-              aria-roledescription="button"
-              role="burron"
-              to="/dashboard"
-              className="btn-link dashboard-btn btn-squared"
-            >
-              Dashboard
-            </Link>
-          </div>
-        )}
       </div>
-    </>
+      {!isAuthenticated && (
+        <div className="frontpage-btn-wrapper">
+          <Link
+            role="button"
+            to="/login"
+            className="homepage-link login-btn-homepage btn-squared homepage-btns"
+          >
+            Login
+          </Link>
+          <Link
+            role="button"
+            to="/register"
+            className="register-btn-homepage homepage-link btn-squared homepage-btns"
+          >
+            Register
+          </Link>
+        </div>
+      )}
+      {isAuthenticated && (
+        <div className="home-dashboard">
+          <Link
+            aria-roledescription="button"
+            role="burron"
+            to="/dashboard"
+            className="btn-link dashboard-btn btn-squared"
+          >
+            Dashboard
+          </Link>
+        </div>
+      )}
+    </div>
   );
 };
 

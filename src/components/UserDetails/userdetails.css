@@ -31,8 +31,8 @@
 	height: 75px;
 	margin: 0 0.5em;
 	padding: 20px 10px;
-	background-color: white;
-	border: 1px solid white;
+	background-color: #e9eaf1;
+	border: 1px solid #e9eaf1;
 	border-radius: 10px;
 	cursor: pointer;
 	transition: all 0.3s ease-in-out;
@@ -64,19 +64,20 @@
 
 .complete-user-btn {
 	width: 50%;
-	margin: 1.5em 0em;
-	border: 1.5px solid white;
+	margin: 1.5em auto;
+	background: linear-gradient(#bae7a9, #178194);
+	border: 2px solid #e9eaf1;
+	color: #e9eaf1;
 	font-size: 16px;
 	font-weight: 600;
 	letter-spacing: 1.2px;
-	background-color: #add09c;
 	box-shadow: 3px 5px 0px 0 rgba(0, 0, 0, 0.2);
 	transition: all 0.3s ease-in-out;
 	cursor: pointer;
 }
 
 .complete-user-btn:hover {
-	background-color: #7c966f;
+	background: linear-gradient(#a4c498, #0f5b69);
 	transform: scale(1.05);
 }
 

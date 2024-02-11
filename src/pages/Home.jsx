@@ -16,11 +16,11 @@ const HomePage = () => {
           <img src={cleanSlateHome} alt="frontpage-img" />
         </div>
         <section className="frontpage-about">
-          <p className="frontpage-about-text">Guess less, share more</p>
-          <p className="frontpage-about-text">
-            Discover a playful way to encourage a balanced share of home tasks
-            with CleanSlate.
+          <h1 className="header">Guess less, share more</h1>
+          <p className="about-text">
+            Discover a playful way to a balanced of home tasks
           </p>
+          <p className="about-text">with CleanSlate.</p>
         </section>
       </div>
       {!isAuthenticated && (

@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Serif+Display&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap");
 
 :root {
 	--bg-green: rgb(167, 192, 158);
@@ -39,8 +40,8 @@ main {
 }
 
 .greenpage {
-	background: rgb(167, 192, 158);
-	background: linear-gradient(180deg, rgba(167, 192, 158, 1) 10%, rgba(74, 150, 220, 1) 100%);
+	background: rgb(246, 250, 249);
+	background: linear-gradient(180deg, rgba(246, 250, 249, 1) 10%, rgba(191, 236, 226, 1) 40%);
 }
 
 .greenpage main {
@@ -59,12 +60,12 @@ main {
 	background-image: url("/src/assets/img/dashboard-widgets.png");
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: contain;
+	background-size: inherit;
 }
 
 .yellowpage {
-	background: rgb(254, 229, 129);
-	background: linear-gradient(177deg, rgba(254, 229, 129, 1) 0%, rgba(74, 150, 220, 1) 80%);
+	background: rgb(139, 223, 207);
+	background: linear-gradient(180deg, rgba(139, 223, 207, 1) 4%, rgba(193, 227, 151, 1) 70%);
 }
 .yellowpage main {
 	background-image: url(/src/assets/img/dashboard-widgets.png);
@@ -80,15 +81,18 @@ img {
 }
 
 h1 {
-	font-family: "Abril Fatface";
+	font-family: "Montserrat";
+	font-weight: 700;
 }
 
 h2 {
-	font-family: "Abril Fatface";
+	font-family: "Montserrat";
+	font-weight: 600;
 }
 
 h3 {
-	font-family: "Abril Fatface";
+	font-family: "Montserrat";
+	font-weight: 400;
 }
 
 a {
@@ -113,9 +117,8 @@ button {
 }
 
 .page-container {
-	width: 85vw;
 	height: 100%;
-	margin: 5em auto;
+	margin: 2em auto;
 }
 
 .no-scroll {
@@ -151,10 +154,8 @@ button {
 		margin: 0.5em auto;
 	}
 
-	.greenpage main {
-		background-image: url("/src/assets/img/bgr-widgets.png");
-		background-position: bottom;
-		background-repeat: repeat-x;
-		background-size: initial;
+	.greenpage {
+		background: rgb(246, 250, 249);
+		background: linear-gradient(180deg, rgba(246, 250, 249, 1) 4%, rgba(191, 236, 226, 1) 70%);
 	}
 }

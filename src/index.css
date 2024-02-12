@@ -1,12 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Serif+Display&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap");
 
 :root {
 	--bg-green: rgb(167, 192, 158);
 	--bg-blue: #8295b2;
+	--bg-green-gradient: linear-gradient(180deg, rgba(246, 250, 249, 1) 10%, rgba(191, 236, 226, 1) 40%);
+	--btn-green-gradient: linear-gradient(30deg, rgba(193, 227, 151, 1) 15%, rgba(179, 241, 229, 1) 75%);
+	--bg-green-border: 1.5px solid #93b0aa;
+	--bg-green-shadow: 2px 2px 2px 0px #688c84;
+	--navbar-green-gradient: linear-gradient(180deg, rgb(241 247 246) 15%, rgb(184 235 224) 100%);
 	--blue-shadow: 3px 4px 1px 0px #5b6b82da;
 	--bg-yellow: #e9dc8c;
 	--yellow-shadow: 3px 3.5px 2px 0px rgba(117, 97, 65, 0.92);
+	--btn-blue-gradient: linear-gradient(30deg, rgba(191, 223, 247, 1) 15%, rgba(218, 201, 221, 1) 75%);
 	--btn-green: #c6f6b3;
 	--btn-green-dark: #486b3a;
 	--btn-green-hover: #738e68;
@@ -14,7 +20,6 @@
 	--btn-teal: #78a7a1;
 	--btn-teal-hover: #5f8b89;
 	--grey-frame: rgba(255, 255, 255, 0.599);
-
 	--smooth-transition: all 0.3s ease-in-out;
 }
 
@@ -34,20 +39,33 @@ body {
 
 main {
 	margin: 0 auto;
-	min-height: 90vh;
+	min-height: 95vh;
 	overflow: hidden;
 }
 
+.frontpage {
+	background: rgb(246, 250, 249);
+	background: var(--bg-green-gradient);
+}
+
+.frontpage main {
+	height: 90vh;
+	background-image: url("/src/assets/img/bgr-widgets.png");
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-size: 900px 415px;
+}
+
 .greenpage {
-	background: rgb(167, 192, 158);
-	background: linear-gradient(180deg, rgba(167, 192, 158, 1) 6%, rgba(0, 133, 255, 1) 75%);
+	background: rgb(246, 250, 249);
+	background: var(--bg-green-gradient);
 }
 
 .greenpage main {
 	background-image: url("/src/assets/img/bgr-widgets.png");
 	background-position: bottom;
 	background-repeat: no-repeat;
-	background-size: contain;
+	background-size: inherit;
 }
 
 .bluepage {
@@ -59,12 +77,12 @@ main {
 	background-image: url("/src/assets/img/dashboard-widgets.png");
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: contain;
+	background-size: inherit;
 }
 
 .yellowpage {
-	background: rgb(167, 192, 158);
-	background: linear-gradient(180deg, rgba(167, 192, 158, 1) 6%, rgba(0, 133, 255, 1) 75%);
+	background: rgb(139, 223, 207);
+	background: linear-gradient(180deg, rgba(139, 223, 207, 1) 4%, rgba(193, 227, 151, 1) 70%);
 }
 .yellowpage main {
 	background-image: url(/src/assets/img/dashboard-widgets.png);
@@ -80,15 +98,18 @@ img {
 }
 
 h1 {
-	font-family: "Abril Fatface";
+	font-family: "Montserrat";
+	font-weight: 700;
 }
 
 h2 {
-	font-family: "Abril Fatface";
+	font-family: "Montserrat";
+	font-weight: 600;
 }
 
 h3 {
-	font-family: "Abril Fatface";
+	font-family: "Montserrat";
+	font-weight: 400;
 }
 
 a {
@@ -113,9 +134,9 @@ button {
 }
 
 .page-container {
-	width: 85vw;
+	width: 90%;
 	height: 100%;
-	margin: 5em auto;
+	margin: 2em auto;
 }
 
 .no-scroll {
@@ -133,28 +154,44 @@ button {
 	border: 0;
 }
 
+.btn {
+	font-family: "Montserrat";
+	font-weight: 600;
+}
+
 .btn-rounded {
 	border-radius: 30px;
-	border: 1px solid black;
 	padding: 1em 2em;
 }
 
 .btn-squared {
-	font-family: "DM Serif Display";
+	font-family: "Montserrat";
+	font-weight: 600;
 	border-radius: 10px;
-	padding: 10px 5px;
 }
 
-@media (min-width: 450px) {
+@media (min-width: 500px) {
 	.page-container {
 		width: 80vw;
 		margin: 0.5em auto;
 	}
 
-	.greenpage main {
-		background-image: url("/src/assets/img/bgr-widgets.png");
-		background-position: bottom;
+	.frontpage {
+		background: rgb(246, 250, 249);
+		background: linear-gradient(180deg, rgba(246, 250, 249, 10) 0%, rgba(191, 236, 226) 60%);
+	}
+
+	.frontpage main {
+		background-size: 800px 350px;
 		background-repeat: repeat-x;
-		background-size: initial;
+	}
+
+	.greenpage {
+		background: rgb(246, 250, 249);
+		background: linear-gradient(180deg, rgba(246, 250, 249, 10) 0%, rgb(181 243 229) 60%);
+	}
+
+	.greenpage main {
+		background-size: contain;
 	}
 }

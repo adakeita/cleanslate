@@ -6,8 +6,7 @@ const AboutPage = () => {
         <div className="about-page">
             <section className="frontpage-about">
                 <h1 className="frontpage-header">Welcome to CleanSlate</h1>
-                <p className="frontpage-about-text">
-
+                <p className="about-text">
                     Welcome to CleanSlate, where we make household chores fun and fair! Track your tasks, see their value as if they were paid, and compare with your partner. Discover a balanced home life with our easy-to-use app, designed for teamwork and appreciation. Join us in celebrating and equalizing the unseen efforts of home life!
                     Designed for two, but functional for one or many, CleanSlate turns the often-overlooked unpaid home tasks into something you can track and value.
                 </p>

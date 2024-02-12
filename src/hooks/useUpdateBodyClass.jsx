@@ -4,6 +4,9 @@ export const useUpdateBodyClass = (pathname) => {
     useEffect(() => {
         switch (pathname) {
             case '/':
+                document.body.className = 'greenpage';
+                document.body.className = 'frontpage';
+                break;
             case '/about':
             case '/completeprofile':
                 document.body.className = 'greenpage';

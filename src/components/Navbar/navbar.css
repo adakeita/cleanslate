@@ -10,13 +10,14 @@ header {
 	justify-content: space-between;
 	display: flex;
 	flex-direction: column;
+	box-shadow: 1px 1px 6px 1px #b9c6c3cc;
 }
 
 .logo-burger-row {
 	height: 100%;
 	width: 90%;
 	display: flex;
-	margin: 1em auto 0 auto;
+	margin: 0.5em auto;
 	align-items: center;
 	justify-content: space-between;
 }
@@ -27,7 +28,7 @@ header {
 }
 
 .logo-wrapper {
-	width: 60px;
+	width: 40px;
 	padding: 0;
 	transition: var(--smooth-transition);
 }
@@ -43,7 +44,8 @@ header {
 }
 
 .menu-icon-wrapper {
-	width: 60px;
+	width: 40px;
+	padding: 0;
 	background: none;
 	border: none;
 	transition: all 0.3s ease-in-out;
@@ -61,15 +63,16 @@ header {
 	left: 0;
 	z-index: 10;
 	opacity: 0;
-	background-color: var(--bg-green);
+	background-color: var(--navbar-green-gradient);
 	max-height: 0;
-	border-bottom: 2px ridge #ffffff75;
 	overflow: hidden;
-	transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+	transition:
+		max-height 0.5s ease-in-out,
+		opacity 0.5s ease-in-out;
 }
 
 .greenpage .nav-wrapper {
-	background-color: var(--bg-green);
+	background: var(--navbar-green-gradient);
 }
 
 .bluepage .nav-wrapper {
@@ -83,19 +86,23 @@ header {
 .open {
 	opacity: 1;
 	max-height: 210px;
-	transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+	transition:
+		max-height 0.5s ease-in-out,
+		opacity 0.5s ease-in-out;
 }
 
 .small {
 	max-height: 115px;
-	transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+	transition:
+		max-height 0.4s ease-in-out,
+		opacity 0.4s ease-in-out;
 }
 
 .navlist {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	padding: 0.5em 1em 1em;
+	padding: 0 2em 1em;
 }
 
 .nav-item {
@@ -117,8 +124,12 @@ nav a {
 	letter-spacing: 2.2px;
 }
 
+.navitem-link:active {
+	background-color: #90e2cf82;
+}
+
 .nav-item a:hover {
-	background-color: rgba(255, 255, 255, 0.178);
+	background-color: #fcfdfcd6;
 	text-indent: 1em;
 	transition: text-indent 0.3s ease-in-out;
 	padding-right: 1em;

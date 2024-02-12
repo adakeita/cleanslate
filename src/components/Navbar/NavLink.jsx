@@ -12,7 +12,8 @@ const NavLink = ({ to, children, onClose }) => {
                     textDecoration: 'underline 1px rgb(255 255 255 / 64%)',
                     paddingRight: '1em',
                     textIndent: '1em',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    backgroundColor:"#90e2cf82"
                 }
             }}
             inactiveProps={{

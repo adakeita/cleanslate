@@ -4,7 +4,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	width: 90%;
+	width: 95%;
 	max-width: 400px;
 	height: 100%;
 	padding: 2em 0em;
@@ -23,7 +23,7 @@
 }
 
 .household-default-columns {
-	margin: 1.5em auto 0;
+	margin: 1em auto 0;
 	width: 80%;
 }
 
@@ -82,12 +82,13 @@
 .householdform-btn,
 .check-household-btn {
 	width: 50%;
-	margin: 1.5em 0em;
-	border: 1.5px solid white;
+	margin: 1em 0em;
 	font-size: 14px;
 	font-weight: 600;
 	letter-spacing: 1.2px;
-	background-color: #add09c;
+	background: linear-gradient(#bae7a9, #178194);
+	border: 2px solid #e9eaf1;
+	color: #ebecf2;
 	box-shadow: 3px 5px 0px 0 rgba(0, 0, 0, 0.2);
 	transition: all 0.3s ease-in-out;
 	cursor: pointer;
@@ -157,5 +158,16 @@
 }
 
 .toggle-join-create {
-	font-size: 16px;
+	text-align: center;
+    font-size: 17px;
+    margin: auto;
+    width: 80%;
+	max-width: 400px;
+}
+
+@media screen and (max-width: 450px) {
+	.householdform-btn {
+		width: 60%;
+		margin: 0.5em auto 1em;
+	}
 }

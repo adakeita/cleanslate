@@ -5,11 +5,12 @@ header {
 }
 
 .header-content {
-	position: relative;
-	margin: 0 auto;
-	justify-content: space-between;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
+	margin: 0 auto;
+	position: relative;
+	background: white;
 	box-shadow: 1px 1px 6px 1px #b9c6c3cc;
 }
 
@@ -69,6 +70,10 @@ header {
 	transition:
 		max-height 0.5s ease-in-out,
 		opacity 0.5s ease-in-out;
+}
+
+.frontpage .nav-wrapper {
+	background: var(--bg-green-gradient);
 }
 
 .greenpage .nav-wrapper {

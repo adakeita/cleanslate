@@ -1,8 +1,10 @@
 import LoginForm from "../components/LoginForm";
+import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
 
 const LoginPage = () => {
+    useUpdateBodyClass("/login");
     return (
-        <div className="login">
+        <div id="loginPage" className="page-container">
             <LoginForm />
         </div>
     );

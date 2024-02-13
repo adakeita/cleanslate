@@ -51,14 +51,14 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
-	height: 45%;
+	height: 40%;
 	width: 80%;
 }
 
 .about-wrapper_frontpage {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;
+	justify-content: space-between;
 	text-align: center;
 	height: 40%;
 	opacity: 0;
@@ -89,10 +89,9 @@
 	width: 30%;
 	padding: 15px;
 	font-size: 16px;
+	font-weight: bold;
 	border-radius: 20px;
-	font-family: "Montserrat";
-	font-weight: 700;
-	letter-spacing: 1.1px;
+	letter-spacing: 1.2px;
 	text-align: center;
 	box-shadow: var(--bg-green-shadow);
 	cursor: pointer;
@@ -126,19 +125,18 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: 1em auto;
+	height: 30%;
+	width: 100%;
 }
 
 .home-dashboard a {
 	display: block;
+	font-weight: bold;
 	background: var(--btn-blue-gradient);
+	padding: 15px;
 	border: 1.5px solid #93b0aa;
-	font-family: "montserrat", sans-serif;
-	font-weight: 600;
-	font-size: 17px;
 	letter-spacing: 1.2px;
-	padding: 15px 20px;
-	text-align: center;
+	border-radius: 20px;
 	cursor: pointer;
 	box-shadow: 3px 2px 0px 0px rgb(132 172 163 / 85%);
 }
@@ -147,26 +145,42 @@
 	background: #e6e6e6;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (max-width: 390px) {
+	.about-wrapper_frontpage {
+		justify-content: space-around;
+		height: 55%;
+	}
+
+	.about_frontpage {
+		height: 55%;
+	}
+
+	.btns-about_frontpage {
+		justify-content: space-evenly;
+		height: 45%;
+	}
+}
+
+@media screen and (min-width: 635px) {
 	#homePage {
-		max-width: 900px;
 		padding: 0;
 		width: 90vw;
 		height: 100%;
 	}
 
 	.content-container {
+		max-width: 900px;
 		flex-direction: row;
-		height: 80%;
+		height: 50%;
 		width: 100%;
 	}
 
 	.frontpage-image-wrapper {
 		display: flex;
-		width: 40%;
-		height: 80%;
-		margin: 0;
 		align-items: center;
+		margin-right: 1.5em;
+		width: 55%;
+		height: 100%;
 	}
 
 	.frontpage-image-wrapper img {
@@ -175,87 +189,92 @@
 	}
 
 	.btns-about_frontpage {
-		height: 60%;
-		width: 60%;
-		justify-content: space-evenly;
-		padding: 0 2em;
+		height: 80%;
+		width: 40%;
+		justify-content: space-around;
+		padding: 0 1em;
 	}
 
 	.about-wrapper_frontpage {
 		margin: 0;
+		text-align: left;
 		width: 100%;
-		height: 35%;
-		font-size: 16px;
+		height: 45%;
 		animation: slideInFromTop 1.2s ease-out forwards;
+	}
+
+	.header_frontpage {
+		margin: 0;
+		font-size: 24px;
 	}
 
 	.about-text_frontpage {
 		margin: 0;
 		padding: 0;
+		font-size: 17.5px;
 	}
 
 	.frontpage-btn-wrapper {
-		height: 25%;
-		justify-content: space-evenly;
-	}
-
-	.homepage-btns {
-		width: 25%;
-		padding: 10px 5px;
-		font-size: 14px;
-		cursor: pointer;
-	}
-
-	.home-dashboard {
-		margin: 2em auto;
-	}
-
-	.home-dashboard a {
-		padding: 15px 20px;
-		font-size: 15px;
-	}
-}
-
-@media screen and (min-width: 950px) {
-	#homePage {
-	}
-
-	.frontpage-image-wrapper {
-		height: 75%;
-	}
-
-	.btns-about_frontpage {
-		height: 70%;
-		width: 65%;
-		justify-content: space-evenly;
-		padding: 0 2em;
-	}
-
-	.btns-about_frontpage h1 {
-		font-size: 29px;
-	}
-
-	.about-wrapper_frontpage {
-		height: 45%;
-	}
-
-	.about-text_frontpage {
-		font-size: 19px;
-	}
-
-	.frontpage-btn-wrapper {
-		height: 25%;
-		justify-content: space-around;
+		justify-content: space-between;
 	}
 
 	.homepage-btns {
 		margin: 0 0.5em;
-		width: 25%;
-		font-size: 15px;
-		padding: 15px 0px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 5px;
+		width: 100px;
+		height: 35px;
+		font-size: 14px;
+		font-weight: bold;
+		cursor: pointer;
+	}
+
+	.home-dashboard {
+		display: flex;
+		justify-content: flex-start;
+		height: 20%;
 	}
 
 	.home-dashboard a {
-		font-size: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+	}
+}
+
+@media screen and (min-width: 930px) {
+	.content-container {
+	
+	}
+	
+	.frontpage-image-wrapper {
+		margin-right: 2.5em;
+	}
+
+	.btns-about_frontpage {
+		justify-content: space-evenly;
+		height: 100%;
+		width: 45%;
+		padding: 0;
+	}
+
+	.btns-about_frontpage h1 {
+		font-size: 30px;
+	}
+
+	.about-text_frontpage {
+		font-size: 22px;
+	}
+
+	.frontpage-btn-wrapper {
+		justify-content: space-between;
+	}
+
+	.homepage-btns {
+		margin: 0 0.5em;
+		width: 38%;
+		font-size: 19px;
 	}
 }

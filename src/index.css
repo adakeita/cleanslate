@@ -80,11 +80,11 @@ main {
 	background-size: inherit;
 }
 
-.yellowpage {
+.purplepage {
 	background: rgb(139, 223, 207);
 	background: linear-gradient(180deg, rgba(139, 223, 207, 1) 4%, rgba(193, 227, 151, 1) 70%);
 }
-.yellowpage main {
+.purplepage main {
 	background-image: url(/src/assets/img/dashboard-widgets.png);
 	background-position: center;
 	background-repeat: no-repeat;

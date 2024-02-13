@@ -81,15 +81,15 @@ main {
 }
 
 .purplepage {
-	background: rgb(139, 223, 207);
-	background: linear-gradient(180deg, rgba(139, 223, 207, 1) 4%, rgba(193, 227, 151, 1) 70%);
+	background: rgb(191, 223, 247);
+	background: linear-gradient(80deg, rgba(191, 223, 247, 1) 20%, rgba(218, 201, 221, 1) 80%);
 }
 .purplepage main {
-	background-image: url(/src/assets/img/dashboard-widgets.png);
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: initial;
-	overflow-y: scroll;
+	height: 80vh;
+	background-image: url("/src/assets/img/bgr-widgets.png");
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-size: 900px 415px;
 }
 
 img {
@@ -115,7 +115,7 @@ h3 {
 a {
 	color: black;
 	font-family: "montserrat", sans-serif;
-	font-weight: 500;
+	font-weight: 600;
 	text-decoration: none;
 }
 

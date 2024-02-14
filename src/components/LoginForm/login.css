@@ -96,3 +96,25 @@
 	background-color: var(--btn-green-hover);
 	transform: scale(1.05);
 }
+
+@media screen and (min-width: 635px) {
+	.loginform {
+		width: 55vw;
+		max-width: 400px;
+		max-height: 400px;
+		padding: 2em 0;
+	}
+
+	.inputfield-wrapper_login {
+		width: 95%;
+	}
+
+	.inputfield_login {
+		font-size: 16px;
+	}
+
+	.login-btn {
+		width: 50%;
+		height: 3em;
+	}
+}

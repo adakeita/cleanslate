@@ -70,7 +70,7 @@ const Navbar = () => {
           }`}
         >
           <nav role="navigation" className="navigation">
-            <ul className="navlist">
+            <ul className={`navlist ${!isAuthenticated ? "default" : ""}`}>
               <li className="nav-item">
                 <NavLink to="/" onClose={closeMenu}>
                   Home

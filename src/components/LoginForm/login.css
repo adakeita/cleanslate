@@ -20,7 +20,9 @@
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	height: 43vh;
+	height: 55vh;
+	min-height: 100%;
+	max-height: 360px;
 	min-width: 255px;
 	padding: 1em 0em;
 	border-radius: 10px;
@@ -29,7 +31,7 @@
 	box-shadow: inset 0px 15px 10px 0px rgb(247 242 242 / 72%);
 }
 
-.loginform-title {
+.header_login {
 	text-align: left;
 	width: 70%;
 }
@@ -43,13 +45,13 @@
 	height: 100%;
 }
 
-.input-wrapper_login {
+.inputfield-wrapper_login {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
 	width: 100%;
-	height: 70%;
+	height: 85%;
 }
 
 .loginform-col {
@@ -60,7 +62,7 @@
 	margin-bottom: 1em;
 }
 
-.login-inputfield {
+.inputfield_login {
 	width: 90%;
 	border-radius: 20px;
 	padding: 15px 10px;

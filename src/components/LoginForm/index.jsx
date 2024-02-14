@@ -15,8 +15,15 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
+  const ModalContent = () => (
+    <div className="modalcontent-container">
+      <p className="modal-text">Login successful, Redirecting to dashboard...</p>
+    </div>
+  );
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    setModalMessage(<ModalContent />);
     let isValid = true;
 
     if (!email) {
@@ -37,9 +44,13 @@ const LoginForm = () => {
 
     try {
       await signIn(email, password);
-      setModalMessage("Login successful:)");
+
       setIsModalOpen(true);
-      navigate({ to: "/dashboard" });
+      setTimeout(() => {
+        setIsModalOpen(false);
+        navigate({ to: "/dashboard" });
+      }, 2000);
+
     } catch (error) {
       setPasswordError(error.message);
     }
@@ -48,57 +59,54 @@ const LoginForm = () => {
   return (
     <div className="loginform-container">
       <form className="loginform" onSubmit={handleLogin}>
-            <h1 className="loginform-title">Login</h1>
-            <div className="content-wrapper_login">
-              <div className="input-wrapper_login">
-                <div
-                  className={`loginform-col ${
-                    emailError ? "input-invalid" : ""
-                  }`}
-                >
-                  <label htmlFor="email"></label>
-                  <input
-                    id="email"
-                    className="login-inputfield"
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    autoComplete="email"
-                  />
-                  {emailError && <p className="error-message">{emailError}</p>}
-                </div>
-                <div
-                  className={`loginform-col ${
-                    passwordError ? "input-invalid" : ""
-                  }`}
-                >
-                  <label htmlFor="password"></label>
-                  <input
-                    id="password"
-                    className="login-inputfield"
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  {passwordError && (
-                    <p className="error-message">{passwordError}</p>
-                  )}
-                </div>
-                <Modal
-                  isOpen={isModalOpen}
-                  onClose={() => setIsModalOpen(false)}
-                >
-                  <div className="modal-msg">{modalMessage}</div>
-                </Modal>
-              </div>
-              <div className="btn-wrapper_login">
-                <button className="login-btn btn" type="submit">
-                  Login
-                </button>
-              </div>
+        <h1 className="header_login">Login</h1>
+        <div className="content-wrapper_login">
+          <section className="inputfield-wrapper_login">
+            <div
+              className={`loginform-col input-item ${
+                emailError ? "input-invalid" : ""
+              }`}
+            >
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                className="inputfield_login"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
+              />
+              {emailError && <p className="error-message">{emailError}</p>}
             </div>
+            <div
+              className={`loginform-col input-item ${
+                passwordError ? "input-invalid" : ""
+              }`}
+            >
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                className="inputfield_login"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {passwordError && (
+                <p className="error-message">{passwordError}</p>
+              )}
+            </div>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+              <div className="modal-msg">{modalMessage}</div>
+            </Modal>
+          </section>
+          <div className="btn-wrapper_login">
+            <button className="login-btn btn" type="submit">
+              Login
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   );

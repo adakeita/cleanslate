@@ -181,18 +181,23 @@ nav a {
 
 @media screen and (min-width: 635px) {
 	header {
-		margin-top: 1em;
-		width: 100%;
+		margin: 1.5em auto 0em;
+		width: 90%;
+		background: white;
+		box-shadow: 1px 4px 10px #8f9695db;
+		border-radius: 30px;
 	}
 
 	.header-content {
-		flex-direction: row; /* Ensures logo and nav are in the same row */
-		align-items: center; /* Centers items vertically */
-		justify-content: space-between; /* Spaces logo and nav apart */
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
 		border-radius: 50px;
-		padding: 0 1em;
+		padding: 0 2em;
+		margin: 2em auto 0;
 		width: 90%;
-		box-shadow: 1px 4px 10px #8f9695db;
+		background: none;
+		box-shadow: none;
 	}
 
 	.logo-burger-row {
@@ -223,6 +228,10 @@ nav a {
 		justify-content: space-between;
 		padding: 0;
 		margin: 0;
+	}
+
+	.navlist.default {
+		justify-content: space-evenly;
 	}
 
 	.nav-item a {

@@ -13,7 +13,8 @@ const NavLink = ({ to, children, onClose }) => {
                     paddingRight: '1em',
                     textIndent: '1em',
                     fontWeight: 'bold',
-                    backgroundColor:"#90e2cf82"
+                    backgroundColor:"#90e2cf82",
+                    boxShadow:"rgb(168 174 172) 2px 3px 5px 0px"
                 }
             }}
             inactiveProps={{

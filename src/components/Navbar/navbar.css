@@ -73,7 +73,7 @@ header {
 }
 
 .frontpage .nav-wrapper {
-	background: var(--bg-green-gradient);
+	background: var(--navbar-green-gradient);
 }
 
 .greenpage .nav-wrapper {
@@ -84,8 +84,8 @@ header {
 	background-color: var(--bg-blue);
 }
 
-.yellowpage .nav-wrapper {
-	background-color: var(--bg-green);
+.purplepage .nav-wrapper {
+	background: var(--bg-purple-gradient);
 }
 
 .open {

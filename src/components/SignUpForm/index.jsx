@@ -46,7 +46,6 @@ const SignupForm = () => {
 
         try {
             await signUp(email, password);
-            console.log("Signup successful, navigating to complete profile");
             navigate({ to: "/completeprofile" });
         } catch (error) {
             setPasswordError(error.message);

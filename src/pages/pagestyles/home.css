@@ -91,7 +91,7 @@
 	font-size: 16px;
 	font-weight: bold;
 	border-radius: 20px;
-	letter-spacing: 1.2px;
+	letter-spacing: 1.1px;
 	text-align: center;
 	box-shadow: var(--bg-green-shadow);
 	cursor: pointer;
@@ -135,7 +135,7 @@
 	background: var(--btn-blue-gradient);
 	padding: 15px;
 	border: 1.5px solid #93b0aa;
-	letter-spacing: 1.2px;
+	letter-spacing: 1.1px;
 	border-radius: 20px;
 	cursor: pointer;
 	box-shadow: 3px 2px 0px 0px rgb(132 172 163 / 85%);
@@ -169,9 +169,10 @@
 	}
 
 	.content-container {
-		max-width: 900px;
+		max-width: 1000px;
 		flex-direction: row;
-		height: 60%;
+		justify-content: space-between;
+		height: 65%;
 		width: 100%;
 	}
 
@@ -247,13 +248,15 @@
 @media screen and (min-width: 930px) {
 	
 	.frontpage-image-wrapper {
+		max-width: 500px;
 		margin-right: 2.5em;
 	}
 
 	.btns-about_frontpage {
 		justify-content: space-evenly;
-		height: 100%;
+		height: 95%;
 		width: 45%;
+		max-width: 400px;
 		padding: 0;
 	}
 

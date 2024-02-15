@@ -96,12 +96,10 @@
 .signup-btn {
 	width: 60%;
 	border-radius: 30px;
-	border: 1.5px solid white;
 	font-size: 16px;
-	letter-spacing: 1.2px;
 	height: 3em;
 	background: var(--btn-green-gradient);
-	box-shadow: 1px 7px 5px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: var(--btn-shadow);
 	transition: all 0.3s ease-in-out;
 	cursor: pointer;
 }
@@ -109,4 +107,22 @@
 .signup-btn:hover {
 	background-color: var(--btn-green-hover);
 	transform: scale(1.05);
+}
+
+@media screen and (min-width: 635px) {
+	.signupform-container {
+		max-width: 450px;
+	}
+
+	.signupform {
+		max-width: 450px;
+	}
+
+	.inputfield-wrapper_signup {
+		width: 90%;
+	}
+
+	.signup-btn {
+		width: 50%;
+	}
 }

@@ -1,24 +1,12 @@
-.frontpage-image-wrapper {
-	width: 35vw;
-	margin: 3em auto;
-}
-/*@keyframes fadeIn {
-	from {
+@keyframes slideInFromTop {
+	0% {
+		transform: translateY(-100%);
 		opacity: 0;
 	}
-	to {
+	100% {
+		transform: translateY(0);
 		opacity: 1;
 	}
-}
-
-.frontpage-image-wrapper img {
-	opacity: 0;
-	animation: fadeIn 1s ease-in forwards;
-}*/
-
-.frontpage-image-wrapper img {
-	object-fit: cover;
-	height: 100%;
 }
 
 @keyframes slideInFromLeft {
@@ -32,50 +20,81 @@
 	}
 }
 
-.frontpage-about {
+#homePage {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto;
+}
+
+.content-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	height: 100%;
+	width: 100%;
+}
+
+.frontpage-image-wrapper {
+	height: 25%;
+	width: auto;
+}
+
+.frontpage-image-wrapper img {
+	height: 100%;
+}
+
+.btns-about_frontpage {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	height: 40%;
+	width: 80%;
+}
+
+.about-wrapper_frontpage {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	text-align: center;
-	height: 16vh;
-	width: 80vw;
-	margin: 2em auto;
-	line-height: 1.6;
-	font-size: 16px;
+	height: 40%;
 	opacity: 0;
 	animation: slideInFromLeft 1.2s ease-out forwards;
 }
 
-.about-text {
+.header_frontpage {
+	margin: 0 auto;
+}
+
+.about-text_frontpage {
 	margin: 0;
 	padding: 0;
+	line-height: 1.5;
+	font-size: 17px;
 }
 
 .frontpage-btn-wrapper {
-	width: 80vw;
-	margin: 1em auto 3em;
 	display: flex;
-	justify-content: space-around;
 	align-items: center;
-	height: 20vh;
+	justify-content: space-between;
+	height: 30%;
+	width: 100%;
+	
 }
-
-/*.homepage-btns {
-	display: block;
-	width: 30%;
-	text-align: center;
-	box-shadow: 3px 2px 0px 0px rgb(85 102 76);
-	cursor: pointer;
-	transition: all 0.3s ease-in-out;
-}*/
 
 .homepage-btns {
 	display: block;
-	width: 25%;
+	width: 30%;
+	padding: 15px;
 	font-size: 16px;
+	font-weight: bold;
+	border-radius: 20px;
+	letter-spacing: 1.1px;
 	text-align: center;
-	box-shadow: 3px 4px #467490;
-	padding: 15px 10px;
+	box-shadow: var(--btn-shadow);
 	cursor: pointer;
 }
 
@@ -83,16 +102,8 @@
 	transform: scale(1.1);
 }
 
-/*.register-btn-homepage {
-	background: var(--btn-green);
-	border: 1.5px solid white;
-	transition: all 0.3s ease-in-out;
-}*/
-
 .register-btn-homepage {
-	background: linear-gradient(#9debf0, #2877ab);
-	border: 1.5px solid #e9eaf1;
-	color: #fff;
+	background: var(--btn-blue-gradient);
 	touch-action: manipulation;
 	transition: all 0.3s ease-in-out;
 }
@@ -103,9 +114,7 @@
 }
 
 .login-btn-homepage {
-	background: linear-gradient(#bae7a9, #178194);
-	border: 1.5px solid #e9eaf1;
-	color: #fff;
+	background: var(--btn-green-gradient);
 	transition: all 0.3s ease-in-out;
 }
 
@@ -117,106 +126,162 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: 1em auto 5em;
-	width: 30vw;
-	height: 15vh;
+	height: 30%;
+	width: 100%;
 }
 
 .home-dashboard a {
 	display: block;
-	padding: 15px 20px;
-	text-align: center;
-}
-
-.dashboard-btn {
-	background: white;
-	border: 1px solid black;
+	font-weight: bold;
+	background: var(--btn-blue-gradient);
+	padding: 15px;
+	letter-spacing: 1.1px;
+	border-radius: 20px;
 	cursor: pointer;
-	box-shadow: 3px 2px 0px 0px rgb(85 102 76);
+	box-shadow: var(--btn-shadow);
 }
 
 .dashboard-btn:hover {
 	background: #e6e6e6;
 }
 
-@media screen and (min-width: 600px) {
-	#homePageContainer {
-		display: flex;
-		height: 90vh;
-		flex-direction: column;
-		justify-content: center;
-		margin: 0 auto;
+@media screen and (max-width: 390px) {
+	.about-wrapper_frontpage {
+		justify-content: space-around;
+		height: 55%;
 	}
 
-	.static-wrapper {
-		display: flex;
+	.about_frontpage {
+		height: 55%;
+	}
+
+	.btns-about_frontpage {
+		justify-content: space-evenly;
+		height: 45%;
+	}
+}
+
+@media screen and (min-width: 635px) {
+	#homePage {
+		padding: 0;
+		width: 90vw;
+		height: 100%;
+	}
+
+	.content-container {
+		max-width: 1000px;
 		flex-direction: row;
-		align-items: center;
-		justify-content: center;
+		justify-content: space-between;
+		height: 65%;
+		width: 100%;
 	}
 
 	.frontpage-image-wrapper {
-		width: 23vw;
+		display: flex;
+		align-items: center;
+		margin-right: 1.5em;
+		width: 55%;
+		height: 100%;
 	}
-	.frontpage-btn-wrapper {
-		width: 50vw;
-		margin: 2em auto;
+
+	.frontpage-image-wrapper img {
+		height: auto;
+		width: 100%;
+	}
+
+	.btns-about_frontpage {
+		height: 80%;
+		width: 40%;
 		justify-content: space-around;
+		padding: 0 1em;
 	}
-	.frontpage-about {
-		margin: 2em auto;
-		width: 35vw;
-		height: 15vh;
-		font-size: 15px;
+
+	.about-wrapper_frontpage {
+		margin: 0;
+		text-align: left;
+		width: 100%;
+		height: 45%;
+		animation: slideInFromTop 1.2s ease-out forwards;
+	}
+
+	.header_frontpage {
+		margin: 0;
+		font-size: 24px;
+	}
+
+	.about-text_frontpage {
+		margin: 0;
+		padding: 0;
+		font-size: 17.5px;
+	}
+
+	.frontpage-btn-wrapper {
 		justify-content: space-between;
 	}
 
-	.frontpage-about p {
-		margin: 0;
-		padding: 0;
-	}
-
 	.homepage-btns {
-		width: 30%;
+		margin: 0 0.5em;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 5px;
+		width: 100px;
+		height: 35px;
 		font-size: 14px;
+		font-weight: bold;
 		cursor: pointer;
 	}
 
 	.home-dashboard {
-		margin: 1em auto 8em;
+		display: flex;
+		justify-content: flex-start;
+		height: 20%;
 	}
 
 	.home-dashboard a {
-		padding: 15px 30px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 50%;
 	}
 }
 
-@media screen and (min-width: 950px) {
+@media screen and (min-width: 930px) {
 	.frontpage-image-wrapper {
-		width: 20vw;
+		max-width: 500px;
+		margin-right: 2.5em;
 	}
 
-	.frontpage-about {
-		width: 33vw;
-		height: 22vh;
-		font-size: 24px;
+	.btns-about_frontpage {
+		justify-content: space-evenly;
+		height: 95%;
+		width: 45%;
+		max-width: 400px;
+		padding: 0;
 	}
 
-	.frontpage-btn-wrapper {
-		width: 40vw;
-		margin: 0 auto 4em;
+	.btns-about_frontpage h1 {
+		font-size: 30px;
 	}
 
-	.homepage-btns {
-		width: 30%;
+	.about-text_frontpage {
 		font-size: 22px;
 	}
 
-	.home-dashboard {
-		margin: 1em auto 8em;
+	.frontpage-btn-wrapper {
+		justify-content: space-between;
+	}
+
+	.homepage-btns {
+		margin: 0 0.5em;
+		width: 38%;
+		font-size: 19px;
 	}
 
 	.home-dashboard a {
-		padding: 15px 30px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 45%;
 	}
 }

@@ -1,21 +1,32 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Serif+Display&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap");
 
 :root {
+	/*BACKGROUNDS*/
 	--bg-green: rgb(167, 192, 158);
 	--bg-blue: #8295b2;
-	--blue-shadow: 3px 4px 1px 0px #5b6b82da;
-	--bg-yellow: #e9dc8c;
-	--yellow-shadow: 3px 3.5px 2px 0px rgba(117, 97, 65, 0.92);
+	--bg-green-gradient: linear-gradient(180deg, rgba(246, 250, 249, 1) 10%, rgba(191, 236, 226, 1) 40%);
+	--bg-purple-gradient: linear-gradient(80deg, rgba(191, 223, 247, 1) 20%, rgba(218, 201, 221, 1) 80%);
+	--soft-background: #f9f4f44d;
+	--grey-frame: rgba(255, 255, 255, 0.599);
+	/*NAVBAR*/
+	--navbar-green-gradient: linear-gradient(180deg, rgb(255 255 255) 10%, rgba(191, 236, 226, 1) 40%);
+	/*BTNS*/
+	--btn-green-gradient: linear-gradient(30deg, rgba(193, 227, 151, 1) 15%, rgba(179, 241, 229, 1) 75%);
 	--btn-green: #c6f6b3;
 	--btn-green-dark: #486b3a;
 	--btn-green-hover: #738e68;
 	--btn-green-dark-hover: #34452d;
 	--btn-teal: #78a7a1;
 	--btn-teal-hover: #5f8b89;
-	--grey-frame: rgba(255, 255, 255, 0.599);
-
+	--btn-blue-gradient: linear-gradient(30deg, rgba(191, 223, 247, 1) 15%, rgba(218, 201, 221, 1) 75%);
+	/*SHADOWS*/
+	--blue-shadow: 3px 4px 1px 0px #5b6b82da;
+	--bg-green-shadow: 2px 2px 2px 0px #688c84;
+	--btn-shadow: 0px 16px 12px 0px #767b79;
+	/*BORDERS*/
+	--bg-green-border: 1.5px solid #93b0aa;
+	/*TRANSITIONS & ANIMATIONS*/
 	--smooth-transition: all 0.3s ease-in-out;
 }
 
@@ -35,20 +46,33 @@ body {
 
 main {
 	margin: 0 auto;
-	min-height: 90vh;
+	min-height: 95vh;
 	overflow: hidden;
+}
+
+.frontpage {
+	background: rgb(246, 250, 249);
+	background: var(--bg-green-gradient);
+}
+
+.frontpage main {
+	height: 90vh;
+	background-image: url("/src/assets/img/bgr-widgets.png");
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-size: 900px 415px;
 }
 
 .greenpage {
 	background: rgb(246, 250, 249);
-	background: linear-gradient(180deg, rgba(246, 250, 249, 1) 10%, rgba(191, 236, 226, 1) 40%);
+	background: var(--bg-green-gradient);
 }
 
 .greenpage main {
 	background-image: url("/src/assets/img/bgr-widgets.png");
 	background-position: bottom;
 	background-repeat: no-repeat;
-	background-size: contain;
+	background-size: inherit;
 }
 
 .bluepage {
@@ -63,16 +87,17 @@ main {
 	background-size: inherit;
 }
 
-.yellowpage {
-	background: rgb(139, 223, 207);
-	background: linear-gradient(180deg, rgba(139, 223, 207, 1) 4%, rgba(193, 227, 151, 1) 70%);
+.purplepage {
+	background: rgb(191, 223, 247);
+	background: var(--bg-purple-gradient);
 }
-.yellowpage main {
-	background-image: url(/src/assets/img/dashboard-widgets.png);
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: initial;
-	overflow-y: scroll;
+
+.purplepage main {
+	height: 80vh;
+	background-image: url("/src/assets/img/bgr-widgets.png");
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-size: 900px 415px;
 }
 
 img {
@@ -97,8 +122,8 @@ h3 {
 
 a {
 	color: black;
-	font-family: "DM Sans";
-	font-weight: 400;
+	font-family: "montserrat", sans-serif;
+	font-weight: 600;
 	text-decoration: none;
 }
 
@@ -117,8 +142,7 @@ button {
 }
 
 .page-container {
-	height: 100%;
-	margin: 2em auto;
+	width: 90%;
 }
 
 .no-scroll {
@@ -136,26 +160,44 @@ button {
 	border: 0;
 }
 
+.btn {
+	font-family: "Montserrat";
+	font-weight: 600;
+}
+
 .btn-rounded {
 	border-radius: 30px;
-	border: 1px solid black;
 	padding: 1em 2em;
 }
 
 .btn-squared {
-	font-family: "DM Serif Display";
+	font-family: "Montserrat";
+	font-weight: 600;
 	border-radius: 10px;
-	padding: 10px 5px;
 }
 
-@media (min-width: 450px) {
+@media (min-width: 500px) {
 	.page-container {
 		width: 80vw;
 		margin: 0.5em auto;
 	}
 
+	.frontpage {
+		background: rgb(246, 250, 249);
+		background: linear-gradient(180deg, rgba(246, 250, 249, 10) 0%, rgba(191, 236, 226) 60%);
+	}
+
+	.frontpage main {
+		background-size: 800px 350px;
+		background-repeat: repeat-x;
+	}
+
 	.greenpage {
 		background: rgb(246, 250, 249);
-		background: linear-gradient(180deg, rgba(246, 250, 249, 1) 4%, rgba(191, 236, 226, 1) 70%);
+		background: linear-gradient(180deg, rgba(246, 250, 249, 10) 0%, rgb(181 243 229) 60%);
+	}
+
+	.greenpage main {
+		background-size: contain;
 	}
 }

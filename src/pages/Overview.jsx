@@ -75,31 +75,33 @@ const OverviewPage = () => {
       <h1 className="user-overview-title">
         {userDetails?.username}&apos;s Overview
       </h1>
-      <div className="datefilter-wrapper">
-        <div className="date-filter-options">{dateFilterOptions}</div>
-      </div>
-      {hasNoData ? (
-        <div className="no-data-wrapper">
-          <div className="no-data-message">
-            <p>Nothing to see here yet!</p>
-            <p>Start logging your work to see it appear here.</p>
-          </div>
+      <div className="useroverview-content">
+        <div className="datefilter-wrapper">
+          <div className="date-filter-options">{dateFilterOptions}</div>
         </div>
-      ) : (
-        <>
-          <OverviewPie
-            overviewData={overviewData}
-            totalMinutes={grandTotalMinutes}
-            isMobile={isMobile}
-          />
-          <TotalCostComponent
-            totalCost={grandTotalCost}
-            totalTime={`Time spent: ${Math.floor(grandTotalMinutes / 60)}h ${
-              grandTotalMinutes % 60
-            }min`}
-          />
-        </>
-      )}
+        {hasNoData ? (
+          <div className="no-data-wrapper">
+            <div className="no-data-message">
+              <p>Nothing to see here yet!</p>
+              <p>Start logging your work to see it appear here.</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            <OverviewPie
+              overviewData={overviewData}
+              totalMinutes={grandTotalMinutes}
+              isMobile={isMobile}
+            />
+            <TotalCostComponent
+              totalCost={grandTotalCost}
+              totalTime={`Time spent: ${Math.floor(grandTotalMinutes / 60)}h ${
+                grandTotalMinutes % 60
+              }min`}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 };

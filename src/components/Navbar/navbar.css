@@ -5,18 +5,20 @@ header {
 }
 
 .header-content {
-	position: relative;
-	margin: 0 auto;
-	justify-content: space-between;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
+	margin: 0 auto;
+	position: relative;
+	background: white;
+	box-shadow: 1px 1px 6px 1px #b9c6c3cc;
 }
 
 .logo-burger-row {
 	height: 100%;
 	width: 90%;
 	display: flex;
-	margin: 1em auto 0 auto;
+	margin: 0.5em auto;
 	align-items: center;
 	justify-content: space-between;
 }
@@ -27,7 +29,7 @@ header {
 }
 
 .logo-wrapper {
-	width: 60px;
+	width: 50px;
 	padding: 0;
 	transition: var(--smooth-transition);
 }
@@ -43,7 +45,8 @@ header {
 }
 
 .menu-icon-wrapper {
-	width: 60px;
+	width: 40px;
+	padding: 0;
 	background: none;
 	border: none;
 	transition: all 0.3s ease-in-out;
@@ -61,41 +64,50 @@ header {
 	left: 0;
 	z-index: 10;
 	opacity: 0;
-	background-color: var(--bg-green);
+	background-color: var(--navbar-green-gradient);
 	max-height: 0;
-	border-bottom: 2px ridge #ffffff75;
 	overflow: hidden;
-	transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+	transition:
+		max-height 0.5s ease-in-out,
+		opacity 0.5s ease-in-out;
+}
+
+.frontpage .nav-wrapper {
+	background: var(--navbar-green-gradient);
 }
 
 .greenpage .nav-wrapper {
-	background-color: var(--bg-green);
+	background: var(--navbar-green-gradient);
 }
 
 .bluepage .nav-wrapper {
 	background-color: var(--bg-blue);
 }
 
-.yellowpage .nav-wrapper {
-	background-color: var(--bg-green);
+.purplepage .nav-wrapper {
+	background: var(--bg-purple-gradient);
 }
 
 .open {
 	opacity: 1;
 	max-height: 210px;
-	transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+	transition:
+		max-height 0.5s ease-in-out,
+		opacity 0.5s ease-in-out;
 }
 
 .small {
 	max-height: 115px;
-	transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+	transition:
+		max-height 0.4s ease-in-out,
+		opacity 0.4s ease-in-out;
 }
 
 .navlist {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	padding: 0.5em 1em 1em;
+	padding: 0 2em 1em;
 }
 
 .nav-item {
@@ -112,13 +124,18 @@ nav a {
 
 .nav-item a {
 	font-size: 16px;
+	margin: 0.3em 0;
 	transition: all 0.3s ease-in-out;
 	text-indent: 2em;
-	letter-spacing: 2.2px;
+	letter-spacing: 1.1px;
+}
+
+.navitem-link:active {
+	background-color: #90e2cf82;
 }
 
 .nav-item a:hover {
-	background-color: rgba(255, 255, 255, 0.178);
+	background-color: #fcfdfcd6;
 	text-indent: 1em;
 	transition: text-indent 0.3s ease-in-out;
 	padding-right: 1em;
@@ -160,4 +177,70 @@ nav a {
 	margin: 0;
 	font-size: 13px;
 	letter-spacing: 1.2px;
+}
+
+@media screen and (min-width: 635px) {
+	header {
+		margin: 1.5em auto 0em;
+		width: 90%;
+		background: white;
+		box-shadow: 1px 4px 10px #8f9695db;
+		border-radius: 30px;
+	}
+
+	.header-content {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		border-radius: 50px;
+		padding: 0.5em 2em;
+		margin: 2em auto 0;
+		width: 90%;
+		background: none;
+		box-shadow: none;
+	}
+
+	.logo-burger-row {
+		width: 100%;
+	}
+
+	.menu-icon-wrapper {
+		width: 50px;
+	}
+	.nav-wrapper {
+		position: static;
+		opacity: 1;
+		max-height: none;
+		overflow: visible;
+	}
+
+	.frontpage .nav-wrapper,
+	.nav-wrapper,
+	.greenpage .nav-wrapper,
+	.purplepage .nav-wrapper {
+		background: none;
+		width: 80%;
+	}
+
+	.navlist {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0;
+		margin: 0;
+	}
+
+	.navlist.default {
+		justify-content: space-evenly;
+	}
+
+	.nav-item a {
+		text-indent: 0;
+		margin: 0 1em;
+		border-radius: 15px;
+	}
+
+	.menu-icon-wrapper {
+		display: none;
+	}
 }

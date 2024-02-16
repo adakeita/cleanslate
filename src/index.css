@@ -91,6 +91,7 @@ main {
 	background: rgb(191, 223, 247);
 	background: var(--bg-purple-gradient);
 }
+
 .purplepage main {
 	height: 80vh;
 	background-image: url("/src/assets/img/bgr-widgets.png");
@@ -142,8 +143,6 @@ button {
 
 .page-container {
 	width: 90%;
-	height: 100%;
-	margin: 2em auto;
 }
 
 .no-scroll {

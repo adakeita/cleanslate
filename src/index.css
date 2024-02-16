@@ -87,12 +87,21 @@ main {
 	background-size: inherit;
 }
 
-.purplepage {
+.purplepage, .purplepage-register{
 	background: rgb(191, 223, 247);
 	background: var(--bg-purple-gradient);
 }
+
+.purplepage-register main {
+	background-image: url("/src/assets/img/bgr-widgets.png");
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-size: 900px 415px;
+}
+
 .purplepage main {
 	height: 80vh;
+	min-height: 100%;
 	background-image: url("/src/assets/img/bgr-widgets.png");
 	background-position: bottom;
 	background-repeat: repeat-x;

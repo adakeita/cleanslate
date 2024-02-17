@@ -73,9 +73,9 @@ const HouseholdDetails = () => {
         setJoinExisting(false);
     };
     return (
-        <div className='household-container'>
-            <form className='household-form' onSubmit={handleSubmit}>
-                <h1 className='household-form-title'>Household details</h1>
+        <div className='container_householdform'>
+            <form className='householdform' onSubmit={handleSubmit}>
+                <h1 className='header_householdform'>Household details</h1>
                 <div className="household-form-content">
                     <div className="toggle-join-create">
                         <label>

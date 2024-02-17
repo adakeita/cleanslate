@@ -3,18 +3,23 @@
 	margin: 0 auto;
 }
 
-.dashboard-content {
-	width: 55vw;
+.content-container_dashboard {
 	margin: 0 auto;
 	text-align: center;
 }
 
-.dashboard-img-container {
-	margin: 0 auto;
-	padding: 2em 1em;
+.user-content_dashboard {
 	display: flex;
-	justify-content: center;
+	flex-direction: row;
 	align-items: center;
+	justify-content: space-around;
+}
+
+.avatar-wrapper_dashboard {
+	background-color: #ffffffba;
+	border-radius: 100%;
+	border: 1px solid #000200;
+	width: 35%;
 }
 
 .dashboard-name-dropdown {
@@ -99,9 +104,6 @@
 @media screen and (max-width: 455px) {
 	.dashboard-content {
 		width: 80vw;
-	}
-
-	.dashboard-name-dropdown.dropdown-open {
 	}
 
 	.overview-title {

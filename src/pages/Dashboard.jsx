@@ -4,39 +4,33 @@ import { useState, useEffect } from "react";
 import { getCompleteUser } from "../lib/api";
 import { UserDetailsProvider } from "../contexts/UserDetailsContext";
 import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
+import HouseholdDetails from "../components/HousholdDetails";
 import Modal from "../components/Modal";
 import ChoreDropdown from "../components/ChoreDropdown";
 import UserOverview from "../assets/img/usertaskbtn.png";
 import HouseholdOverview from "../assets/img/household-btn.png";
 import "./pagestyles/dashboard.css";
-import HouseholdDetails from "../components/HousholdDetails";
 
 const Dashboard = () => {
   useUpdateBodyClass("/dashboard");
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHouseholdModalOpen, setIsHouseholdModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
   const toggleDropdownOpen = (isOpen) => {
     setIsDropdownOpen(isOpen);
   };
 
-  const [userDetails, setUserDetails] = useState({
-    username: "",
-    avatar: "",
-    alternateAvatar: "",
-    household: null,
-  });
-
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
         const completeUser = await getCompleteUser();
-        console.log("Fetched complete user:", completeUser);
         setUserDetails({
           username: completeUser.username,
           avatar: completeUser.avatar,
+          alternateAvatar: completeUser.alternateAvatar,
           household: completeUser.household,
         });
       } catch (error) {
@@ -47,7 +41,18 @@ const Dashboard = () => {
     fetchUserDetails();
   }, []);
 
+  const [userDetails, setUserDetails] = useState({
+    username: "",
+    avatar: "",
+    alternateAvatar: "",
+    household: null,
+  });
+
   const navigate = useNavigate();
+
+  const handleOpenHouseholdModal = () => {
+    setIsHouseholdModalOpen(true);
+  };
 
   const handleHouseholdClick = () => {
     if (userDetails.household && userDetails.household.users.length === 0) {
@@ -60,21 +65,17 @@ const Dashboard = () => {
     }
   };
 
-  const handleNewHouseholdClick = () => {
-    setIsModalOpen(true);
-  };
-
   return (
-    <div id="dashboard" className="page-container">
+    <div id="dashboardContainer" className="page-container">
       <UserDetailsProvider>
-        <section className="dashboard-container">
-          <div className="content-container_dashboard">
-            <div className="user-content_dashboard">
-              <div className="avatar-wrapper_dashboard">
+        <section className="dashboard-wrapper">
+          <div className="dashboard-content">
+            <div className="dashboard-user-elements">
+              <div className="dashboard-img-container">
                 <img
                   src={userDetails.avatar}
-                  alt="avatar-img"
-                  className="avatar_dashboard"
+                  alt="profile-img"
+                  className="dashboard-img"
                 />
               </div>
               <div
@@ -82,8 +83,8 @@ const Dashboard = () => {
                   isDropdownOpen ? "dropdown-open" : ""
                 }`}
               >
-                <div className="username-wrapper_dashboard">
-                  <h1 className="username_dashboard">
+                <div className="dashboard-name-container">
+                  <h1 className="dashboard-name">
                     Hi {userDetails.username || "Loading..."}!
                   </h1>
                 </div>
@@ -118,18 +119,23 @@ const Dashboard = () => {
                   </div>
                   <p className="overview-btn-txt">Household</p>
                 </button>
-                <button onClick={handleNewHouseholdClick}>Add household</button>
-                <Modal
-                  isOpen={isModalOpen}
-                  onClose={() => setIsModalOpen(false)}
+                <button
+                  onClick={handleOpenHouseholdModal}
+                  className="overview-btn household-overview-btn"
                 >
-                  {HouseholdDetails}
-                </Modal>
+                  Create/Join Household
+                </button>
               </div>
             </section>
           </div>
         </section>
       </UserDetailsProvider>
+      <Modal
+        isOpen={isHouseholdModalOpen}
+        onClose={() => setIsHouseholdModalOpen(false)}
+      >
+        <HouseholdDetails />
+      </Modal>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         {modalMessage}
       </Modal>

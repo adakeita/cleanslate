@@ -13,12 +13,12 @@
 }
 
 .modal {
-	background-color: white;
-	padding: 20px;
-	border-radius: 8px;
+	background-color: #ffffffc7;
+	padding: 10px;
+	border-radius: 24px;
 	max-width: 500px;
 	width: 90%;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0px 15px 20px #ffffff;
 	z-index: 1001;
 }
 

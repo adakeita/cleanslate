@@ -64,12 +64,11 @@ const HouseholdDetails = () => {
         await joinExistingHousehold(householdName, userId);
         setErrors({ feedbackMessage: "Successfully joined the household!" });
       } else {
-        // Now passing userId to createNewHousehold
         await createNewHousehold(
           householdName,
           sizeInSqm,
           numberOfRooms,
-          userId // Passing userId obtained from getCompleteUser
+          userId
         );
         setErrors({ feedbackMessage: "Household created successfully!" });
       }
@@ -153,14 +152,10 @@ const HouseholdDetails = () => {
                   >
                     <option value="">Select size</option>
                     <option value="20">Up to 20 kvm</option>
-                    <option value="40">Up to 40 kvm</option>
                     <option value="60">Up to 60 kvm</option>
                     <option value="80">Up to 80 kvm</option>
-                    <option value="100">Up to 100 kvm</option>
                     <option value="120">Up to 120 kvm</option>
-                    <option value="140">Up to 140 kvm</option>
                     <option value="160">Up to 160 kvm</option>
-                    <option value="180">Up to 180 kvm</option>
                     <option value="200+">200 kvm or more</option>
                   </select>
                   {sizeInSqmError && !joinExisting && (

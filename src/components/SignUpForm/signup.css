@@ -92,6 +92,7 @@
 	width: 90%;
 	border-radius: 20px;
 	padding: 15px 10px;
+	font-size: 15px;
 	border: none;
 	margin: 0.5em 0em;
 	box-shadow: inset 2px 2px 0px 0 rgba(0, 0, 0, 0.2);
@@ -225,7 +226,6 @@
 
 	.avatar-select-wrapper {
 		flex-direction: row;
-		flex-wrap: nowrap;
 	}
 
 	.avatar-img-wrapper img {

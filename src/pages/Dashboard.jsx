@@ -6,6 +6,7 @@ import { UserDetailsProvider } from "../contexts/UserDetailsContext";
 import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
 import TotalCostComponent from "../components/TotalCostComponent";
 import { getCurrentDayAndDate } from "../lib/utils";
+import HouseholdOptions from "../components/HouseholdOptions";
 import HouseholdDetails from "../components/HousholdDetails";
 import Modal from "../components/Modal";
 import ChoreDropdown from "../components/ChoreDropdown";
@@ -78,7 +79,12 @@ const Dashboard = () => {
     setIsHouseholdModalOpen(true);
   };
 
-  const handleHouseholdClick = () => {
+  const handleHouseholdOptionsClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleHouseholdClick = (e) => {
+    e.preventDefault();
     if (userDetails.household && userDetails.household.users.length === 0) {
       setModalMessage(
         "You need to add someone to your household to compare tasks."
@@ -94,35 +100,40 @@ const Dashboard = () => {
       <UserDetailsProvider>
         <section className="dashboard-container">
           <div className="content-container_dashboard">
-            <div className="user-elements_dashboard">
-              <div className="left_dashboard">
+            <div className="static-elements_dashboard">
+              <div className="header-wrapper_dashboard">
                 <h1 className="header-name_dashboard">
                   Hi {userDetails.username || "Loading..."}!
                 </h1>
-                <div className="avatar-wrapper_dashboard">
-                  <img
-                    src={userDetails.avatar}
-                    alt="profile-img"
-                    className="profile-img_dashboard"
-                  />
-                </div>
+
                 <div className="edit-profile-btn-wrapper_dashboard">
                   <button
-                    onClick={handleOpenHouseholdModal}
+                    onClick={handleHouseholdOptionsClick}
                     className="edit-profile-btn_dashboard"
                   >
                     Edit Profile
                   </button>
                 </div>
               </div>
-              <div className="right_dashboard">
-                <div className="date-wrapper_dashboard">
-                  <h1 className="date_dashboard">{currentDayAndDate}</h1>
+              <div className="user-elements_dashboard">
+                <div className="left_dashboard">
+                  <div className="avatar-wrapper_dashboard">
+                    <img
+                      src={userDetails.avatar}
+                      alt="profile-img"
+                      className="profile-img_dashboard"
+                    />
+                  </div>
                 </div>
-                <TotalCostComponent
-                  totalCost={grandTotalCost}
-                  totalMinutes={grandTotalMinutes}
-                />
+                <div className="right_dashboard">
+                  <div className="date-wrapper_dashboard">
+                    <h1 className="date_dashboard">{currentDayAndDate}</h1>
+                  </div>
+                  <TotalCostComponent
+                    totalCost={grandTotalCost}
+                    totalMinutes={grandTotalMinutes}
+                  />
+                </div>
               </div>
             </div>
             <div className="dashboard-dropdown-wrapper">
@@ -166,7 +177,7 @@ const Dashboard = () => {
                         <p className="overview-btn-txt">Household</p>
                       </Link>
                       <button
-                        onClick={handleOpenHouseholdModal}
+                        onClick={handleHouseholdOptionsClick}
                         className="household-options-btn_dashboard"
                       >
                         Household Options
@@ -183,10 +194,10 @@ const Dashboard = () => {
         isOpen={isHouseholdModalOpen}
         onClose={() => setIsHouseholdModalOpen(false)}
       >
-        <HouseholdDetails />
+        {modalMessage}
       </Modal>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        {modalMessage}
+        <HouseholdOptions />
       </Modal>
     </div>
   );

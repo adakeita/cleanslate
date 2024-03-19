@@ -4,7 +4,10 @@
     align-items: center;
     justify-content: space-evenly;
     width: 80%;
-    margin: 1em auto 2em;
+    margin: 3em auto;
+    background-color: rgba(235, 230, 222, 0.782);
+    border-radius: 24px;
+    box-shadow: inset 0px 15px 20px #ffffff;
 }
 
 .household-operations-btns {
@@ -13,7 +16,7 @@
     align-items: center;
     justify-content: space-evenly;
     width: 100%;
-    margin: 1em auto;
+    margin: 1em auto 3em;
 }
 
 .household-operations-btn {

@@ -4,7 +4,8 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.75);
+	background-color: rgba(0, 0, 0, 0.771);
+	backdrop-filter: blur(4px);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -13,12 +14,11 @@
 }
 
 .modal {
-	background-color: #ffffffc7;
+	position: absolute;
 	padding: 10px;
 	border-radius: 24px;
 	max-width: 500px;
 	width: 90%;
-	box-shadow: inset 0px 15px 20px #ffffff;
 	z-index: 1001;
 }
 
@@ -30,22 +30,17 @@
 }
 
 .close-modal-btn-container {
-	width: 100%;
+	position: fixed;
+	top: 10px;
+	width: 80%;
 	text-align: end;
 }
 
 .close-modal-btn {
 	display: flex;
-	font-family: "DM Sans";
-	background-color: #f44336;
-	color: white;
 	border: none;
-	padding: 5px 15px;
-	text-align: center;
-	text-decoration: none;
 	display: inline-block;
-	font-size: 20px;
 	cursor: pointer;
-	border-radius: 5px;
-	width: 40px;
+	margin-right: 5%;
+	width: 80px;
 }

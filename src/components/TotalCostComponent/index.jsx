@@ -7,7 +7,7 @@ const TotalCostComponent = ({ totalCost, totalMinutes }) => {
 
   return (
     <div className="total-cost-container">
-      <div className="content-container_totalcost">
+      <div className="content_totalcost">
         {/* Cost Wrapper */}
         <div className="cost-wrapper">
           <h3 className="total-cost-header">Cost contribution</h3>

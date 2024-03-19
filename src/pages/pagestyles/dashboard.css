@@ -1,3 +1,7 @@
+#dashboardContainer {
+	margin: 1.5em auto 2em;
+}
+
 .main-content_dashboard {
 	width: 100%;
 	margin: 0 auto 3em;
@@ -13,16 +17,8 @@
 }
 
 /*
-Dashboard left side
+Dashboard Top section
 */
-
-.profile-wrapper_dashboard {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
 
 .greeting_dashboard {
 	width: 100%;
@@ -33,6 +29,14 @@ Dashboard left side
 	margin-bottom: 5px;
 }
 
+.profile-wrapper_dashboard {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .test-wrapper {
 	display: flex;
 	flex-direction: column;
@@ -40,6 +44,9 @@ Dashboard left side
 	margin: 1em auto;
 }
 
+/*
+avatar
+*/
 .avatar-wrapper_dashboard {
 	display: flex;
 	background-color: #ffffffba;
@@ -57,8 +64,12 @@ Dashboard left side
 	height: 80%;
 }
 
+/*
+edit profile btn
+*/
+
 .edit-profile-btn-wrapper_dashboard {
-	width: 60%;
+	width: 40%;
 }
 
 .edit-profile-btn_dashboard {
@@ -78,7 +89,7 @@ Dashboard left side
 }
 
 /*
-Dashboard right side
+Dashboard bottom section
 */
 
 .hero_dashboard {
@@ -91,9 +102,17 @@ Dashboard right side
 	margin: 0;
 }
 
+/*
+DAILY COST AND TIME
+*/
+
 .totalday_dashboard-wrapper {
 	width: 100%;
 	margin: unset;
+}
+
+.date-wrapper_dashboard h2 {
+	margin: 1.5em 0.5em 0.5em;
 }
 
 .hero_dashboard .total-cost-container {
@@ -158,18 +177,18 @@ Dashboard right side
 	font-weight: bold;
 }
 
+/*
+Overview Sections
+*/
+
 .user-btn-section {
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
 	flex-direction: row;
-	width: 100%;
+	width: 90%;
 	margin-top: 2em;
 }
-
-/*
-Overview Sections
-*/
 
 .overviews {
 	width: 100%;
@@ -205,16 +224,24 @@ Overview Sections
 	transition: all 0.3s ease-in-out;
 }
 
-.overview-btn_dashboard:hover {
+.overview-btn_dashboard:hover,
+.user-btns .log-activity:hover {
 	transform: scale(1.05);
 }
 
+.user-btns {
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: center;
+	margin: 0em 0 2em;
+}
+
 .img-wrapper_overview-btn {
-	width: 20%;
+	width: 15%;
 }
 
 .household-options-btn_dashboard {
-	margin: 2em 0;
+	margin: 2.5em 0 2em;
 	padding: 1em;
 	background: white;
 	border-radius: 24px;
@@ -225,10 +252,6 @@ Overview Sections
 
 .household-options-btn_dashboard:hover {
 	transform: scale(1.05);
-}
-
-.log-activity {
-	width: 100%;
 }
 
 .household-btns_dashboard {
@@ -267,11 +290,12 @@ Overview Sections
 }
 
 .user-btns .log-activity {
-	width: 100%;
+	width: 95%;
+	margin: auto;
 }
 
 .user-btns .chore-dropdown-container {
-	margin: 3.5em auto;
+	margin: 0em auto 3em;
 	box-shadow: 0px 12px 16px 0px #536a57;
 	border: 1px solid black;
 	background: linear-gradient(162deg, #ffffff 30%, #c5e4ff 90%);
@@ -284,44 +308,30 @@ Overview Sections
 }
 
 .user-btns .chore-wrapper.open {
-	opacity: 1;
 	max-height: 315px;
-	transition:
-		max-height 0.5s ease-in-out,
-		opacity 0.5s ease-in-out;
-}
-
-.user-btns .chore-wrapper.open .chore-dropdown-menu {
-	width: 100%;
 }
 
 .user-btns .chore-wrapper.open .dropdown-li {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	height: 3em;
-	font-size: 14px;
 	padding: 0.5em 0em;
-	font-family: "DM Sans", sans-serif;
-	text-align: left;
-	cursor: pointer;
-	transition: all 0.3s ease-in-out;
-	align-items: center;
 }
 
-@media screen and (min-width: 780px) {
+@media screen and (min-width: 750px) {
 	#dashboardContainer {
 		margin: 2em auto;
+		max-width: 800px;
 	}
 
 	.main-content_dashboard {
 		flex-direction: row;
-		justify-content: space-between;
 		max-width: 800px;
 	}
 
 	.profile-wrapper_dashboard {
 		width: 30%;
+	}
+
+	.edit-profile-btn-wrapper_dashboard {
+		width: 60%;
 	}
 
 	.greeting_dashboard {
@@ -343,17 +353,8 @@ Overview Sections
 		height: 80%;
 	}
 
-	.edit-profile-btn-wrapper_dashboard {
-		width: 60%;
-	}
-
 	.hero_dashboard {
 		width: 65%;
-	}
-
-	.totalday_dashboard-wrapper {
-		width: 100%;
-		margin: unset;
 	}
 
 	.date-wrapper_dashboard {
@@ -429,44 +430,25 @@ Overview Sections
 	}
 
 	.user-btn-section {
-		display: flex;
-		align-items: center;
-		justify-content: space-around;
-		flex-direction: row;
 		width: 100%;
-		margin-top: 2em;
-	}
-
-	.overviews {
-		width: 100%;
-		margin: 0;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-around;
 	}
 
 	.overview-btn-wrapper_dashboard {
-		display: flex;
 		flex-direction: row;
 		align-items: flex-start;
-		justify-content: space-between;
-		width: 100%;
 	}
 
 	.user-btns,
 	.household-btns_dashboard {
-		width: 45%;
+		width: 48%;
+	}
+
+	.user-btns {
+		flex-direction: column;
+		margin: 0;
 	}
 
 	.overview-btn_dashboard {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-evenly;
-		background-color: white;
-		width: 100%;
-		height: 90px;
-		border-radius: 12px;
 		min-width: 205px;
 	}
 
@@ -475,14 +457,12 @@ Overview Sections
 	}
 
 	.household-options-btn_dashboard {
-		margin: 2em 0;
 		padding: 0.5em;
-		background: white;
-		border-radius: 24px;
 		width: 90%;
+		font-size: 14px;
 	}
 
-	.log-activity {
+	.user-btns .log-activity {
 		width: 100%;
 	}
 
@@ -508,47 +488,20 @@ Overview Sections
 		padding: 1em 0;
 	}
 
-	.user-btns .log-activity {
-		width: 100%;
-	}
-
 	.user-btns .chore-dropdown-container {
 		margin: 2em auto;
-		box-shadow: 5px 12px 16px 0px #000000a8;
-		border: 1px solid black;
-		background: linear-gradient(162deg, #ffffff 30%, #c5e4ff 90%);
-		transition: all 0.3s ease-in-out;
-	}
-
-	.user-btns .chore-dropdown-container:hover {
-		transform: scale(1.05);
 	}
 
 	.user-btns .chore-wrapper.open {
-		opacity: 1;
-		max-height: 315px;
 		margin: 1em 0;
-		transition:
-			max-height 0.5s ease-in-out,
-			opacity 0.5s ease-in-out;
 	}
 
-	.user-btns .chore-wrapper.open .chore-dropdown-menu {
-		width: 100%;
+	.user-btns .session-control {
+		width: 95%;
 	}
 
-	.user-btns .chore-wrapper.open .dropdown-li {
-		display: flex;
-		justify-content: space-between;
-		width: 100%;
-		height: 3em;
-		font-size: 14px;
-		padding: 0.5em 0em;
-		font-family: "DM Sans", sans-serif;
-		text-align: left;
-		cursor: pointer;
-		transition: all 0.3s ease-in-out;
-		align-items: center;
+	.user-btns .done-btn {
+		width: 65%;
 	}
 }
 
@@ -564,5 +517,10 @@ Overview Sections
 
 	.overview-btn_dashboard {
 		min-width: 225px;
+	}
+
+	.user-btns,
+	.household-btns_dashboard {
+		width: 48%;
 	}
 }

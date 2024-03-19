@@ -16,8 +16,10 @@ export const useUpdateBodyClass = (pathname) => {
         document.body.className = "bluepage";
         break;
       case "/login":
-      case "/register":
         document.body.className = "purplepage";
+        break;
+      case "/register":
+        document.body.className = "purplepage-register";
         break;
       default:
         document.body.className = "";

@@ -6,6 +6,7 @@
 	--bg-green: rgb(167, 192, 158);
 	--bg-blue: #8295b2;
 	--bg-green-gradient: linear-gradient(180deg, rgba(246, 250, 249, 1) 10%, rgba(191, 236, 226, 1) 40%);
+	--light-purple-gradient: linear-gradient(90deg, rgba(191, 222, 246, 1) 20%, rgba(216, 202, 222, 1) 80%);
 	--bg-purple-gradient: linear-gradient(80deg, rgba(191, 223, 247, 1) 20%, rgba(218, 201, 221, 1) 80%);
 	--soft-background: #f9f4f44d;
 	--grey-frame: rgba(255, 255, 255, 0.599);
@@ -20,10 +21,12 @@
 	--btn-teal: #78a7a1;
 	--btn-teal-hover: #5f8b89;
 	--btn-blue-gradient: linear-gradient(30deg, rgba(191, 223, 247, 1) 15%, rgba(218, 201, 221, 1) 75%);
+	--btn-red-gradient: linear-gradient(40deg, rgb(249 168 72 / 85%) 15%, rgb(255 73 0 / 80%) 75%);
 	/*SHADOWS*/
 	--blue-shadow: 3px 4px 1px 0px #5b6b82da;
-	--bg-green-shadow: 2px 2px 2px 0px #688c84;
+	--bg-green-shadow: 0px 16px 12px 0px #688c84;
 	--btn-shadow: 0px 16px 12px 0px #767b79;
+
 	/*BORDERS*/
 	--bg-green-border: 1.5px solid #93b0aa;
 	/*TRANSITIONS & ANIMATIONS*/
@@ -47,7 +50,7 @@ body {
 main {
 	margin: 0 auto;
 	min-height: 95vh;
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 .frontpage {
@@ -87,13 +90,22 @@ main {
 	background-size: inherit;
 }
 
-.purplepage {
+.purplepage,
+.purplepage-register {
 	background: rgb(191, 223, 247);
 	background: var(--bg-purple-gradient);
 }
 
+.purplepage-register main {
+	background-image: url("/src/assets/img/bgr-widgets.png");
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-size: 900px 415px;
+}
+
 .purplepage main {
 	height: 80vh;
+	min-height: 100%;
 	background-image: url("/src/assets/img/bgr-widgets.png");
 	background-position: bottom;
 	background-repeat: repeat-x;
@@ -138,11 +150,13 @@ label {
 }
 
 button {
+	font-family: "Montserrat" sans-serif;
 	cursor: pointer;
 }
 
 .page-container {
 	width: 90%;
+	margin: auto;
 }
 
 .no-scroll {
@@ -178,7 +192,6 @@ button {
 
 @media (min-width: 500px) {
 	.page-container {
-		width: 80vw;
 		margin: 0.5em auto;
 	}
 

@@ -6,7 +6,6 @@ import avatar1 from '../../assets/avatar/avatar1.png';
 import alternateavatar1 from '../../assets/avatar/alternate-avatar1.png';
 import alternateavatar2 from '../../assets/avatar/alternate-avatar2.png';
 import avatar2 from '../../assets/avatar/avatar2.png';
-import './userdetails.css';
 
 const UserDetails = ({ onComplete }) => {
     const [username, setUsername] = useState('');
@@ -28,7 +27,7 @@ const UserDetails = ({ onComplete }) => {
     const handleAvatarClick = (avatarSrc) => {
         setAvatar(avatarSrc);
         const alternateAvatarSrc = avatarToAlternateMap[avatarSrc];
-        setAlternateAvatar(alternateAvatarSrc || avatarSrc); // Fallback to avatarSrc if no alternate is found
+        setAlternateAvatar(alternateAvatarSrc || avatarSrc);
     };
 
     const handleSubmit = async (e) => {

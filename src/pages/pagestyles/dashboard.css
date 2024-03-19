@@ -310,9 +310,9 @@ Overview Sections
 }
 
 @media screen and (min-width: 780px) {
-#dashboardContainer {
-	margin: 2em auto;
-}
+	#dashboardContainer {
+		margin: 2em auto;
+	}
 
 	.main-content_dashboard {
 		flex-direction: row;
@@ -354,6 +354,16 @@ Overview Sections
 	.totalday_dashboard-wrapper {
 		width: 100%;
 		margin: unset;
+	}
+
+	.date-wrapper_dashboard {
+		display: flex;
+		height: 20%;
+		margin: 0;
+	}
+
+	.date-wrapper_dashboard h2 {
+		margin: 1.5em 0 0.5em;
 	}
 
 	.hero_dashboard .total-cost-container {
@@ -478,13 +488,6 @@ Overview Sections
 
 	.dashboard-name-dropdown.dropdown-open {
 		transition: all 0.5s ease-in-out;
-	}
-
-	.date-wrapper_dashboard {
-		display: flex;
-		width: 95%;
-		height: 20%;
-		margin: 0;
 	}
 
 	.dashboard-name {

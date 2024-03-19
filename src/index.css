@@ -5,7 +5,7 @@
 	/*BACKGROUNDS*/
 	--bg-green: rgb(167, 192, 158);
 	--bg-blue: #8295b2;
-	--bg-green-gradient: linear-gradient(180deg, rgba(246, 250, 249, 1) 10%, rgba(191, 236, 226, 1) 40%);
+	--bg-green-gradient: linear-gradient(180deg, rgba(223, 241, 203, 1) 20%, rgba(197, 239, 230, 1) 80%);
 	--light-purple-gradient: linear-gradient(90deg, rgba(191, 222, 246, 1) 20%, rgba(216, 202, 222, 1) 80%);
 	--bg-purple-gradient: linear-gradient(80deg, rgba(191, 223, 247, 1) 20%, rgba(218, 201, 221, 1) 80%);
 	--soft-background: #f9f4f44d;
@@ -38,19 +38,34 @@
 	list-style-type: none;
 }
 
-body {
+html {
+	box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+body,
+#root {
 	margin: 0;
 	padding: 0;
-	height: 100%;
+	min-height: 100vh; /* Use viewport height to ensure full screen coverage */
 	width: 100vw;
-	box-sizing: border-box;
-	overflow-x: hidden;
+	overflow-x: hidden; /* Prevents horizontal scrolling */
+	display: flex;
+	flex-direction: column;
 }
 
 main {
-	margin: 0 auto;
-	min-height: 95vh;
-	overflow-x: hidden;
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow-x: hidden; /* Keeps the layout clean */
+	margin: 0;
 }
 
 .frontpage {
@@ -59,7 +74,6 @@ main {
 }
 
 .frontpage main {
-	height: 90vh;
 	background-image: url("/src/assets/img/bgr-widgets.png");
 	background-position: bottom;
 	background-repeat: repeat-x;
@@ -72,10 +86,9 @@ main {
 }
 
 .greenpage main {
-	background-image: url("/src/assets/img/bgr-widgets.png");
-	background-position: bottom;
-	background-repeat: no-repeat;
-	background-size: inherit;
+    background-image: url(/src/assets/img/bgr-widgets.png);
+    background-position: bottom;
+    background-repeat: repeat-x;
 }
 
 .bluepage {
@@ -207,7 +220,7 @@ button {
 
 	.greenpage {
 		background: rgb(246, 250, 249);
-		background: linear-gradient(180deg, rgba(246, 250, 249, 10) 0%, rgb(181 243 229) 60%);
+		background: var(--bg-green-gradient);
 	}
 
 	.greenpage main {

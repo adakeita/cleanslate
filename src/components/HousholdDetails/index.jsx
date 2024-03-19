@@ -5,13 +5,13 @@ import {
   getCompleteUser,
   joinExistingHousehold,
 } from "../../lib/api";
-import { AuthContext } from "../../contexts/AuthContext"; // Adjust path as necessary
+import { AuthContext } from "../../contexts/AuthContext";
 import "./housedetails.css";
 
 const HouseholdDetails = () => {
   const [householdName, setHouseholdName] = useState("");
   const [numberOfRooms, setNumberOfRooms] = useState("1");
-  const [HouseholdId, setHouseholdId] = useState(""); // Add this state to store the household ID
+  const [HouseholdId, setHouseholdId] = useState("");
   const [sizeInSqm, setSizeInSqm] = useState("");
   const [sizeInSqmError, setSizeInSqmError] = useState("");
   const [joinExisting, setJoinExisting] = useState(false);

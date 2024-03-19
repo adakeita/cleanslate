@@ -357,7 +357,7 @@ export const updateHouseholdDataInCompleteUser = async () => {
     await supabase
       .from("household_details")
       .select("household_name, number_of_rooms, size_in_sqm")
-      .eq("id", completeUser.household.id) // Assuming this is the correct ID
+      .eq("id", completeUser.household.id)
       .single();
 
   if (householdDetailsError) {

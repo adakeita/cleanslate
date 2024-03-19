@@ -9,9 +9,9 @@ export const useUpdateBodyClass = (pathname) => {
       case "/about":
       case "/completeprofile":
       case "/dashboard":
+      case "/overview":
         document.body.className = "greenpage";
         break;
-      case "/overview":
       case "/household":
         document.body.className = "bluepage";
         break;

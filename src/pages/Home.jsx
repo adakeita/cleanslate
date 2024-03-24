@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
-import cleanSlateHome from "../assets/img/CleanSlate.png";
+import cleanSlateHome from "../assets/img/cleanslate-logo.svg";
 import "./pagestyles/home.css";
 
 const HomePage = () => {

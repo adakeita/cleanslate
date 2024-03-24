@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCompleteUser } from "../lib/api";
 import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";

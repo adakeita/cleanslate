@@ -1,9 +1,7 @@
 import { useState, useContext } from "react";
-import { Link } from "@tanstack/react-router";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useUI } from "../../contexts/UIContext";
-import NavLink from "./NavLink";
 import hamburgerIcon from "../../assets/svg/hamburger.svg";
 import closeIcon from "../../assets/svg/close.svg";
 import logo from "../../assets/img/cs-logo3.png";
@@ -29,7 +27,7 @@ const Navbar = () => {
     try {
       await signOut();
       sessionStorage.clear();
-      navigate({ to: "/" });
+      navigate("/" );
       setIsMenuOpen(false);
     } catch (error) {
       console.error("Error signing out:", error.message);
@@ -70,23 +68,23 @@ const Navbar = () => {
           }`}
         >
           <nav role="navigation" className="navigation">
-            <ul className="navlist">
+            <ul className={`navlist ${!isAuthenticated ? "default" : ""}`}>
               <li className="nav-item">
-                <NavLink to="/" onClose={closeMenu}>
+                <Link to="/" onClose={closeMenu}>
                   Home
-                </NavLink>
+                </Link>
               </li>
               <li className="nav-item">
-                <NavLink to="/about" onClose={closeMenu}>
+                <Link to="/about" onClose={closeMenu}>
                   About
-                </NavLink>
+                </Link>
               </li>
               {isAuthenticated && (
                 <>
                   <li className="nav-item">
-                    <NavLink to="/dashboard" onClose={closeMenu}>
+                    <Link to="/dashboard" onClose={closeMenu}>
                       Dashboard
-                    </NavLink>
+                    </Link>
                   </li>
                   <li className="nav-item nav-logout-item">
                     <section className="logout-col logout-container">

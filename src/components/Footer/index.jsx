@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import Logo from "../../assets/img/footer-logo.png";
 import Github from "../../assets/img/github-icon.png";
 import "./footer.css";

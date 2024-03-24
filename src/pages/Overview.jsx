@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { getUserChoreOverview, getCompleteUser } from "../lib/api";
 import OverviewPie from "../components/OverviewPie";
 import TotalCostComponent from "../components/TotalCostComponent";
+import OverviewBar from "../components/OverviewBar/overviewbar.jsx";
+import ChoreDropdown from "../components/ChoreDropdown";
 import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
 import "../styles/customlegend.css";
 import "./pagestyles/overview.css";
@@ -15,6 +17,11 @@ const OverviewPage = () => {
   const [overviewData, setOverviewData] = useState([]);
   const [filter, setFilter] = useState("day");
   const [userDetails, setUserDetails] = useState({ username: "" });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdownOpen = (isOpen) => {
+    setIsDropdownOpen(isOpen);
+  };
 
   const dateFilterOptions = ["day", "week", "month", "year", "all"].map(
     (option) => (
@@ -72,35 +79,53 @@ const OverviewPage = () => {
 
   return (
     <div className="page-container">
-      <h1 className="user-overview-title">
-        {userDetails?.username}&apos;s Overview
-      </h1>
-      <div className="useroverview-content">
-        <div className="datefilter-wrapper">
-          <div className="date-filter-options">{dateFilterOptions}</div>
+      <div id="UserOverview">
+        <div className="header_user-overview">
+          <button>Back to Dashboard</button>
+          <h1 className="user-overview-greeting">
+            {userDetails?.username}&apos;s Overview
+          </h1>
         </div>
-        {hasNoData ? (
-          <div className="no-data-wrapper">
-            <div className="no-data-message">
-              <p>Nothing to see here yet!</p>
-              <p>Start logging your work to see it appear here.</p>
-            </div>
+        <div className="content-wrapper_user-overview"></div>
+        <div className="user-overview-content">
+          <div className="datefilter-wrapper">
+            <div className="date-filter-options">{dateFilterOptions}</div>
           </div>
-        ) : (
-          <>
-            <OverviewPie
-              overviewData={overviewData}
-              totalMinutes={grandTotalMinutes}
-              isMobile={isMobile}
-            />
-            <TotalCostComponent
-              totalCost={grandTotalCost}
-              totalTime={`Time spent: ${Math.floor(grandTotalMinutes / 60)}h ${
-                grandTotalMinutes % 60
-              }min`}
-            />
-          </>
-        )}
+          {hasNoData ? (
+            <div className="no-data-wrapper">
+              <div className="no-data-message">
+                <p>Nothing to see here yet!</p>
+                <p>Start logging your work to see it appear here.</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="data-presentation_user-overview">
+                <section className="piechart-section_user-overview">
+                  <OverviewPie
+                    overviewData={overviewData}
+                    totalMinutes={grandTotalMinutes}
+                    isMobile={isMobile}
+                  />
+                </section>
+                <div className="interaction_user-overview">
+                  <section className="monetary-section_user-overview">
+                    <TotalCostComponent
+                      totalCost={grandTotalCost}
+                      totalMinutes={grandTotalMinutes}
+                    />
+                  </section>
+                  <section className="log-activity">
+                    <ChoreDropdown onToggleDropdown={toggleDropdownOpen} />
+                  </section>
+                </div>
+              </div>
+              <section className="barchart-section_user-overview">
+                <OverviewBar overviewData={overviewData} />
+              </section>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

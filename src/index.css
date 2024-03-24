@@ -2,24 +2,34 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap");
 
 :root {
+	/*BACKGROUNDS*/
 	--bg-green: rgb(167, 192, 158);
 	--bg-blue: #8295b2;
-	--bg-green-gradient: linear-gradient(180deg, rgba(246, 250, 249, 1) 10%, rgba(191, 236, 226, 1) 40%);
+	--bg-green-gradient: linear-gradient(180deg, rgba(223, 241, 203, 1) 20%, rgba(197, 239, 230, 1) 80%);
+	--light-purple-gradient: linear-gradient(90deg, rgba(191, 222, 246, 1) 20%, rgba(216, 202, 222, 1) 80%);
+	--bg-purple-gradient: linear-gradient(80deg, rgba(191, 223, 247, 1) 20%, rgba(218, 201, 221, 1) 80%);
+	--soft-background: #f9f4f44d;
+	--grey-frame: rgba(255, 255, 255, 0.599);
+	/*NAVBAR*/
+	--navbar-green-gradient: linear-gradient(180deg, rgb(255 255 255) 10%, rgba(191, 236, 226, 1) 40%);
+	/*BTNS*/
 	--btn-green-gradient: linear-gradient(30deg, rgba(193, 227, 151, 1) 15%, rgba(179, 241, 229, 1) 75%);
-	--bg-green-border: 1.5px solid #93b0aa;
-	--bg-green-shadow: 2px 2px 2px 0px #688c84;
-	--navbar-green-gradient: linear-gradient(180deg, rgb(241 247 246) 15%, rgb(184 235 224) 100%);
-	--blue-shadow: 3px 4px 1px 0px #5b6b82da;
-	--bg-yellow: #e9dc8c;
-	--yellow-shadow: 3px 3.5px 2px 0px rgba(117, 97, 65, 0.92);
-	--btn-blue-gradient: linear-gradient(30deg, rgba(191, 223, 247, 1) 15%, rgba(218, 201, 221, 1) 75%);
 	--btn-green: #c6f6b3;
 	--btn-green-dark: #486b3a;
 	--btn-green-hover: #738e68;
 	--btn-green-dark-hover: #34452d;
 	--btn-teal: #78a7a1;
 	--btn-teal-hover: #5f8b89;
-	--grey-frame: rgba(255, 255, 255, 0.599);
+	--btn-blue-gradient: linear-gradient(30deg, rgba(191, 223, 247, 1) 15%, rgba(218, 201, 221, 1) 75%);
+	--btn-red-gradient: linear-gradient(40deg, rgb(249 168 72 / 85%) 15%, rgb(255 73 0 / 80%) 75%);
+	/*SHADOWS*/
+	--blue-shadow: 3px 4px 1px 0px #5b6b82da;
+	--bg-green-shadow: 0px 16px 12px 0px #688c84;
+	--btn-shadow: 0px 16px 12px 0px #767b79;
+
+	/*BORDERS*/
+	--bg-green-border: 1.5px solid #93b0aa;
+	/*TRANSITIONS & ANIMATIONS*/
 	--smooth-transition: all 0.3s ease-in-out;
 }
 
@@ -28,19 +38,34 @@
 	list-style-type: none;
 }
 
-body {
+html {
+	box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+body,
+#root {
 	margin: 0;
 	padding: 0;
-	height: 100%;
+	min-height: 100vh;
 	width: 100vw;
-	box-sizing: border-box;
 	overflow-x: hidden;
+	display: flex;
+	flex-direction: column;
 }
 
 main {
-	margin: 0 auto;
-	min-height: 95vh;
-	overflow: hidden;
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow-x: hidden;
+	margin: 0;
 }
 
 .frontpage {
@@ -49,7 +74,6 @@ main {
 }
 
 .frontpage main {
-	height: 90vh;
 	background-image: url("/src/assets/img/bgr-widgets.png");
 	background-position: bottom;
 	background-repeat: repeat-x;
@@ -62,10 +86,9 @@ main {
 }
 
 .greenpage main {
-	background-image: url("/src/assets/img/bgr-widgets.png");
-	background-position: bottom;
-	background-repeat: no-repeat;
-	background-size: inherit;
+    background-image: url(/src/assets/img/bgr-widgets.png);
+    background-position: bottom;
+    background-repeat: repeat-x;
 }
 
 .bluepage {
@@ -80,16 +103,26 @@ main {
 	background-size: inherit;
 }
 
-.yellowpage {
-	background: rgb(139, 223, 207);
-	background: linear-gradient(180deg, rgba(139, 223, 207, 1) 4%, rgba(193, 227, 151, 1) 70%);
+.purplepage,
+.purplepage-register {
+	background: rgb(191, 223, 247);
+	background: var(--bg-purple-gradient);
 }
-.yellowpage main {
-	background-image: url(/src/assets/img/dashboard-widgets.png);
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: initial;
-	overflow-y: scroll;
+
+.purplepage-register main {
+	background-image: url("/src/assets/img/bgr-widgets.png");
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-size: 900px 415px;
+}
+
+.purplepage main {
+	height: 80vh;
+	min-height: 100%;
+	background-image: url("/src/assets/img/bgr-widgets.png");
+	background-position: bottom;
+	background-repeat: repeat-x;
+	background-size: 900px 415px;
 }
 
 img {
@@ -115,7 +148,7 @@ h3 {
 a {
 	color: black;
 	font-family: "montserrat", sans-serif;
-	font-weight: 500;
+	font-weight: 600;
 	text-decoration: none;
 }
 
@@ -130,13 +163,13 @@ label {
 }
 
 button {
+	font-family: "Montserrat" sans-serif;
 	cursor: pointer;
 }
 
 .page-container {
 	width: 90%;
-	height: 100%;
-	margin: 2em auto;
+	margin: auto;
 }
 
 .no-scroll {
@@ -172,7 +205,6 @@ button {
 
 @media (min-width: 500px) {
 	.page-container {
-		width: 80vw;
 		margin: 0.5em auto;
 	}
 
@@ -188,7 +220,7 @@ button {
 
 	.greenpage {
 		background: rgb(246, 250, 249);
-		background: linear-gradient(180deg, rgba(246, 250, 249, 10) 0%, rgb(181 243 229) 60%);
+		background: var(--bg-green-gradient);
 	}
 
 	.greenpage main {

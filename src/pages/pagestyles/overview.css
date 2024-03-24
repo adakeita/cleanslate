@@ -1,14 +1,134 @@
+#UserOverview {
+	margin: 3em auto;
+	max-width: 900px;
+}
+
 .no-data-wrapper {
 	background-color: var(--grey-frame);
-	padding: 1em 1em 2em;
-	border-radius: 0px 0px 20px 20px;
+	padding: 2em 1em;
+	border-radius: 24px;
 	box-shadow: var(--blue-shadow);
 	max-width: 380px;
-	margin: 0 auto;
+	margin: 4em auto;
 }
 
 .no-data-message {
 	margin: 1em auto;
+}
+
+/*
+Header Styles
+*/
+
+.header_user-overview {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+/*
+Datefilter
+*/
+
+.user-overview-content .datefilter-wrapper {
+	background-color: var(--grey-frame);
+	margin: 1em auto 2em;
+	padding: 1em 2em;
+	border-radius: 12px;
+	box-shadow: 0px 10px 16px 0px #49566ad4;
+	width: 80%;
+}
+
+.date-filter-options {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0.5em auto 0;
+}
+
+.datefilter-label {
+	display: flex;
+	align-items: center;
+	flex-direction: column-reverse;
+}
+
+.date-filter-options label {
+	transition: var(--smooth-transition);
+}
+
+.date-filter-options label:hover,
+.date-filter-options input:hover {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.date-filter-options input {
+	margin: 5px auto 0;
+	width: 100%;
+}
+
+/*
+User Overview Styles
+*/
+
+.data-presentation_user-overview {
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: flex-start;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.interaction_user-overview .total-cost-container,
+#UserOverview .datefilter-wrapper,
+.piechart-container,
+#UserOverview .barchart-container {
+	box-shadow: 0px 12px 16px 0px #536a574d;
+}
+
+.piechart-section_user-overview,
+.interaction_user-overview,
+.barchart-section_user-overview {
+	width: 80%;
+	margin: 0 auto;
+}
+
+/* 
+TotalCostSection
+*/
+
+.monetary-section_user-overview .total-cost-value {
+	width: 65%;
+	margin-bottom: 0;
+	border-radius: 12px;
+	border: 0;
+	background: var(--bg-purple-gradient);
+	box-shadow: inset 4px 5px 16px 0px #a999ac;
+}
+
+.monetary-section_user-overview .total-time-value {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+/*
+Barchart
+*/
+
+.barchart-section_user-overview {
+	margin: 2em auto;
+}
+
+.barchart-container {
+	width: 100%;
+	height: 30vh;
+	max-height: 500px;
+	padding: 0;
+}
+
+.barchart-content {
+	height: 100%;
+	width: 100%;
 }
 
 .user-overview-title {
@@ -16,14 +136,144 @@
 	text-align: center;
 }
 
-@media (min-width: 410px) {
-	.user-overview-title {
-		font-size: 30px;
-		margin: 2em auto 0.5em;
+/*
+DROPDOWN
+*/
+
+#UserOverview .log-activity {
+	width: 100%;
+	margin: 2em auto;
+}
+
+#UserOverview .chore-dropdown-container {
+	margin: 0em auto 3em;
+	box-shadow: 0px 12px 16px 0px #536a57;
+	border: 1px solid black;
+	background: linear-gradient(162deg, #ffffff 30%, #c5e4ff 90%);
+	transition: all 0.3s ease-in-out;
+	max-width: unset;
+}
+
+#UserOverview .dropdown-menu-btn {
+	font-size: 17px;
+}
+
+@media (min-width: 670px) {
+	#UserOverview {
+		margin: 3em auto;
 	}
 
-	.useroverview-content {
+	.no-data-wrapper {
+		background-color: var(--grey-frame);
+		padding: 1em 1em 2em;
+		border-radius: 0px 0px 20px 20px;
+		box-shadow: var(--blue-shadow);
+		max-width: 380px;
+		margin: 0 auto;
+	}
+
+	.no-data-message {
+		margin: 1em auto;
+	}
+
+	/*
+	Header Styles
+	*/
+
+	.header_user-overview {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	/*
+	Datefilter
+	*/
+
+	.user-overview-content .datefilter-wrapper {
+		background-color: var(--grey-frame);
+		margin: 1em 0 2em;
+		padding: 1em 1em 2em 1em;
+		border-radius: 12px;
+		box-shadow: 0px 10px 16px 0px #49566ad4;
+		width: 55%;
+	}
+
+	.date-filter-options {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin: 0.5em auto 0;
+	}
+
+	.datefilter-label {
+		display: flex;
+		align-items: center;
+		flex-direction: column-reverse;
+	}
+
+	.date-filter-options label {
+		transition: var(--smooth-transition);
+	}
+
+	.date-filter-options label:hover,
+	.date-filter-options input:hover {
+		cursor: pointer;
+		font-weight: bold;
+	}
+
+	.date-filter-options input {
+		margin: 5px auto 0;
+		width: 100%;
+	}
+
+	/*
+	User Overview Styles
+	*/
+
+	.data-presentation_user-overview {
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	.piechart-section_user-overview {
+		width: 55%;
+	}
+
+	.monetary-section_user-overview {
+		width: 100%;
+		margin-bottom: 1.5em;
+	}
+
+	.interaction_user-overview {
+		display: flex;
+		flex-direction: column;
+		width: 40%;
 		height: 100%;
-		margin: 5em auto;
+	}
+
+	.barchart-section_user-overview {
+		margin: 1em;
+		width: 55%;
+	}
+
+	.piechart-section_user-overview,
+	.interaction_user-overview,
+	.barchart-section_user-overview {
+		margin: 1.5em 0;
+	}
+
+	.user-overview-title {
+		font-size: 33px;
+		text-align: center;
+	}
+
+	#UserOverview .log-activity {
+		width: 95%;
+		margin: 0.5em auto;
+	}
+
+	#UserOverview .chore-dropdown-container {
+		margin: 0em auto;
 	}
 }

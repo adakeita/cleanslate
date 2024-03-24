@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const NavLink = ({ to, children, onClose }) => {
@@ -7,7 +7,7 @@ const NavLink = ({ to, children, onClose }) => {
       to={to}
       className="navitem-link"
       onClick={onClose}
-      activeProps={{
+      activeprops={{
         style: {
           paddingRight: "1em",
           textIndent: "1em",
@@ -15,7 +15,7 @@ const NavLink = ({ to, children, onClose }) => {
           boxShadow: "rgb(168 174 172) inset 2px 2px 4px 0px",
         },
       }}
-      inactiveProps={{
+      inactiveprops={{
         style: {
           fontWeight: "bold",
           boxShadow: "rgb(168 174 172) 0px 16px 12px 0px",

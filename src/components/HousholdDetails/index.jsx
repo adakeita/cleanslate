@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "react-router-dom";
 import {
   createNewHousehold,
   getCompleteUser,
@@ -72,7 +72,7 @@ const HouseholdDetails = () => {
         );
         setErrors({ feedbackMessage: "Household created successfully!" });
       }
-      navigate({ to: "/dashboard" });
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error handling household form submission:", error);
       setErrors({ feedbackMessage: error.message || "An error occurred." });

@@ -1,5 +1,4 @@
-import { Link } from "@tanstack/react-router";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCompleteUser, getUserChoreOverview } from "../lib/api";
 import { UserDetailsProvider } from "../contexts/UserDetailsContext";
@@ -91,7 +90,7 @@ const Dashboard = () => {
       );
       setIsHouseholdModalOpen(true);
     } else {
-      navigate({ to: "/household" });
+      navigate("/household");
     }
   };
 

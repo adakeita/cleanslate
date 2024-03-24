@@ -1,12 +1,10 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "react-router-dom";
 import AvatarSelection from "../AvatarSelection";
 import { newAvatars } from "../../lib/avatar.js";
 import PropTypes from "prop-types";
 import Modal from "../Modal";
-import avatar1 from "../../assets/avatar/avatar1.png";
-import avatar2 from "../../assets/avatar/avatar2.png";
 import "./signup.css";
 
 const SignupForm = () => {
@@ -74,7 +72,7 @@ const SignupForm = () => {
 
     try {
       await signUp(email, password, username, pronouns, avatar);
-      navigate({ to: "/dashboard" });
+      navigate("/dashboard");
     } catch (error) {
       setPasswordError(error.message);
     }

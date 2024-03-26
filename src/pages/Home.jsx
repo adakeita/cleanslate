@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
 import cleanSlateHome from "../assets/img/cleanslate-logo.svg";
+import ChoreDropdown from "../components/ChoreDropdown";
 import "./pagestyles/home.css";
 
 const HomePage = () => {
@@ -11,20 +12,20 @@ const HomePage = () => {
 
   return (
     <div id="homePage" className="page-container">
-      <div className="content-container">
-        <div className="frontpage-image-wrapper">
-          <img src={cleanSlateHome} alt="frontpage-img" />
+      <div className="content-container_home">
+        <div className="image-wrapper_home">
+          <img src={cleanSlateHome} alt="main-img_home" />
         </div>
-        <div className="btns-about_frontpage">
-          <section className="about-wrapper_frontpage">
-            <h1 className="header_frontpage">Guess less, share more</h1>
-            <p className="about-text_frontpage">
+        <div className="text-btns_home">
+          <section className="text-section_home">
+            <h1 className="header_home">Guess less, share more</h1>
+            <p className="text_home">
               Discover a playful way towards balanced home management with
               CleanSlate.
             </p>
           </section>
           {!isAuthenticated && (
-            <div className="frontpage-btn-wrapper">
+            <div className="signedout-btn-wrapper_home">
               <Link
                 role="button"
                 to="/login"
@@ -42,12 +43,15 @@ const HomePage = () => {
             </div>
           )}
           {isAuthenticated && (
-            <div className="home-dashboard">
+            <div className="signedin-btn-wrapper_home">
+              <div className="dropdown_home">
+                <ChoreDropdown />
+              </div>
               <Link
                 aria-roledescription="button"
                 role="button"
                 to="/dashboard"
-                className="btn-link dashboard-btn"
+                className="btn-link dashboard-btn_home"
               >
                 Dashboard
               </Link>

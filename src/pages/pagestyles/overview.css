@@ -145,7 +145,7 @@ DROPDOWN
 	margin: 2em auto;
 }
 
-#UserOverview .chore-dropdown-container {
+#UserOverview .chorelogger-wrap {
 	margin: 0em auto 3em;
 	box-shadow: 0px 12px 16px 0px #536a57;
 	border: 1px solid black;
@@ -273,7 +273,7 @@ DROPDOWN
 		margin: 0.5em auto;
 	}
 
-	#UserOverview .chore-dropdown-container {
+	#UserOverview .chorelogger-wrap {
 		margin: 0em auto;
 	}
 }

@@ -198,10 +198,6 @@ button {
 }
 
 @media (min-width: 650px) {
-	.page-container {
-		margin: 0.5em auto;
-	}
-
 	.frontpage main {
 		background-size: 950px 470px;
 		background-repeat: repeat-x;

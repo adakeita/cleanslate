@@ -95,7 +95,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div id="dashboardContainer" className="page-container">
+    <div id="dashboardContainer" className="content-container_dashboard">
       <UserDetailsProvider>
         <div className="greeting-wrapper">
           <h1 className="greeting_dashboard">

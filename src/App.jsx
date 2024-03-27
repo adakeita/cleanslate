@@ -8,7 +8,7 @@ function App({ children }) {
     <AuthProvider>
       <UIProvider>
         <Navbar />
-        <main>{children}</main>
+        <main className="page-container">{children}</main>
         <Footer />
       </UIProvider>
     </AuthProvider>

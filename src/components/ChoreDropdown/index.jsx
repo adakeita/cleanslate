@@ -96,7 +96,7 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
   };
 
   return (
-    <div className="chore-dropdown-container">
+    <div className="chorelogger-wrap">
       <button className="dropdown-menu-btn" onClick={toggleDropdown}>
         {dropdownOpen ? "Close menu" : "Log activity"}{" "}
         {dropdownOpen ? " ▲ " : " ▼ "}

@@ -4,7 +4,7 @@
 :root {
 	/*BACKGROUNDS*/
 	--bg-green: rgb(167, 192, 158);
-	--bg-blue: #8295b2;
+	--bg-blue: #8ca7cf;
 	--bg-green-gradient: linear-gradient(180deg, rgba(223, 241, 203, 1) 20%, rgba(197, 239, 230, 1) 80%);
 	--light-purple-gradient: linear-gradient(90deg, rgba(191, 222, 246, 1) 20%, rgba(216, 202, 222, 1) 80%);
 	--bg-purple-gradient: linear-gradient(80deg, rgba(191, 223, 247, 1) 20%, rgba(218, 201, 221, 1) 80%);
@@ -48,36 +48,34 @@ html {
 	box-sizing: inherit;
 }
 
-body,
-#root {
-	margin: 0;
-	padding: 0;
-	min-height: 100vh;
+body {
 	width: 100vw;
+	min-height: 100vh;
+	margin: 0;
 	overflow-x: hidden;
-	display: flex;
-	flex-direction: column;
 }
 
 main {
-	flex: 1;
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	overflow-x: hidden;
-	margin: 0;
+	overflow-y: scroll;
 }
 
 .frontpage {
 	background: rgb(246, 250, 249);
-	background: var(--bg-green-gradient);
+	background: var(--bg-blue);
 }
 
 .frontpage main {
 	background-image: url("/src/assets/img/bgr-widgets.png");
 	background-position: bottom;
 	background-repeat: repeat-x;
-	background-size: 900px 415px;
+	background-size: 195% 45%;
 }
 
 .greenpage {
@@ -86,9 +84,9 @@ main {
 }
 
 .greenpage main {
-    background-image: url(/src/assets/img/bgr-widgets.png);
-    background-position: bottom;
-    background-repeat: repeat-x;
+	background-image: url(/src/assets/img/bgr-widgets.png);
+	background-position: bottom;
+	background-repeat: repeat-x;
 }
 
 .bluepage {
@@ -163,13 +161,9 @@ label {
 }
 
 button {
-	font-family: "Montserrat" sans-serif;
+	font-family: "Montserrat";
+	font-weight: 600;
 	cursor: pointer;
-}
-
-.page-container {
-	width: 90%;
-	margin: auto;
 }
 
 .no-scroll {
@@ -203,18 +197,9 @@ button {
 	border-radius: 10px;
 }
 
-@media (min-width: 500px) {
-	.page-container {
-		margin: 0.5em auto;
-	}
-
-	.frontpage {
-		background: rgb(246, 250, 249);
-		background: linear-gradient(180deg, rgba(246, 250, 249, 10) 0%, rgba(191, 236, 226) 60%);
-	}
-
+@media (min-width: 650px) {
 	.frontpage main {
-		background-size: 800px 350px;
+		background-size: 950px 470px;
 		background-repeat: repeat-x;
 	}
 

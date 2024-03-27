@@ -78,7 +78,7 @@ const OverviewPage = () => {
   );
 
   return (
-    <div className="page-container">
+    <div className="content-container_user-overview">
       <div id="UserOverview">
         <div className="header_user-overview">
           <button>Back to Dashboard</button>

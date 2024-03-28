@@ -5,6 +5,7 @@
 	/*BACKGROUNDS*/
 	--bg-green: rgb(167, 192, 158);
 	--bg-blue: #8ca7cf;
+	--bg-dashboard-blue: #aad5f6;
 	--bg-green-gradient: linear-gradient(180deg, rgba(223, 241, 203, 1) 20%, rgba(197, 239, 230, 1) 80%);
 	--light-purple-gradient: linear-gradient(90deg, rgba(191, 222, 246, 1) 20%, rgba(216, 202, 222, 1) 80%);
 	--bg-purple-gradient: linear-gradient(80deg, rgba(191, 223, 247, 1) 20%, rgba(218, 201, 221, 1) 80%);
@@ -79,8 +80,7 @@ main {
 }
 
 .greenpage {
-	background: rgb(246, 250, 249);
-	background: var(--bg-green-gradient);
+	background: var(--bg-dashboard-blue);
 }
 
 .greenpage main {
@@ -201,11 +201,6 @@ button {
 	.frontpage main {
 		background-size: 950px 470px;
 		background-repeat: repeat-x;
-	}
-
-	.greenpage {
-		background: rgb(246, 250, 249);
-		background: var(--bg-green-gradient);
 	}
 
 	.greenpage main {

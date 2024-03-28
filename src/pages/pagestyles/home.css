@@ -117,6 +117,7 @@
 	box-shadow: 0px 12px 16px 0px #53637b;
 	cursor: pointer;
 }
+
 .signedout-btn-wrapper_home {
 	width: 90%;
 	display: flex;
@@ -133,6 +134,7 @@
 	align-items: center;
 	justify-content: center;
 	font-weight: bold;
+	box-shadow: 0px 12px 16px 0px #53637b;
 }
 
 .register-btn-homepage {

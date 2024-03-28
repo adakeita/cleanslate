@@ -1,3 +1,8 @@
+.content-container_user-overview {
+	width: 80%;
+	margin: 0 auto;
+}
+
 #UserOverview {
 	margin: 3em auto;
 	max-width: 900px;
@@ -92,22 +97,68 @@ User Overview Styles
 	margin: 0 auto;
 }
 
+.interaction_user-overview {
+	display: flex;
+	flex-direction: column-reverse;
+	margin: 0 auto 2.5em;
+}
+
 /* 
 TotalCostSection
 */
 
-.monetary-section_user-overview .total-cost-value {
+.monetary-section_user-overview .content_total-cost {
+	margin: 1em 0;
+}
+
+.monetary-section_user-overview .total-cost-header {
+	font-size: 20px;
+}
+
+.monetary-section_user-overview .total-cost-value,
+.monetary-section_user-overview .total-time-value {
 	width: 65%;
+	font-family: "Montserrat", sans-serif;
+	font-size: 20px;
 	margin-bottom: 0;
-	border-radius: 12px;
 	border: 0;
+	border-radius: 12px;
+}
+
+.monetary-section_user-overview .total-cost-value {
 	background: var(--bg-purple-gradient);
-	box-shadow: inset 4px 5px 16px 0px #a999ac;
+	box-shadow: inset 5px 6px 12px 1px #85688ad2;
+}
+
+.monetary-section_user-overview .time-wrapper {
+	margin: 1.5em 0;
 }
 
 .monetary-section_user-overview .total-time-value {
-	font-size: 20px;
+	background: white;
+	box-shadow: inset 7px 7px 13px 0px #a999ac;
+	margin: 0 auto;
+	padding: 0.5em 1em;
 	font-weight: bold;
+}
+
+/*
+Piechart
+*/
+.piechart-section_user-overview .piechart-container {
+	background-color: var(--grey-frame);
+	padding: 1em 0;
+	border-radius: 24px;
+	min-height: 320px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+}
+
+.piechart-section_user-overview .piechart-container-content {
+	height: 100%;
+	width: 100%;
+	margin: 0;
 }
 
 /*
@@ -123,6 +174,8 @@ Barchart
 	height: 30vh;
 	max-height: 500px;
 	padding: 0;
+	min-height: 320px;
+	padding: 1.5em 0;
 }
 
 .barchart-content {
@@ -141,11 +194,11 @@ DROPDOWN
 
 #UserOverview .log-activity {
 	width: 100%;
-	margin: 2em auto;
+	margin: 1em auto 1em;
 }
 
 #UserOverview .chorelogger-wrap {
-	margin: 0em auto 3em;
+	margin: 0em auto 1.5em;
 	box-shadow: 0px 12px 16px 0px #536a57;
 	border: 1px solid black;
 	background: linear-gradient(162deg, #ffffff 30%, #c5e4ff 90%);
@@ -157,9 +210,10 @@ DROPDOWN
 	font-size: 17px;
 }
 
-@media (min-width: 670px) {
+@media (min-width: 745px) {
 	#UserOverview {
 		margin: 3em auto;
+		width: 100%;
 	}
 
 	.no-data-wrapper {
@@ -247,6 +301,7 @@ DROPDOWN
 	.interaction_user-overview {
 		display: flex;
 		flex-direction: column;
+		margin: 0 auto;
 		width: 40%;
 		height: 100%;
 	}
@@ -274,5 +329,9 @@ DROPDOWN
 
 	#UserOverview .chorelogger-wrap {
 		margin: 0em auto;
+	}
+
+	.monetary-section_user-overview .content_total-cost {
+		margin: 1em 0;
 	}
 }

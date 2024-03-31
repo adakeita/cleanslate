@@ -22,8 +22,8 @@ export default async (req, res) => {
       if (error.response) {
         console.error(error.response.body);
       }
-      console.log("Request body:", req.body);
       return res.status(500).json({ error: "Failed to send email" });
+      console.log("Request body:", req.body);
     }
   } else {
     res.setHeader("Allow", ["POST"]);

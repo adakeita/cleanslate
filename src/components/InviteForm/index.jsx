@@ -8,19 +8,31 @@ const InviteForm = ({ onInviteSent }) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [householdId, setHouseholdId] = useState("");
 
   async function sendMagicLinkEmail(email, link) {
-    const response = await fetch("/api/sendMagicLink", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, link }),
-    });
+    try {
+      const response = await fetch("/api/sendMagicLink", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, link }),
+      });
 
-    if (!response.ok) {
-      throw new Error("Failed to send magic link email");
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error("Error details:", errorDetails);
+        throw new Error(
+          errorDetails.error || "Failed to send magic link email"
+        );
+      }
+
+      // Assuming the server responds with JSON indicating success
+      const data = await response.json();
+      console.log("Magic link email sent response:", data);
+    } catch (error) {
+      console.error("Error sending magic link email:", error);
+      throw error; // Re-throw to be caught in handleSendInvite
     }
   }
 
@@ -29,15 +41,17 @@ const InviteForm = ({ onInviteSent }) => {
       setError("You must be part of a household to send an invite.");
       return;
     }
+
     setLoading(true);
+    setError("");
     try {
-      setLoading(true);
-      const link = await generateMagicLink(userDetails.household.householdId);
+      const link = await generateMagicLink(userDetails.household.id); // Ensure correct property access
       await sendMagicLinkEmail(email, link);
-      onInviteSent();
       console.log("Invite sent successfully");
       setLoading(false);
+      onInviteSent?.(); // Call onInviteSent callback if provided
     } catch (error) {
+      console.error("Invite sending error:", error);
       setError("Failed to send the invite. Please try again.");
       setLoading(false);
     }
@@ -55,7 +69,7 @@ const InviteForm = ({ onInviteSent }) => {
       <button onClick={handleSendInvite} disabled={loading}>
         Send Invite
       </button>
-      {error && <p>{error}</p>}
+      {error && <p className="error">{error}</p>}
     </div>
   );
 };

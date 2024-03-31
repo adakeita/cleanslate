@@ -23,7 +23,7 @@ function AppRoutes() {
         <Route path="/household" element={<HouseholdPage />} />
         <Route path="/overview" element={<OverviewPage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/invite" element={<InvitePage />} />
+        <Route path="/invite:token" element={<InvitePage />} />
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       </Routes>
   );

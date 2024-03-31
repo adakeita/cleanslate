@@ -1,4 +1,4 @@
-import supabase from "./supabaseClient";
+import supabase from "./supabaseConfig";
 import { determineDateRange } from "../utils/dateutils";
 
 // export const signUp = async (email, password) => {

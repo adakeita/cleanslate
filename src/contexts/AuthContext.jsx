@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import supabase from "../lib/supabaseClient";
+import supabase from "../lib/supabaseConfig";
 
 export const AuthContext = createContext();
 

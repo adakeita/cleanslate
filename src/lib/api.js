@@ -1,4 +1,5 @@
 import supabase from "./supabaseClient";
+import { determineDateRange } from "../utils/dateutils";
 
 // export const signUp = async (email, password) => {
 // 	if (!email || !password) {
@@ -64,23 +65,22 @@ export const updateUserDetails = async (
 // 	}
 // };
 
-const createNewHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
+export const createNewHousehold = async (
+  householdName,
+  sizeInSqm,
+  numberOfRooms,
+  userId
+) => {
   try {
     // Check if household with the same name already exists
     const { data: existingHousehold, error: existingError } = await supabase
       .from("household_details")
       .select("household_id")
       .eq("household_name", householdName)
-      .single();
+      .maybeSingle();
 
-    if (existingError && existingError.code !== "PGRST116") {
-      // Exclude "No rows returned" error
-      throw existingError;
-    }
-
-    if (existingHousehold) {
-      throw new Error("Household name already taken.");
-    }
+    if (existingError) throw existingError;
+    if (existingHousehold) throw new Error("Household name already taken.");
 
     // Insert new household details
     const { error: insertError } = await supabase
@@ -93,12 +93,8 @@ const createNewHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
         },
       ]);
 
-    if (insertError) {
-      console.error("Error inserting new household:", insertError);
-      throw new Error("Failed to create new household.");
-    }
+    if (insertError) throw insertError;
 
-    // Query created household
     const { data: newHousehold, error: queryError } = await supabase
       .from("household_details")
       .select("household_id")
@@ -110,17 +106,103 @@ const createNewHousehold = async (householdName, sizeInSqm, numberOfRooms) => {
       throw new Error("Failed to retrieve new household.");
     }
 
+    // Ensure newHousehold contains the expected data
     if (!newHousehold || !newHousehold.household_id) {
-      throw new Error(
-        "New household creation failed or household_id is missing."
-      );
+      throw new Error("Failed to create new household.");
     }
 
-    return newHousehold;
+    // Link the user to the new household
+    const { error: linkError } = await supabase
+      .from("user_details")
+      .update({ household_id: newHousehold.household_id })
+      .eq("user_id", userId);
+
+    if (linkError) throw linkError;
+
+    console.log(
+      "Household created and user linked successfully:",
+      newHousehold
+    );
+
+    updateHouseholdDataInCompleteUser();
+    return { household_id: newHousehold.household_id };
   } catch (error) {
-    console.error("Error in createNewHousehold function:", error);
+    console.error("Error creating and linking new household:", error);
     throw error;
   }
+};
+
+export const generateMagicLink = async (householdId) => {
+  const token = crypto.randomBytes(16).toString("hex");
+  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24-hour expiration
+
+  await supabase
+    .from("household_invitations")
+    .insert([
+      { household_id: householdId, token: token, expires_at: expiresAt },
+    ]);
+
+  const link = `/invite/${token}`;
+  return link;
+};
+
+export const validateInvitationToken = async (token) => {
+  const response = await fetch("/api/validate-invitation", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to validate invitation");
+  }
+
+  return response.json();
+};
+
+export const joinHouseholdUsingToken = async (token) => {
+  // Fetch invitation details
+  const { data: invitation, error } = await supabase
+    .from("household_invitations")
+    .select("*")
+    .eq("token", token)
+    .single();
+
+  if (
+    error ||
+    !invitation ||
+    invitation.used ||
+    new Date() > new Date(invitation.expires_at)
+  ) {
+    throw new Error("Invalid or expired invitation.");
+  }
+
+  const completeUser = await getCompleteUser();
+  if (!completeUser) {
+    throw new Error("User must be logged in to accept an invitation.");
+  }
+
+  const userId = completeUser.authUserId;
+
+  // Mark the invitation as used
+  await supabase
+    .from("household_invitations")
+    .update({ used: true })
+    .eq("id", invitation.id);
+
+  // Link the user to the household
+  const { error: linkError } = await supabase
+    .from("user_details")
+    .update({ household_id: invitation.household_id })
+    .eq("user_id", userId);
+
+  if (linkError) {
+    throw new Error("Failed to link user to household.");
+  }
+
+  return { success: true, householdId: invitation.household_id };
 };
 
 export const linkUserToHousehold = async (
@@ -237,6 +319,66 @@ export const joinExistingHousehold = async (householdName) => {
     console.error("Error in joinExistingHousehold function:", error);
     throw error;
   }
+};
+
+export const updateChoreDataInCompleteUser = async () => {
+  const completeUser = JSON.parse(sessionStorage.getItem("completeUser"));
+  if (!completeUser) return;
+
+  const { data: userChores, error: choresError } = await supabase
+    .from("chore_log")
+    .select(
+      `
+      log_id,
+      subcategory_id,
+      timestamp,
+      duration_in_sessions,
+      total_minutes,
+      total_monetary_value,
+      category_id
+    `
+    )
+    .eq("user_detail_id", completeUser.userDetailsId);
+
+  if (choresError) {
+    console.error("Error fetching user chores:", choresError);
+    return;
+  }
+
+  completeUser.chores = userChores;
+
+  sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
+};
+
+export const updateHouseholdDataInCompleteUser = async () => {
+  const completeUser = JSON.parse(sessionStorage.getItem("completeUser"));
+  if (!completeUser) return;
+
+  const { data: householdDetails, error: householdDetailsError } =
+    await supabase
+      .from("household_details")
+      .select("household_name, number_of_rooms, size_in_sqm")
+      .eq("id", completeUser.household.id)
+      .single();
+
+  if (householdDetailsError) {
+    console.error(
+      "Error fetching updated household details:",
+      householdDetailsError
+    );
+    return;
+  }
+
+  // Update the household part of completeUser
+  completeUser.household = {
+    ...completeUser.household,
+    name: householdDetails.household_name,
+    numberOfRooms: householdDetails.number_of_rooms,
+    sizeInSqm: householdDetails.size_in_sqm,
+    users: otherUsers ? otherUsers : [],
+  };
+
+  sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
 };
 
 export const getCompleteUser = async () => {
@@ -408,6 +550,8 @@ export const logChore = async (subcategory_id, duration_in_sessions) => {
       throw new Error("Failed to log chore.");
     }
 
+    updateChoreDataInCompleteUser();
+
     console.log("Chore logged successfully.");
   } catch (error) {
     console.error("Error in logChore function:", error);
@@ -489,7 +633,7 @@ export const getUserChoreOverview = async (userDetailId, filter) => {
   }
 };
 
-function determineDateRange(filter) {
+function ldetermineDateRange(filter) {
   //TODO: There must be a better way to do this(?)
   const now = new Date();
   let startDate, endDate;
@@ -514,7 +658,9 @@ function determineDateRange(filter) {
       endDate = new Date(startDate);
       endDate.setDate(startDate.getDate() + 6);
       endDate.setHours(23, 59, 59, 999);
-      console.log(`Filter: ${filter}, Start Date: ${startDate}, End Date: ${endDate}`);
+      console.log(
+        `Filter: ${filter}, Start Date: ${startDate}, End Date: ${endDate}`
+      );
       break;
     case "month":
       startDate = new Date(now.getFullYear(), now.getMonth(), 1);

@@ -8,7 +8,7 @@
 	max-width: 400px;
 	height: 100%;
 	padding: 2em 0em;
-	background-color: #ffffff6b;
+	background: var(--bg-green-gradient);
 	border-radius: 10px;
 	box-shadow: 3px 5px 0px 0 rgba(0, 0, 0, 0.2);
 }
@@ -47,9 +47,14 @@
 	margin: 0.5em 0em;
 	padding: 0.5em 1em;
 	border: none;
-	border-radius: 5px;
+	border-radius: 12px;
 	background-color: #ffffff;
-	box-shadow: 3px 5px 0px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 12px 16px 0 rgb(129 166 158);
+	font-size: 14px;
+}
+
+#household-name {
+	box-shadow: inset 3px 3px 5px 0 rgb(0 0 0 / 30%);
 }
 
 .room-btn-container {
@@ -58,20 +63,21 @@
 	width: 100%;
 	margin: 0.5em 0em;
 	align-items: center;
-	justify-content: space-between;
-	box-shadow: 3px 5px 0px 0 rgba(0, 0, 0, 0.2);
-	border-radius: 5px;
+	justify-content: space-evenly;
+	box-shadow: 0px 12px 16px 0 rgb(129 166 158);
+	border-radius: 12px;
 }
 
 .room-btn {
 	padding: 0.2em 0.5em;
 	font-size: 15px;
-	margin: 0.2em 1em;
+	margin: 0.2em 2em;
 	border: none;
 	border-radius: 5px;
 	background: none;
 	cursor: pointer;
 	transition: all 0.3s ease-in-out;
+	width: 25%;
 }
 
 .room-btn:hover {
@@ -79,17 +85,22 @@
 	background: #5bc94f77;
 }
 
+.current-room-selection {
+	display: flex;
+	justify-content: center;
+	width: 30%;
+}
+
 .householdform-btn,
 .check-household-btn {
-	width: 50%;
+	font-size: 14px;
+    padding: 0.8em 0em;
+    width: 45%;
+    border-radius: 12px;
 	margin: 1em 0em;
 	font-size: 14px;
-	font-weight: 600;
-	letter-spacing: 1.2px;
-	background: linear-gradient(#bae7a9, #178194);
-	border: 2px solid #e9eaf1;
-	color: #ebecf2;
-	box-shadow: 3px 5px 0px 0 rgba(0, 0, 0, 0.2);
+	background: var(--btn-green-gradient);
+	box-shadow: 0px 12px 16px 0 rgb(129 166 158);
 	transition: all 0.3s ease-in-out;
 	cursor: pointer;
 }
@@ -159,9 +170,9 @@
 
 .toggle-join-create {
 	text-align: center;
-    font-size: 17px;
-    margin: auto;
-    width: 80%;
+	font-size: 17px;
+	margin: auto;
+	width: 80%;
 	max-width: 400px;
 }
 

@@ -1,0 +1,40 @@
+.household-options-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 80%;
+    margin: 3em auto;
+    background-color: rgba(235, 230, 222, 0.782);
+    border-radius: 24px;
+    box-shadow: inset 0px 15px 20px #ffffff;
+}
+
+.household-operations-btns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    margin: 1em auto 3em;
+}
+
+.household-operations-btn {
+    width: 100%;
+    min-width: 180px;
+    margin: 1.5em 0;
+    font-size: 16px;
+    padding: 1em 1.5em;
+    border-radius: 24px;
+    background: var(--btn-blue-gradient);
+    box-shadow: var(--btn-shadow);
+    transition: all 0.3s ease-in-out;
+}
+
+.household-operations-btn:hover {
+    transform: scale(1.1);
+}
+
+.leave-household-btn {
+    background: var(--btn-red-gradient);
+}

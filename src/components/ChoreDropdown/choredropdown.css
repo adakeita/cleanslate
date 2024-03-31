@@ -1,5 +1,4 @@
 button {
-	font-family: "DM Serif Display";
 	background: none;
 	border: none;
 	width: 100%;
@@ -18,7 +17,7 @@ button {
 	transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
-.chore-dropdown-container {
+.chorelogger-wrap {
 	background: white;
 	max-width: 245px;
 	margin: auto;
@@ -28,7 +27,7 @@ button {
 }
 
 .dropdown-menu-btn {
-	font-size: 16px;
+	font-size: 17px;
 }
 
 .chore-dropdown-content {
@@ -36,7 +35,7 @@ button {
 }
 
 .chore-dropdown-menu {
-	width: 95%;
+	width: 100%;
 	margin: 1em auto;
 	padding: 0;
 }
@@ -54,7 +53,7 @@ button {
 	width: 100%;
 	height: 3em;
 	font-size: 14px;
-	padding: 0.7em 0.2em;
+	padding: 0.7em 0.3em;
 	font-family: "DM Sans", sans-serif;
 	text-align: left;
 	cursor: pointer;
@@ -64,13 +63,14 @@ button {
 }
 
 .dropdown-li:hover {
-	background: #f2f2f2;
+	background: #fffffff8;
+	text-decoration: underline;
 	font-weight: bold;
 }
 
 .session-category {
 	margin: 0.5em 0 0.5em 0;
-	font-size: 14px;
+	font-size: 15px;
 	text-align: center;
 	text-decoration: underline;
 }
@@ -80,11 +80,12 @@ button {
 }
 
 .session-control {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-evenly;
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0.5em auto 1.5em;
 }
 
 .session-explain {
@@ -95,7 +96,8 @@ button {
 }
 
 .session-no {
-	width: 30%;
+	width: 25%;
+	background: white;
 	padding: 0.5em 0;
 	display: flex;
 	justify-content: center;
@@ -123,16 +125,18 @@ button {
 }
 
 .done-btn {
-	display: flex;
-	flex-direction: row;
-	width: 60%;
-	align-items: center;
-	margin: auto;
-	justify-content: space-around;
-	border: 1px solid black;
-	border-radius: 5px;
-	box-shadow: 2px 2px 1px 0px rgb(0 0 0 / 35%);
-	transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    width: 35%;
+    align-items: center;
+    margin: 2em auto;
+    font-size: 15px;
+    justify-content: space-around;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 2px 2px 1px 0px rgb(0 0 0 / 35%);
+    transition: all 0.3s ease-in-out;
+    background: white;
 }
 
 .done-btn:hover {
@@ -145,12 +149,13 @@ button {
 }
 
 .back-btn {
-	display: flex;
-	flex-direction: row;
-	width: 45%;
-	align-items: center;
-	margin: auto;
-	transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    margin: auto;
+    transition: all 0.3s ease-in-out;
+    justify-content: center;
 }
 
 .back-btn:hover {

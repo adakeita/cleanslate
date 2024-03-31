@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
 import { UserDetailsContext } from "../../contexts/UserDetailsContext";
-import { generateMagicLink } from "../../lib/api";
 import "./inviteform.css";
 
 const InviteForm = ({ onInviteSent }) => {
@@ -41,11 +40,28 @@ const InviteForm = ({ onInviteSent }) => {
       setError("You must be part of a household to send an invite.");
       return;
     }
-
     setLoading(true);
     setError("");
     try {
-      const link = await generateMagicLink(userDetails.household.id); // Ensure correct property access
+      // Call the generateToken function via API
+      const generateTokenResponse = await fetch("/api/generateToken", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email, // Assuming you want to send the email to the invitee
+          householdId: userDetails.household.id,
+        }),
+      });
+
+      if (!generateTokenResponse.ok) {
+        throw new Error("Failed to generate invitation link");
+      }
+
+      const { link } = await generateTokenResponse.json();
+
+      // Use the returned link to send the email
       await sendMagicLinkEmail(email, link);
       console.log("Invite sent successfully");
       setLoading(false);

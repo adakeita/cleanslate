@@ -8,7 +8,7 @@ export default async (req, res) => {
     const msg = {
       to: email,
       from: "hello@adakeita.dev",
-      subject: "Join My Household App",
+      subject: "Join My Household!",
       text: `You've been invited to join a household! Click here to join: ${link}`,
       html: `You've been invited to join a household! Click <a href="${link}">here</a> to join.`,
     };
@@ -23,7 +23,6 @@ export default async (req, res) => {
         console.error(error.response.body);
       }
       return res.status(500).json({ error: "Failed to send email" });
-      console.log("Request body:", req.body);
     }
   } else {
     res.setHeader("Allow", ["POST"]);

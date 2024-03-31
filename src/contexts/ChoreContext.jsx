@@ -8,13 +8,22 @@ export const useChores = () => useContext(ChoreContext);
 export const ChoreProvider = ({ children }) => {
   const [chores, setChores] = useState([]);
 
+  const getCurrentUserId = () => {
+    const userDetails =
+      JSON.parse(sessionStorage.getItem("completeUser")) || {};
+    return userDetails?.userDetailsId;
+  };
+
   // Fetch initial chore data
   const fetchChores = async () => {
+    const currentUserId = getCurrentUserId();
     try {
       const { data, error } = await supabase
         .from("chore_log")
-        .select("*, timestamp");
+        .select("*, timestamp")
+        .eq("user_detail_id", currentUserId);
       if (error) throw error;
+
       // Timestamps to Date objects if necessary
       const choresWithTimestamps = data.map((chore) => ({
         ...chore,

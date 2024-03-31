@@ -132,20 +132,6 @@ export const createNewHousehold = async (
   }
 };
 
-export const generateMagicLink = async (householdId) => {
-  const token = crypto.randomBytes(16).toString("hex");
-  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24-hour expiration
-
-  await supabase
-    .from("household_invitations")
-    .insert([
-      { household_id: householdId, token: token, expires_at: expiresAt },
-    ]);
-
-  const link = `/invite/${token}`;
-  return link;
-};
-
 export const validateInvitationToken = async (token) => {
   const response = await fetch("/api/validate-invitation", {
     method: "POST",

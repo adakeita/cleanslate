@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { getCompleteUser, getUserChoreOverview } from "../lib/api";
-import { UserDetailsProvider } from "../contexts/UserDetailsContext";
+import { useState, useEffect, useContext } from "react";
+import { UserDetailsContext } from "../contexts/UserDetailsContext";
 import { useUpdateBodyClass } from "../hooks/useUpdateBodyClass";
+import { useChores } from "../contexts/ChoreContext";
+import { isWithinInterval } from "date-fns";
 import TotalCostComponent from "../components/TotalCostComponent";
 import { getCurrentDayAndDate } from "../lib/utils";
 import HouseholdOptions from "../components/HouseholdOptions";
@@ -15,6 +16,9 @@ import "./pagestyles/dashboard.css";
 
 const Dashboard = () => {
   useUpdateBodyClass("/dashboard");
+  const { chores } = useChores();
+  const { userDetails, fetchAndSetUserDetails } =
+    useContext(UserDetailsContext);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,52 +31,75 @@ const Dashboard = () => {
     setIsDropdownOpen(isOpen);
   };
 
-  const currentDayAndDate = getCurrentDayAndDate();
-
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const completeUser = await getCompleteUser();
-
-        setUserDetails({
-          username: completeUser.username,
-          avatar: completeUser.avatar,
-          alternateAvatar: completeUser.alternateAvatar,
-          household: completeUser.household,
-        });
-
-        const fetchedOverviewData = await getUserChoreOverview(
-          completeUser.userDetailsId,
-          "day"
-        );
-
-        const totalMinutes = fetchedOverviewData.reduce(
-          (acc, item) => acc + item.total_minutes,
-          0
-        );
-        const totalCost = fetchedOverviewData.reduce(
-          (acc, item) => acc + (parseFloat(item.total_monetary_value) || 0),
-          0
-        );
-
-        setGrandTotalCost(totalCost);
-        setGrandTotalMinutes(totalMinutes);
-      } catch (error) {
-        console.error("Error fetching user details:", error);
-      }
-    };
-
-    fetchUserDetails();
-  }, []);
-
-  const [userDetails, setUserDetails] = useState({
-    username: "",
-    avatar: "",
-    alternateAvatar: "",
-    household: null,
-  });
+    if (!userDetails) {
+      fetchAndSetUserDetails();
+      console.log("Fetching user details from fallback in Dashboard");
+    }
+  }, [userDetails, fetchAndSetUserDetails]);
 
   const navigate = useNavigate();
+
+  const currentDayAndDate = getCurrentDayAndDate();
+  const determineDateRange = (filter) => {
+    const today = new Date();
+    let startDate = new Date();
+    let endDate = new Date();
+
+    switch (filter) {
+      case "day":
+        startDate = new Date(today.setHours(0, 0, 0, 0));
+        endDate = new Date(today.setHours(23, 59, 59, 999));
+        break;
+      case "week":
+        startDate = new Date(today.setDate(today.getDate() - today.getDay()));
+        endDate = new Date(today.setDate(today.getDate() + 6));
+        break;
+      case "month":
+        startDate = new Date(today.setDate(1));
+        endDate = new Date(today.setDate(0));
+        break;
+      case "year":
+        startDate = new Date(today.setMonth(0, 1));
+        endDate = new Date(today.setMonth(11, 31));
+        break;
+      case "all":
+        startDate = new Date(0);
+        endDate = new Date();
+        break;
+      default:
+        break;
+    }
+
+    return [startDate, endDate];
+  };
+
+  useEffect(() => {
+    const [startDate, endDate] = determineDateRange("day");
+
+    const filteredChores = chores.filter((chore) => {
+      if (!chore.timestamp) {
+        console.error("Chore without timestamp found:", chore);
+        return false;
+      }
+      return isWithinInterval(new Date(chore.timestamp), {
+        start: startDate,
+        end: endDate,
+      });
+    });
+
+    const totalMinutes = filteredChores.reduce(
+      (acc, chore) => acc + chore.total_minutes,
+      0
+    );
+    const totalCost = filteredChores.reduce(
+      (acc, chore) => acc + parseFloat(chore.total_monetary_value || 0),
+      0
+    );
+
+    setGrandTotalCost(totalCost);
+    setGrandTotalMinutes(totalMinutes);
+  }, [chores]);
 
   const handleOpenHouseholdModal = () => {
     setIsHouseholdModalOpen(true);
@@ -96,95 +123,93 @@ const Dashboard = () => {
 
   return (
     <div id="dashboardContainer" className="content-container_dashboard">
-      <UserDetailsProvider>
-        <div className="greeting-wrapper">
-          <h1 className="greeting_dashboard">
-            Hi {userDetails.username || "Loading..."}!
-          </h1>
-        </div>
-        <div className="main-content_dashboard">
-          <div className="profile-wrapper_dashboard">
-            <div className="test-wrapper">
-              <div className="avatar-wrapper_dashboard">
-                <img
-                  src={userDetails.avatar}
-                  alt="profile-img"
-                  className="profile-img_dashboard"
-                />
-              </div>
-            </div>
-            <div className="edit-profile-btn-wrapper_dashboard">
-              <button
-                onClick={handleHouseholdOptionsClick}
-                className="edit-profile-btn_dashboard"
-              >
-                Edit Profile
-              </button>
-            </div>
-          </div>
-          <section className="hero_dashboard">
-            <div className="totalday_dashboard-wrapper">
-              <div className="date-wrapper_dashboard">
-                <h2 className="date_dashboard">{currentDayAndDate}</h2>
-              </div>
-              <TotalCostComponent
-                totalCost={grandTotalCost}
-                totalMinutes={grandTotalMinutes}
+      <div className="greeting-wrapper">
+        <h1 className="greeting_dashboard">
+          Hi {userDetails?.username || "Loading..."}!
+        </h1>
+      </div>
+      <div className="main-content_dashboard">
+        <div className="profile-wrapper_dashboard">
+          <div className="test-wrapper">
+            <div className="avatar-wrapper_dashboard">
+              <img
+                src={userDetails?.avatar}
+                alt="profile-img"
+                className="profile-img_dashboard"
               />
             </div>
-
-            <div
-              className={`user-btn-section ${
-                isDropdownOpen ? "dropdown-open" : ""
-              }`}
+          </div>
+          <div className="edit-profile-btn-wrapper_dashboard">
+            <button
+              onClick={handleHouseholdOptionsClick}
+              className="edit-profile-btn_dashboard"
             >
-              <section className="overviews">
-                <div className="overview-btn-wrapper_dashboard">
-                  <div className="user-btns">
-                    <Link
-                      to="/overview"
-                      className="overview-btn_dashboard user-overview-btn"
-                    >
-                      <div className="img-wrapper_overview-btn">
-                        <img
-                          src={UserOverview}
-                          alt="overview-img"
-                          className="btn-img_overview-btn"
-                        />
-                      </div>
-                      <p className="overview-btn-txt">My Overview</p>
-                    </Link>
-                    <section className="log-activity">
-                      <ChoreDropdown onToggleDropdown={toggleDropdownOpen} />
-                    </section>
-                  </div>
-                  <div className="household-btns_dashboard">
-                    <Link
-                      onClick={handleHouseholdClick}
-                      className="overview-btn_dashboard household-overview-btn"
-                    >
-                      <div className="img-wrapper_overview-btn">
-                        <img
-                          src={HouseholdOverview}
-                          alt="overview-img"
-                          className="btn-img_overview-btn"
-                        />
-                      </div>
-                      <p className="overview-btn-txt">Household</p>
-                    </Link>
-                    <button
-                      onClick={handleHouseholdOptionsClick}
-                      className="household-options-btn_dashboard"
-                    >
-                      Household Options
-                    </button>
-                  </div>
-                </div>
-              </section>
-            </div>
-          </section>
+              Edit Profile
+            </button>
+          </div>
         </div>
-      </UserDetailsProvider>
+        <section className="hero_dashboard">
+          <div className="totalday_dashboard-wrapper">
+            <div className="date-wrapper_dashboard">
+              <h2 className="date_dashboard">{currentDayAndDate}</h2>
+            </div>
+            <TotalCostComponent
+              totalCost={grandTotalCost}
+              totalMinutes={grandTotalMinutes}
+            />
+          </div>
+
+          <div
+            className={`user-btn-section ${
+              isDropdownOpen ? "dropdown-open" : ""
+            }`}
+          >
+            <section className="overviews">
+              <div className="overview-btn-wrapper_dashboard">
+                <div className="user-btns">
+                  <Link
+                    to="/overview"
+                    className="overview-btn_dashboard user-overview-btn"
+                  >
+                    <div className="img-wrapper_overview-btn">
+                      <img
+                        src={UserOverview}
+                        alt="overview-img"
+                        className="btn-img_overview-btn"
+                      />
+                    </div>
+                    <p className="overview-btn-txt">My Overview</p>
+                  </Link>
+                  <section className="log-activity">
+                    <ChoreDropdown onToggleDropdown={toggleDropdownOpen} />
+                  </section>
+                </div>
+                <div className="household-btns_dashboard">
+                  <Link
+                    onClick={handleHouseholdClick}
+                    className="overview-btn_dashboard household-overview-btn"
+                  >
+                    <div className="img-wrapper_overview-btn">
+                      <img
+                        src={HouseholdOverview}
+                        alt="overview-img"
+                        className="btn-img_overview-btn"
+                      />
+                    </div>
+                    <p className="overview-btn-txt">Household</p>
+                  </Link>
+                  <button
+                    onClick={handleHouseholdOptionsClick}
+                    className="household-options-btn_dashboard"
+                  >
+                    Household Options
+                  </button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </div>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <HouseholdOptions />
       </Modal>

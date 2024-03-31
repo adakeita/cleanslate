@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import fetch from "node-fetch";
 import supabase from "../src/lib/supabaseConfig.js";
 
 export default async function handler(req, res) {
@@ -24,14 +25,19 @@ export default async function handler(req, res) {
         .json({ error: "Failed to save invitation token." });
     }
 
-    const link = `${req.headers.origin}/invite/${token}`;
+    
+    const protocol = req.headers["x-forwarded-proto"] || "https";
+    const host = req.headers.host;
+    const basePath = `${protocol}://${host}`;
+    const invitationLink = `${basePath}/invite/${token}`;
 
-    const sendLinkBody = JSON.stringify({ email, link });
-    const sendLinkResponse = await fetch("/api/sendmagiclink", {
+    // Prepare the body for the sendMagicLink request
+    const sendLinkBody = JSON.stringify({ email, link: invitationLink });
+
+    // Send the invitation email
+    const sendLinkResponse = await fetch(`${basePath}/api/sendMagicLink`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: sendLinkBody,
     });
 

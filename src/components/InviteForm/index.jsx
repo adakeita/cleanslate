@@ -35,6 +35,7 @@ const InviteForm = ({ onInviteSent }) => {
       const link = await generateMagicLink(userDetails.household.householdId);
       await sendMagicLinkEmail(email, link);
       onInviteSent();
+      console.log("Invite sent successfully");
       setLoading(false);
     } catch (error) {
       setError("Failed to send the invite. Please try again.");

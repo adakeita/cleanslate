@@ -1,33 +1,39 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { validateInvitationToken } from "../lib/api";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { joinHouseholdUsingToken } from "../lib/api";
 
-const InvitePage = () => {
+function InvitePage() {
+  const { token } = useParams();
   const navigate = useNavigate();
+  const [message, setMessage] = useState("Processing your invitation...");
 
   useEffect(() => {
-    // Manually parse query parameters
-    const searchParams = new URLSearchParams(window.location.search);
-    const token = searchParams.get("token");
+    const processInvitation = async () => {
+      if (!token) {
+        setMessage("Invalid invitation link.");
+        return;
+      }
 
-    if (!token) {
-      // Handle missing token
-      navigate("/");
-      return;
-    }
+      try {
+        const response = await joinHouseholdUsingToken(token);
+        console.log("Invitation accepted:", response);
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Failed to accept invitation:", error);
+        setMessage(
+          "Failed to accept the invitation. It might be expired or invalid."
+        );
+      }
+    };
 
-    validateInvitationToken(token)
-      .then((response) => {
-        navigate("/dashboard"); // or wherever you want to redirect after successful invitation acceptance
-      })
-      .catch((error) => {
-        // Handle invalid or used token
-        console.error("Invitation Error:", error);
-        navigate("/"); // Redirect to home or error page
-      });
-  }, [navigate]);
+    processInvitation();
+  }, [token, navigate]);
 
-  return <div>Processing your invitation...</div>;
-};
+  return (
+    <div>
+      <h1>{message}</h1>
+    </div>
+  );
+}
 
 export default InvitePage;

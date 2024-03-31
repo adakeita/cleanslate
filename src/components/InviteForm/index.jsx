@@ -1,15 +1,31 @@
 import { useState, useContext } from "react";
 import { UserDetailsContext } from "../../contexts/UserDetailsContext";
 import { generateMagicLink } from "../../lib/api";
+import "./inviteform.css";
 
 const InviteForm = ({ onInviteSent }) => {
-  const { userDetails } = useContext(UserDetailsContext); // Accessing context
+  const { userDetails } = useContext(UserDetailsContext);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [householdId, setHouseholdId] = useState("");
+
+  async function sendMagicLinkEmail(email, link) {
+    const response = await fetch("/api/sendMagicLink", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, link }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to send magic link email");
+    }
+  }
 
   const handleSendInvite = async () => {
-    if (!userDetails?.household?.householdId) {
+    if (!userDetails?.household?.id) {
       setError("You must be part of a household to send an invite.");
       return;
     }
@@ -27,7 +43,7 @@ const InviteForm = ({ onInviteSent }) => {
   };
 
   return (
-    <div>
+    <div className="inviteformcontainer">
       <input
         type="email"
         value={email}
@@ -35,7 +51,7 @@ const InviteForm = ({ onInviteSent }) => {
         placeholder="Enter invitee's email"
         disabled={loading}
       />
-      <button onClick={handleInvite} disabled={loading}>
+      <button onClick={handleSendInvite} disabled={loading}>
         Send Invite
       </button>
       {error && <p>{error}</p>}

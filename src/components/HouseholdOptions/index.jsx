@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import HouseholdDetails from "../HousholdDetails";
+import InviteForm from "../InviteForm";
 import { getCompleteUser } from "../../lib/api";
 import { generateMagicLink } from "../../lib/api";
 import Modal from "../Modal";
@@ -8,6 +9,11 @@ import "./household-options.css";
 const HouseholdOptions = () => {
   const [isHouseholdModalOpen, setIsHouseholdModalOpen] = useState(false);
   const [householdDetails, setHouseholdDetails] = useState(null);
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+
+  const handleOpenInviteModal = () => {
+    setIsInviteModalOpen(true);
+  };
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -26,19 +32,6 @@ const HouseholdOptions = () => {
     };
     fetchUserDetails();
   }, []);
-
-  const handleGenerateInviteLink = async () => {
-    const householdId = householdDetails.householdId;
-    try {
-      const link = await generateMagicLink(householdId);
-      console.log("Generated link:", link);
-      navigator.clipboard
-        .writeText(link)
-        .then(() => alert("Link copied to clipboard!"));
-    } catch (error) {
-      console.error("Error generating invite link:", error);
-    }
-  };
 
   const handleOpenHouseholdModal = () => {
     setIsHouseholdModalOpen(true);
@@ -62,7 +55,7 @@ const HouseholdOptions = () => {
             </div>
             <div className="btn-wrapper_household-options">
               <button
-                onClick={handleGenerateInviteLink}
+                onClick={handleOpenInviteModal}
                 className="household-operations-btn"
               >
                 Invite to Household
@@ -82,6 +75,14 @@ const HouseholdOptions = () => {
           </Modal>
         </div>
       </section>
+      {isInviteModalOpen && (
+        <Modal
+          isOpen={isInviteModalOpen}
+          onClose={() => setIsInviteModalOpen(false)}
+        >
+          <InviteForm onInviteSent={() => setIsInviteModalOpen(false)} />
+        </Modal>
+      )}
     </div>
   );
 };

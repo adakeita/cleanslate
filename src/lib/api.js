@@ -1,4 +1,5 @@
 import supabase from "./supabaseClient";
+import { determineDateRange } from "../utils/dateutils";
 
 // export const signUp = async (email, password) => {
 // 	if (!email || !password) {
@@ -632,7 +633,7 @@ export const getUserChoreOverview = async (userDetailId, filter) => {
   }
 };
 
-function determineDateRange(filter) {
+function ldetermineDateRange(filter) {
   //TODO: There must be a better way to do this(?)
   const now = new Date();
   let startDate, endDate;

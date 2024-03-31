@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { logChore, fetchChoreCategories } from "../../lib/api";
+import { useChores } from "../../contexts/ChoreContext";
 import PropTypes from "prop-types";
 import plus from "../../assets/svg/plus.svg";
 import minus from "../../assets/svg/minus.svg";
@@ -18,6 +19,8 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
+  const { updateChores } = useChores();
+
   useEffect(() => {
     const fetchCategoriesAndSubcategories = async () => {
       try {
@@ -33,9 +36,7 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
   const ModalContent = () => (
     <div>
       <p>Sweet! Your task has been tracked.</p>
-      <p>
-        You can view your updated pie chart in My overview.
-      </p>
+      <p>You can view your updated pie chart in My overview.</p>
       <p>Keep up the good work!</p>
     </div>
   );
@@ -70,7 +71,11 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
     }
 
     try {
-      await logChore(selectedSubcategory.subcategory_id, sessions);
+      const newChore = await logChore(
+        selectedSubcategory.subcategory_id,
+        sessions
+      );
+      updateChores(newChore); // Update the global state with the new chore
       setModalMessage(<ModalContent />);
 
       setSelectedCategory(null);

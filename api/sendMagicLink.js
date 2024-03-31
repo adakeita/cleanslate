@@ -15,12 +15,14 @@ export default async (req, res) => {
 
     try {
       await sgMail.send(msg);
+      console.log("Request body:", req.body);
       return res.status(200).json({ message: "Email sent successfully" });
     } catch (error) {
       console.error("Email sending error:", error);
       if (error.response) {
         console.error(error.response.body);
       }
+      console.log("Request body:", req.body);
       return res.status(500).json({ error: "Failed to send email" });
     }
   } else {

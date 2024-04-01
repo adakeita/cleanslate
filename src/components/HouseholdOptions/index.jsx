@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import HouseholdDetails from "../HousholdDetails";
 import InviteForm from "../InviteForm";
 import { getCompleteUser } from "../../lib/api";
-import { generateMagicLink } from "../../lib/api";
 import Modal from "../Modal";
 import "./household-options.css";
 

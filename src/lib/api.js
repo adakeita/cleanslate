@@ -68,22 +68,32 @@ export const updateUserDetails = async (
 export const createNewHousehold = async (
   householdName,
   sizeInSqm,
-  numberOfRooms,
-  userId
+  numberOfRooms
 ) => {
   try {
-    // Check if household with the same name already exists
-    const { data: existingHousehold, error: existingError } = await supabase
-      .from("household_details")
-      .select("household_id")
-      .eq("household_name", householdName)
-      .maybeSingle();
+    const userId = supabase.auth.user().id; // Assuming you can get the current user's ID this way
+    if (!userId) {
+      throw new Error("User must be logged in to create a household.");
+    }
 
-    if (existingError) throw existingError;
-    if (existingHousehold) throw new Error("Household name already taken.");
+    // Check if the user is already part of a household
+    const { data: userCurrentHousehold, error: userHouseholdError } =
+      await supabase
+        .from("user_details")
+        .select("household_id")
+        .eq("user_id", userId)
+        .single();
 
-    // Insert new household details
-    const { error: insertError } = await supabase
+    if (userHouseholdError) {
+      throw new Error("Failed to check current household for user.");
+    }
+
+    if (userCurrentHousehold && userCurrentHousehold.household_id) {
+      throw new Error("User is already part of a household.");
+    }
+
+    // Proceed with creating a new household
+    const { data: newHousehold, error: newHouseholdError } = await supabase
       .from("household_details")
       .insert([
         {
@@ -91,44 +101,35 @@ export const createNewHousehold = async (
           size_in_sqm: sizeInSqm,
           number_of_rooms: numberOfRooms,
         },
-      ]);
-
-    if (insertError) throw insertError;
-
-    const { data: newHousehold, error: queryError } = await supabase
-      .from("household_details")
-      .select("household_id")
-      .eq("household_name", householdName)
+      ])
       .single();
 
-    if (queryError) {
-      console.error("Error querying new household:", queryError);
-      throw new Error("Failed to retrieve new household.");
-    }
-
-    // Ensure newHousehold contains the expected data
-    if (!newHousehold || !newHousehold.household_id) {
+    if (newHouseholdError) {
       throw new Error("Failed to create new household.");
     }
 
-    // Link the user to the new household
+    await updateHouseholdData();
+
+    // Link the user to the newly created household
     const { error: linkError } = await supabase
       .from("user_details")
       .update({ household_id: newHousehold.household_id })
       .eq("user_id", userId);
 
-    if (linkError) throw linkError;
+    if (linkError) {
+      throw new Error("Failed to link user to the new household.");
+    }
 
+    // Update session storage to reflect new household membership
+    await updateHouseholdData();
     console.log(
       "Household created and user linked successfully:",
       newHousehold
     );
-
-    updateHouseholdDataInCompleteUser();
-    return { household_id: newHousehold.household_id };
+    return { success: true, household_id: newHousehold.household_id };
   } catch (error) {
     console.error("Error creating and linking new household:", error);
-    throw error;
+    return { success: false, error: error.message };
   }
 };
 
@@ -149,46 +150,42 @@ export const validateInvitationToken = async (token) => {
 };
 
 export const joinHouseholdUsingToken = async (token) => {
-  // Fetch invitation details
-  const { data: invitation, error } = await supabase
-    .from("household_invitations")
-    .select("*")
-    .eq("token", token)
-    .single();
+  try {
+    // Fetch invitation details
+    const { data: invitation, error } = await supabase
+      .from("household_invitations")
+      .select("*")
+      .eq("token", token)
+      .single();
 
-  if (
-    error ||
-    !invitation ||
-    invitation.used ||
-    new Date() > new Date(invitation.expires_at)
-  ) {
-    throw new Error("Invalid or expired invitation.");
-  }
+    if (
+      error ||
+      !invitation ||
+      invitation.used ||
+      new Date() > new Date(invitation.expires_at)
+    ) {
+      throw new Error("Invalid or expired invitation.");
+    }
 
-  const completeUser = await getCompleteUser();
-  if (!completeUser) {
-    throw new Error("User must be logged in to accept an invitation.");
-  }
+    const userId = supabase.auth.getUser().id;
+    if (!userId)
+      throw new Error("User must be logged in to accept an invitation.");
 
-  const userId = completeUser.authUserId;
+    // Mark the invitation as used and link the user to the household
+    await supabase
+      .from("household_invitations")
+      .update({ used: true })
+      .eq("id", invitation.id);
+    await supabase
+      .from("user_details")
+      .update({ household_id: invitation.household_id })
+      .eq("user_id", userId);
 
-  // Mark the invitation as used
-  await supabase
-    .from("household_invitations")
-    .update({ used: true })
-    .eq("id", invitation.id);
-
-  // Link the user to the household
-  const { error: linkError } = await supabase
-    .from("user_details")
-    .update({ household_id: invitation.household_id })
-    .eq("user_id", userId);
-
-  if (linkError) {
-    throw new Error("Failed to link user to household.");
-  } else {
+    // Update session storage with new household details
     await updateHouseholdDataInCompleteUser();
-    return { success: true, householdId: invitation.household_id };
+    console.log("Invitation accepted successfully.");
+  } catch (error) {
+    console.error("Error joining household using token:", error.message);
   }
 };
 
@@ -338,43 +335,65 @@ export const updateChoreDataInCompleteUser = async () => {
 };
 
 export const updateHouseholdDataInCompleteUser = async () => {
-  const completeUser = JSON.parse(sessionStorage.getItem("completeUser"));
-  if (!completeUser) return;
-
-  const { data: householdDetails, error: householdDetailsError } =
-    await supabase
-      .from("household_details")
-      .select("*")
-      .eq("household_id", completeUser.household.id)
-      .single();
-
-  if (householdDetailsError || !householdDetails)
-    throw new Error("Household details fetch failed.");
-
-  // Fetch updated list of users in the household excluding the current user
-  const { data: otherUsers, error: otherUsersError } = await supabase
-    .from("user_details")
-    .select("username, pronouns, avatar, alternate_avatar")
-    .eq("household_id", completeUser.household.id)
-    .neq("user_id", completeUser.authUserId);
-
-  if (otherUsersError) {
-    throw new Error("Failed to fetch household members");
+  const sessionData = sessionStorage.getItem("completeUser");
+  if (!sessionData) {
+    console.error("Complete user data not found in session storage.");
+    return;
   }
 
-  // Update the completeUser object with new household details and user list
-  completeUser.household = {
-    ...completeUser.household,
-    id: householdDetails.household_id,
-    name: householdDetails.household_name,
-    numberOfRooms: householdDetails.number_of_rooms,
-    sizeInSqm: householdDetails.size_in_sqm,
-    users: otherUsers,
-  };
+  const completeUser = JSON.parse(sessionData);
+  const userId = completeUser.authUserId;
 
-  // Save the updated completeUser back to session storage
-  sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
-  console.log("Household data updated in session storage.");
+  try {
+    // Fetch updated user details to get the latest household ID
+    const { data: userDetails, error: userDetailsError } = await supabase
+      .from("user_details")
+      .select("household_id")
+      .eq("user_id", userId)
+      .single();
+
+    if (userDetailsError || !userDetails)
+      throw new Error("User details fetch failed.");
+
+    const { data: householdDetails, error: householdDetailsError } =
+      await supabase
+        .from("household_details")
+        .select("*")
+        .eq("household_id", userDetails.household_id)
+        .single();
+
+    if (householdDetailsError || !householdDetails)
+      throw new Error("Household details fetch failed.");
+    // Fetch updated list of users in the household excluding the current user
+    const { data: otherUsers, error: otherUsersError } = await supabase
+      .from("user_details")
+      .select("username, pronouns, avatar, alternate_avatar")
+      .eq("household_id", completeUser.household.id)
+      .neq("user_id", completeUser.authUserId);
+
+    if (otherUsersError) {
+      throw new Error("Failed to fetch household members");
+    }
+
+    // Update the completeUser object with new household details and user list
+    completeUser.household = {
+      ...completeUser.household,
+      id: householdDetails.household_id,
+      name: householdDetails.household_name,
+      numberOfRooms: householdDetails.number_of_rooms,
+      sizeInSqm: householdDetails.size_in_sqm,
+      users: otherUsers,
+    };
+
+    // Save the updated completeUser back to session storage
+    sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
+    console.log("Household data updated in session storage.");
+  } catch (error) {
+    console.error(
+      "Error updating household data in complete user:",
+      error.message
+    );
+  }
 };
 
 export const getCompleteUser = async () => {
@@ -476,6 +495,52 @@ export const getCompleteUser = async () => {
   } catch (error) {
     console.error("Error getting complete user:", error);
     throw error;
+  }
+};
+
+export const updateHouseholdData = async (userId) => {
+  try {
+    // Fetch fresh household ID and details from user_details
+    const { data: userDetails, error: userDetailsError } = await supabase
+      .from("user_details")
+      .select("household_id")
+      .eq("user_id", userId)
+      .single();
+
+    if (userDetailsError) throw userDetailsError;
+    if (!userDetails.household_id) throw new Error("No household linked.");
+
+    // Fetch fresh household details
+    const { data: householdDetails, error: householdDetailsError } = await supabase
+      .from("household_details")
+      .select("*")
+      .eq("household_id", userDetails.household_id)
+      .single();
+
+    if (householdDetailsError) throw householdDetailsError;
+
+    // Optionally, fetch other users in the same household
+    const { data: otherUsers, error: otherUsersError } = await supabase
+      .from("user_details")
+      .select("id, username, pronouns, avatar, alternate_avatar")
+      .eq("household_id", userDetails.household_id)
+      .neq("user_id", userId);
+
+    if (otherUsersError) throw otherUsersError;
+
+    // Update the completeUser object in session storage
+    const completeUser = JSON.parse(sessionStorage.getItem("completeUser"));
+    completeUser.household = {
+      ...completeUser.household,
+      id: userDetails.household_id,
+      details: householdDetails,
+      users: otherUsers
+    };
+    sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
+
+    console.log("Household data updated successfully.");
+  } catch (error) {
+    console.error("Error updating household data:", error.message);
   }
 };
 

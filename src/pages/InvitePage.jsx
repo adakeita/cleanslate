@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { joinHouseholdUsingToken } from "../lib/api";
+import { UserDetailsContext } from "../contexts/UserDetailsContext";
 
 function InvitePage() {
   const { token } = useParams();
-  const navigate = useNavigate();
   const [message, setMessage] = useState("Processing your invitation...");
+  const { fetchAndSetUserDetails } = useContext(UserDetailsContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const processInvitation = async () => {
@@ -16,6 +19,7 @@ function InvitePage() {
 
       try {
         const response = await joinHouseholdUsingToken(token);
+        await fetchAndSetUserDetails();
         console.log("Invitation accepted:", response);
         navigate("/dashboard");
       } catch (error) {
@@ -27,7 +31,7 @@ function InvitePage() {
     };
 
     processInvitation();
-  }, [token, navigate]);
+  }, [token, navigate, fetchAndSetUserDetails]);
 
   return (
     <div>

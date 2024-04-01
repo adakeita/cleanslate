@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { joinHouseholdUsingToken } from "../lib/api";
 import { UserDetailsContext } from "../contexts/UserDetailsContext";

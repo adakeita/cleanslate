@@ -71,7 +71,7 @@ export const createNewHousehold = async (
   numberOfRooms
 ) => {
   try {
-    const userId = supabase.auth.user().id; // Assuming you can get the current user's ID this way
+    const userId = await supabase.auth.getUser.id(); // Assuming you can get the current user's ID this way
     if (!userId) {
       throw new Error("User must be logged in to create a household.");
     }
@@ -103,6 +103,7 @@ export const createNewHousehold = async (
         },
       ])
       .single();
+      console.log("newHousehold", newHousehold)
 
     if (newHouseholdError) {
       throw new Error("Failed to create new household.");
@@ -167,7 +168,7 @@ export const joinHouseholdUsingToken = async (token) => {
       throw new Error("Invalid or expired invitation.");
     }
 
-    const userId = supabase.auth.getUser().id;
+    const userId = supabase.auth.getUser(id);
     if (!userId)
       throw new Error("User must be logged in to accept an invitation.");
 

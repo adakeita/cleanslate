@@ -132,8 +132,6 @@ export const createNewHousehold = async (
   }
 };
 
-
-
 export const validateInvitationToken = async (token) => {
   const response = await fetch("/api/validate-invitation", {
     method: "POST",
@@ -340,65 +338,43 @@ export const updateChoreDataInCompleteUser = async () => {
 };
 
 export const updateHouseholdDataInCompleteUser = async () => {
-  const sessionData = sessionStorage.getItem("completeUser");
-  if (!sessionData) {
-    console.error("Complete user data not found in session storage.");
-    return;
-  }
+  const completeUser = JSON.parse(sessionStorage.getItem("completeUser"));
+  if (!completeUser) return;
 
-  const completeUser = JSON.parse(sessionData);
-  const userId = completeUser.authUserId;
-
-  try {
-    // Fetch updated user details to get the latest household ID
-    const { data: userDetails, error: userDetailsError } = await supabase
-      .from("user_details")
-      .select("household_id")
-      .eq("user_id", userId)
+  const { data: householdDetails, error: householdDetailsError } =
+    await supabase
+      .from("household_details")
+      .select("*")
+      .eq("household_id", completeUser.household.id)
       .single();
 
-    if (userDetailsError || !userDetails)
-      throw new Error("User details fetch failed.");
+  if (householdDetailsError || !householdDetails)
+    throw new Error("Household details fetch failed.");
 
-    const { data: householdDetails, error: householdDetailsError } =
-      await supabase
-        .from("household_details")
-        .select("*")
-        .eq("household_id", userDetails.household_id)
-        .single();
+  // Fetch updated list of users in the household excluding the current user
+  const { data: otherUsers, error: otherUsersError } = await supabase
+    .from("user_details")
+    .select("username, pronouns, avatar, alternate_avatar")
+    .eq("household_id", completeUser.household.id)
+    .neq("user_id", completeUser.authUserId);
 
-    if (householdDetailsError || !householdDetails)
-      throw new Error("Household details fetch failed.");
-    // Fetch updated list of users in the household excluding the current user
-    const { data: otherUsers, error: otherUsersError } = await supabase
-      .from("user_details")
-      .select("username, pronouns, avatar, alternate_avatar")
-      .eq("household_id", completeUser.household.id)
-      .neq("user_id", completeUser.authUserId);
-
-    if (otherUsersError) {
-      throw new Error("Failed to fetch household members");
-    }
-
-    // Update the completeUser object with new household details and user list
-    completeUser.household = {
-      ...completeUser.household,
-      id: householdDetails.household_id,
-      name: householdDetails.household_name,
-      numberOfRooms: householdDetails.number_of_rooms,
-      sizeInSqm: householdDetails.size_in_sqm,
-      users: otherUsers,
-    };
-
-    // Save the updated completeUser back to session storage
-    sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
-    console.log("Household data updated in session storage.");
-  } catch (error) {
-    console.error(
-      "Error updating household data in complete user:",
-      error.message
-    );
+  if (otherUsersError) {
+    throw new Error("Failed to fetch household members");
   }
+
+  // Update the completeUser object with new household details and user list
+  completeUser.household = {
+    ...completeUser.household,
+    id: householdDetails.household_id,
+    name: householdDetails.household_name,
+    numberOfRooms: householdDetails.number_of_rooms,
+    sizeInSqm: householdDetails.size_in_sqm,
+    users: otherUsers,
+  };
+
+  // Save the updated completeUser back to session storage
+  sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
+  console.log("Household data updated in session storage.");
 };
 
 export const getCompleteUser = async () => {

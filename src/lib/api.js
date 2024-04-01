@@ -339,7 +339,7 @@ export const updateChoreDataInCompleteUser = async () => {
 
 export const updateHouseholdDataInCompleteUser = async () => {
   const completeUser = JSON.parse(sessionStorage.getItem("completeUser"));
-  if (!completeUser || !completeUser.household || !completeUser.household.id) {
+  if (!completeUser) {
     console.error("No household information found in complete user data.");
     return;
   }

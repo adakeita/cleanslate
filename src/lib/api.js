@@ -132,6 +132,8 @@ export const createNewHousehold = async (
   }
 };
 
+
+
 export const validateInvitationToken = async (token) => {
   const response = await fetch("/api/validate-invitation", {
     method: "POST",
@@ -338,25 +340,35 @@ export const updateChoreDataInCompleteUser = async () => {
 };
 
 export const updateHouseholdDataInCompleteUser = async () => {
-  const completeUser = JSON.parse(sessionStorage.getItem("completeUser"));
-  if (!completeUser) {
-    console.error("No household information found in complete user data.");
+  const sessionData = sessionStorage.getItem("completeUser");
+  if (!sessionData) {
+    console.error("Complete user data not found in session storage.");
     return;
   }
 
+  const completeUser = JSON.parse(sessionData);
+  const userId = completeUser.authUserId;
+
   try {
-    // Fetch updated household details
+    // Fetch updated user details to get the latest household ID
+    const { data: userDetails, error: userDetailsError } = await supabase
+      .from("user_details")
+      .select("household_id")
+      .eq("user_id", userId)
+      .single();
+
+    if (userDetailsError || !userDetails)
+      throw new Error("User details fetch failed.");
+
     const { data: householdDetails, error: householdDetailsError } =
       await supabase
         .from("household_details")
-        .select("household_name, number_of_rooms, size_in_sqm")
-        .eq("household_id", completeUser.household.id)
+        .select("*")
+        .eq("household_id", userDetails.household_id)
         .single();
 
-    if (householdDetailsError) {
-      throw new Error("Failed to fetch updated household details");
-    }
-
+    if (householdDetailsError || !householdDetails)
+      throw new Error("Household details fetch failed.");
     // Fetch updated list of users in the household excluding the current user
     const { data: otherUsers, error: otherUsersError } = await supabase
       .from("user_details")
@@ -371,6 +383,7 @@ export const updateHouseholdDataInCompleteUser = async () => {
     // Update the completeUser object with new household details and user list
     completeUser.household = {
       ...completeUser.household,
+      id: householdDetails.household_id,
       name: householdDetails.household_name,
       numberOfRooms: householdDetails.number_of_rooms,
       sizeInSqm: householdDetails.size_in_sqm,

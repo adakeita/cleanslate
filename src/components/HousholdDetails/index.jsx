@@ -1,10 +1,6 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  createNewHousehold,
-  getCompleteUser,
-  joinExistingHousehold,
-} from "../../lib/api";
+import { createNewHousehold, getCompleteUser } from "../../lib/api";
 import { AuthContext } from "../../contexts/AuthContext";
 import "./housedetails.css";
 
@@ -15,6 +11,7 @@ const HouseholdDetails = () => {
   const [sizeInSqm, setSizeInSqm] = useState("");
   const [sizeInSqmError, setSizeInSqmError] = useState("");
   const [joinExisting, setJoinExisting] = useState(false);
+  const [userDetails, setUserDetails] = useState({});
   const [errors, setErrors] = useState({
     householdNameError: "",
     sizeInSqmError: "",
@@ -60,16 +57,39 @@ const HouseholdDetails = () => {
       const completeUser = await getCompleteUser();
       const userId = completeUser.authUserId;
 
+      const fetchUserDetails = async () => {
+        try {
+          const completeUser = await getCompleteUser();
+
+          setUserDetails({
+            username: completeUser.username,
+            household: completeUser.household,
+            householdId: completeUser.household.id,
+            householdName: completeUser.household.name,
+          });
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+        }
+      };
+      fetchUserDetails();
+
       if (joinExisting) {
         await joinExistingHousehold(householdName, userId);
         setErrors({ feedbackMessage: "Successfully joined the household!" });
       } else {
-        await createNewHousehold(
+        const householdId = await createNewHousehold(
           householdName,
           sizeInSqm,
           numberOfRooms,
           userId
         );
+
+        setHouseholdId(householdId);
+        completeUser.household.id = householdId;
+
+        sessionStorage.setItem("householdId", householdId);
+        sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
+        
         setErrors({ feedbackMessage: "Household created successfully!" });
       }
       navigate("/dashboard");

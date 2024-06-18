@@ -626,7 +626,7 @@ function ldetermineDateRange(filter) {
   return [formattedStartDate, formattedEndDate];
 }
 
-export const getHouseholdChoreOverview = async () => {
+export const getHouseholdChoreOverview = async (filter) => {
   try {
     // Current user
     const { data: userData, error: userError } = await supabase.auth.getUser();
@@ -641,7 +641,6 @@ export const getHouseholdChoreOverview = async () => {
       .select("id, household_id")
       .eq("user_id", user.id)
       .single();
-
     if (userDetailsError) throw userDetailsError;
 
     const householdId = userDetails.household_id;
@@ -649,38 +648,83 @@ export const getHouseholdChoreOverview = async () => {
       throw new Error("User is not linked to a household.");
     }
 
+    // Format dates for Supabase
+    const [formattedStartDate, formattedEndDate] = determineDateRange(filter);
+
     // Fetch household members
     const { data: members, error: membersError } = await supabase
       .from("user_details")
-      .select("id, username, avatar")
+      .select("id, username, avatar, alternate_avatar")
       .eq("household_id", householdId);
     if (membersError) throw membersError;
 
-    // Fetch chores for each household member
-    for (const member of members) {
-      const { data: chores, error: choresError } = await supabase
-        .from("chore_log")
-        .select("total_minutes, total_monetary_value")
-        .eq("user_detail_id", member.id);
-      if (choresError) throw choresError;
+    members.forEach(member => {
+      console.log("username:", member.username);
+      console.log("avatar:", member.avatar);
+      console.log("alternate_avatar:", member.alternate_avatar);
+    });
 
-      // Aggregate data
-      member.totalMinutes = chores.reduce(
-        (acc, chore) => acc + chore.total_minutes,
-        0
-      );
-      member.totalValue = chores.reduce(
-        (acc, chore) => acc + chore.total_monetary_value,
-        0
-      );
-    }
+    // Fetch categories
+    const { data: categories, error: categoriesError } = await supabase
+      .from("chore_categories")
+      .select("category_id, category_name");
+    if (categoriesError) throw categoriesError;
 
-    return members;
+    // Fetch chores for each household member and map category names
+    const membersWithChores = await Promise.all(
+      members.map(async (member) => {
+        let choresQuery = supabase
+          .from("chore_log")
+          .select("category_id, total_minutes, total_monetary_value")
+          .eq("user_detail_id", member.id);
+
+        if (formattedStartDate && formattedEndDate) {
+          choresQuery = choresQuery
+            .gte("timestamp", formattedStartDate)
+            .lte("timestamp", formattedEndDate);
+        }
+
+        const { data: chores, error: choresError } = await choresQuery;
+        if (choresError) throw choresError;
+
+        const choresWithCategoryNames = chores.map((chore) => {
+          const category = categories.find(
+            (cat) => cat.category_id === chore.category_id
+          );
+          return {
+            ...chore,
+            category_name: category
+              ? category.category_name
+              : "Unknown Category",
+          };
+        });
+
+        const totalMinutes = choresWithCategoryNames.reduce(
+          (sum, chore) => sum + chore.total_minutes,
+          0
+        );
+        const totalValue = choresWithCategoryNames.reduce(
+          (sum, chore) => sum + (parseFloat(chore.total_monetary_value) || 0),
+          0
+        );
+
+        return {
+          username: member.username,
+          avatar: member.avatar,
+          totalMinutes,
+          totalValue,
+          chores: choresWithCategoryNames,
+        };
+      })
+    );
+
+    return membersWithChores;
   } catch (error) {
     console.error("Error in getHouseholdChoreOverview function:", error);
     throw error;
   }
 };
+
 
 export const getHouseholdChoreOverviewForDoubleBar = async () => {
   try {

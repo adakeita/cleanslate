@@ -291,6 +291,7 @@ nav a {
 		justify-content: center;
 		align-items: center;
 		width: 80%;
+		max-width: 150px;
 		transition: all 0.3s ease-in-out;
 		box-shadow: 5px 3px 6px 0px #4041429c;
 		background-color: #f4f5f8;
@@ -301,7 +302,7 @@ nav a {
 		background-color: #fcfdfcd6;
 		text-decoration: underline;
 		border-radius: 12px;
-		background-color: #c3e5fb2c;
+		background-color: #e7f3ebed;
 		box-shadow: inset 3px 4px 4px 0px #6b7687cc;
 	}
 

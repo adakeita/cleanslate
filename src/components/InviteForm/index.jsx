@@ -56,7 +56,10 @@ const InviteForm = ({ onInviteSent }) => {
       });
 
       if (!generateTokenResponse.ok) {
-        throw new Error("Failed to generate invitation link");
+        const errorDetails = await generateTokenResponse.json();
+        throw new Error(
+          errorDetails.error || "Failed to generate invitation link"
+        );
       }
 
       const { link } = await generateTokenResponse.json();

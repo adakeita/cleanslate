@@ -87,7 +87,7 @@ User Overview Styles
 #UserOverview .datefilter-wrapper,
 .piechart-container,
 #UserOverview .barchart-container {
-	box-shadow: 0px 12px 16px 0px #536a574d;
+    box-shadow: 5px 5px 1px 0px #6b8aa1;
 }
 
 .piechart-section_user-overview,
@@ -218,15 +218,15 @@ DROPDOWN
 
 	.no-data-wrapper {
 		background-color: var(--grey-frame);
-		padding: 1em 1em 2em;
-		border-radius: 0px 0px 20px 20px;
+		border-radius: 12px;
 		box-shadow: var(--blue-shadow);
-		max-width: 380px;
-		margin: 0 auto;
+		max-width: 445px;
+		margin: 3rem auto;
+		text-align: center;
 	}
 
 	.no-data-message {
-		margin: 1em auto;
+		margin: 1.5rem auto;
 	}
 
 	/*

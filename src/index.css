@@ -50,7 +50,6 @@ html {
 }
 
 body {
-	width: 100vw;
 	min-height: 100vh;
 	margin: 0;
 	overflow-x: hidden;
@@ -59,12 +58,17 @@ body {
 main {
 	margin: 0;
 	padding: 0;
-	min-height: 100vh;
+	min-height: 80vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+
+
+.layout-container {
+	width: 100vw;
 	overflow-x: hidden;
-	overflow-y: scroll;
 }
 
 .frontpage {

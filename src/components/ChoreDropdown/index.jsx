@@ -1,4 +1,6 @@
+// ChoreDropdown.jsx
 import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 import { logChore, fetchChoreCategories } from "../../lib/api";
 import { useChores } from "../../contexts/ChoreContext";
 import PropTypes from "prop-types";
@@ -6,7 +8,6 @@ import plus from "../../assets/svg/plus.svg";
 import minus from "../../assets/svg/minus.svg";
 import checkmark from "../../assets/svg/checkmark.svg";
 import arrow from "../../assets/svg/back-arrow.svg";
-import Modal from "../Modal";
 import "./choredropdown.css";
 
 const ChoreDropdown = ({ onToggleDropdown }) => {
@@ -16,10 +17,8 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [sessions, setSessions] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-
   const { updateChores } = useChores();
+  const { openModal, closeModal } = useOutletContext();
 
   useEffect(() => {
     const fetchCategoriesAndSubcategories = async () => {
@@ -35,8 +34,13 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
 
   const ModalContent = () => (
     <div>
-      <p>Sweet! Your task has been tracked.</p>
-      <p>You can view your updated pie chart in My overview.</p>
+      <p>
+        Sweet! Your task has been tracked. 
+        <br />
+        <br />
+        You can view your updated pie chart
+        in My overview.
+      </p>
       <p>Keep up the good work!</p>
     </div>
   );
@@ -65,8 +69,7 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
 
   const handleSubmit = async () => {
     if (!selectedSubcategory) {
-      setModalMessage("Please select a subcategory.");
-      setIsModalOpen(true);
+      openModal("Please select a subcategory.");
       return;
     }
 
@@ -76,21 +79,15 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
         sessions
       );
       updateChores(newChore); // Update the global state with the new chore
-      setModalMessage(<ModalContent />);
+      openModal(<ModalContent />);
 
       setSelectedCategory(null);
       setSelectedSubcategory(null);
       setSessions(1);
       setCurrentLevel("categories");
     } catch (error) {
-      setModalMessage(<div>{error.message || "Error logging chore."}</div>);
+      openModal(<div>{error.message || "Error logging chore."}</div>);
     }
-
-    setIsModalOpen(true);
-
-    setTimeout(() => {
-      setIsModalOpen(false);
-    }, 4000);
   };
 
   const toggleDropdown = () => {
@@ -176,7 +173,7 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
                       <div className="sessioncount-img-wrapper">
                         <img
                           src={plus}
-                          alt="minus"
+                          alt="plus"
                           className="sessioncount-img"
                         />
                       </div>
@@ -207,9 +204,6 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
           )}
         </div>
       </div>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div className="modal-msg">{modalMessage}</div>
-      </Modal>
     </div>
   );
 };

@@ -21,6 +21,7 @@ const OverviewPage = () => {
 
   const toggleDropdownOpen = (isOpen) => {
     setIsDropdownOpen(isOpen);
+    
   };
 
   const dateFilterOptions = ["day", "week", "month", "year", "all"].map(

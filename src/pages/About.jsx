@@ -11,33 +11,33 @@ const AboutPage = () => {
         </div>
         <div className="text-wrapper_about">
           <p className="about-text">
-            Welcome to CleanSlate, where we make household chores fun and fair!
-            Track your tasks, see their value as if they were paid, and compare
-            with your partner. Discover a balanced home life with our
-            easy-to-use app, designed for teamwork and appreciation. Join us in
-            celebrating and equalizing the unseen efforts of home life! Designed
-            for two, but functional for one or many, CleanSlate turns the
-            often-overlooked unpaid home tasks into something you can track and
-            value.
+            Welcome to CleanSlate, where household chores become fun and fair!
+            Track your tasks, see their value as if they were paid, and foster
+            better communication with your partner. Our user-friendly app
+            celebrates and acknowledges the often unseen efforts of home life,
+            promoting teamwork and appreciation.
           </p>
           <p className="about-text">
-            Here&apos;s how it works: Simply log the time you spend on different
-            chores, and voilà! The app calculates what that effort would be
-            worth if it were a paid job. You&apos;ll be surprised at how much
-            you&apos;re actually contributing to your household!
+            Simply log the time you spend on chores, and the app calculates what
+            that effort would be worth if it were a paid job. You’ll be amazed
+            at your actual contributions! More than just numbers, CleanSlate is
+            about understanding and appreciating each other's efforts. View your
+            stats, compare them with your partner’s, and use this insight to
+            have meaningful conversations about household responsibilities.
           </p>
           <p className="about-text">
-            It&apos;s not just about numbers though; it&apos;s about
-            appreciation. You get to see your own stats and costs, and even
-            compare them with your partners. Think of it as a fun and
-            eye-opening way to acknowledge each others contributions at home.
+            Our goal is to ensure everyone feels valued and to facilitate open,
+            honest communication at home. Designed for two but functional for
+            one or many, CleanSlate helps couples achieve a harmonious balance
+            in their domestic life. CleanSlate isn’t just an app; it’s your
+            partner in fostering great conversations and a more connected home.
           </p>
-          <p className="about-text">
-            It&apos;s all about making sure everyone feels valued and keeping
-            things fair and square at home. Our goal? To nudge couples towards a
-            happy, equitable balance in their domestic life. CleanSlate
-            isn&apos;t just an app; it&apos;s your partner in fostering great
-            conversations and a harmonious home.
+          <p className="about-text PATCHNOTES">
+            Patch Notes 17.06.2024
+            <br />
+            Updating Layout and Households, adding new features and fixing bugs.
+            Application may be partially unavailable during the update, until
+            20.06.2024.
           </p>
         </div>
       </div>

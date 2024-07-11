@@ -1,33 +1,43 @@
-import { useEffect } from "react";
-import { useNavigate } from "@tanstack/react-router";
-import { validateInvitationToken } from "../lib/api";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { joinHouseholdUsingToken } from "../lib/api";
+import { UserDetailsContext } from "../contexts/UserDetailsContext";
 
-const InvitePage = () => {
+function InvitePage() {
+  const { token } = useParams();
+  const [message, setMessage] = useState("Processing your invitation...");
+  const { fetchAndSetUserDetails } = useContext(UserDetailsContext);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Manually parse query parameters
-    const searchParams = new URLSearchParams(window.location.search);
-    const token = searchParams.get("token");
+    const processInvitation = async () => {
+      if (!token) {
+        setMessage("Invalid invitation link.");
+        return;
+      }
 
-    if (!token) {
-      // Handle missing token
-      navigate("/");
-      return;
-    }
+      try {
+        const response = await joinHouseholdUsingToken(token);
+        await fetchAndSetUserDetails();
+        console.log("Invitation accepted:", response);
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Failed to accept invitation:", error);
+        setMessage(
+          "Failed to accept the invitation. It might be expired or invalid."
+        );
+      }
+    };
 
-    validateInvitationToken(token)
-      .then((response) => {
-        navigate("/dashboard"); // or wherever you want to redirect after successful invitation acceptance
-      })
-      .catch((error) => {
-        // Handle invalid or used token
-        console.error("Invitation Error:", error);
-        navigate("/"); // Redirect to home or error page
-      });
-  }, [navigate]);
+    processInvitation();
+  }, [token, navigate, fetchAndSetUserDetails]);
 
-  return <div>Processing your invitation...</div>;
-};
+  return (
+    <div>
+      <h1>{message}</h1>
+    </div>
+  );
+}
 
 export default InvitePage;

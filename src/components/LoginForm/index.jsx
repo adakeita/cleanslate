@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "react-router-dom";
 import Modal from "../Modal";
 import "./login.css";
 
@@ -48,7 +48,7 @@ const LoginForm = () => {
       setIsModalOpen(true);
       setTimeout(() => {
         setIsModalOpen(false);
-        navigate({ to: "/dashboard" });
+        navigate("/dashboard");
       }, 2000);
 
     } catch (error) {

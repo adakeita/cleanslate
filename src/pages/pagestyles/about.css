@@ -1,7 +1,21 @@
-
 .content-container_about {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 95%;
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.content-container_about p {
+    font-family: "DM Sans", sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 1em 0;
+}
+
+.PATCHNOTES {
+    font-weight: bold;
+    font-size: 20px;
+    padding: 2rem 0;
 }

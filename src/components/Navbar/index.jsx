@@ -1,13 +1,10 @@
 import { useState, useContext } from "react";
-import { Link } from "@tanstack/react-router";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useUI } from "../../contexts/UIContext";
-import NavLink from "./NavLink";
 import hamburgerIcon from "../../assets/svg/hamburger.svg";
 import closeIcon from "../../assets/svg/close.svg";
-import logo from "../../assets/img/cs-logo3.png";
-import logoutIcon from "../../assets/svg/sign-out.svg";
+import logo from "../../assets/svg/cs-small.svg";
 import "./navbar.css";
 
 const Navbar = () => {
@@ -29,7 +26,7 @@ const Navbar = () => {
     try {
       await signOut();
       sessionStorage.clear();
-      navigate({ to: "/" });
+      navigate("/");
       setIsMenuOpen(false);
     } catch (error) {
       console.error("Error signing out:", error.message);
@@ -72,19 +69,14 @@ const Navbar = () => {
           <nav role="navigation" className="navigation">
             <ul className={`navlist ${!isAuthenticated ? "default" : ""}`}>
               <li className="nav-item">
-                <NavLink to="/" onClose={closeMenu}>
-                  Home
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/about" onClose={closeMenu}>
+                <NavLink className="pagelink" to="/about" onClose={closeMenu}>
                   About
                 </NavLink>
               </li>
               {isAuthenticated && (
                 <>
                   <li className="nav-item">
-                    <NavLink to="/dashboard" onClose={closeMenu}>
+                    <NavLink className="pagelink"to="/dashboard" onClose={closeMenu}>
                       Dashboard
                     </NavLink>
                   </li>
@@ -92,14 +84,7 @@ const Navbar = () => {
                     <section className="logout-col logout-container">
                       <div className="logout-content logout-element">
                         <button className="logout-btn" onClick={handleLogout}>
-                          <div className="logout-img-container">
-                            <img
-                              src={logoutIcon}
-                              alt="logout-icon"
-                              className="logout-icon"
-                            />
-                          </div>
-                          <p className="logout-txt">Logout</p>
+                          Log Out
                         </button>
                       </div>
                     </section>

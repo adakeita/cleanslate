@@ -42,8 +42,9 @@
 .household-legend-item {
 	text-align: center;
 	display: block;
-	height: 60%;
-	width: 30%;
+	height: 70px;
+	width: 70px;
+	margin: 1rem 0;
 }
 
 .household-legend-item img {

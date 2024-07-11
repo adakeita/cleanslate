@@ -21,7 +21,7 @@ const CompleteProfile = () => {
     const [userDetailsCompleted, setUserDetailsCompleted] = useState(false);
 
     return (
-        <div className="page-container">
+        <div className="content-container_welcome">
             {!welcomeAcknowledged ? (
                 <WelcomeUser onAcknowledge={() => setWelcomeAcknowledged(true)} />
             ) : !userDetailsCompleted ? (

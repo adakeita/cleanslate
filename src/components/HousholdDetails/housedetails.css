@@ -1,18 +1,17 @@
 .household-form {
+	background: #9dce9d;
 	margin: 2em auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	width: 95%;
+	width: 100%;
 	max-width: 400px;
 	height: 100%;
-	padding: 2em 0em;
-	background: var(--bg-green-gradient);
-	border-radius: 10px;
+	padding: 1em 0em;
+	border-radius: 12px;
 	box-shadow: 3px 5px 0px 0 rgba(0, 0, 0, 0.2);
 }
-
 .household-form-content {
 	margin: 1em auto;
 	width: 80%;
@@ -45,11 +44,11 @@
 
 .household-inputfield {
 	margin: 0.5em 0em;
-	padding: 0.5em 1em;
+	padding: 1em 1.5em;
 	border: none;
 	border-radius: 12px;
-	background-color: #ffffff;
-	box-shadow: 0px 12px 16px 0 rgb(129 166 158);
+	background-color: #f9f7f7;
+	box-shadow: 0px 12px 16px 0 rgb(82 106 82 / 86%);
 	font-size: 14px;
 }
 
@@ -58,14 +57,15 @@
 }
 
 .room-btn-container {
-	background: white;
-	display: flex;
-	width: 100%;
-	margin: 0.5em 0em;
-	align-items: center;
-	justify-content: space-evenly;
-	box-shadow: 0px 12px 16px 0 rgb(129 166 158);
-	border-radius: 12px;
+    background: white;
+    display: flex;
+    width: 90%;
+    margin: 0.7em auto;
+    align-items: center;
+    justify-content: space-evenly;
+	box-shadow: 0px 12px 16px 0 rgb(82 106 82 / 86%);
+    border-radius: 12px;
+    padding: 0.2em 0;
 }
 
 .room-btn {
@@ -93,14 +93,13 @@
 
 .householdform-btn,
 .check-household-btn {
-	font-size: 14px;
-    padding: 0.8em 0em;
-    width: 45%;
-    border-radius: 12px;
-	margin: 1em 0em;
-	font-size: 14px;
-	background: var(--btn-green-gradient);
-	box-shadow: 0px 12px 16px 0 rgb(129 166 158);
+	padding: 1em 0em;
+	width: 45%;
+	border-radius: 12px;
+	margin: 0em 0em 2em;
+	font-size: 15px;
+	background: linear-gradient(348deg, #9fc7ff, #fcfdfc);
+	box-shadow: 0px 12px 16px 0 rgb(82 106 82 / 86%);
 	transition: all 0.3s ease-in-out;
 	cursor: pointer;
 }

@@ -1,19 +1,13 @@
-import { Outlet } from "@tanstack/react-router";
 import { AuthProvider } from "./contexts/AuthContext";
-import { UIProvider } from "./contexts/UIContext";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import { ChoreProvider } from "./contexts/ChoreContext";
+import { UserDetailsProvider } from "./contexts/UserDetailsContext";
 
-function App() {
+function App({ children }) {
   return (
     <AuthProvider>
-      <UIProvider>
-        <Navbar />
-        <main>
-          <Outlet />
-        </main>
-        <Footer />
-      </UIProvider>
+      <UserDetailsProvider>
+        <ChoreProvider>{children}</ChoreProvider>
+      </UserDetailsProvider>
     </AuthProvider>
   );
 }

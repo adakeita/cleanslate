@@ -1,4 +1,5 @@
 #dashboardContainer {
+	width: 95%;
 	margin: 1.5em auto 2em;
 }
 
@@ -27,6 +28,7 @@ Dashboard Top section
 	justify-content: flex-start;
 	font-size: 31px;
 	margin-bottom: 5px;
+	margin-left: 1em;
 }
 
 .profile-wrapper_dashboard {
@@ -107,12 +109,14 @@ DAILY COST AND TIME
 */
 
 .totalday_dashboard-wrapper {
-	width: 100%;
+	width: 90%;
 	margin: unset;
 }
 
 .date-wrapper_dashboard h2 {
 	margin: 1.5em 0.5em 0.5em;
+	font-family: "Montserrat", sans-serif;
+	font-size: 23px;
 }
 
 .hero_dashboard .total-cost-container {
@@ -128,33 +132,36 @@ DAILY COST AND TIME
 
 .hero_dashboard .content_totalcost {
 	display: flex;
-	flex-direction: row;
-	align-items: flex-start;
+	flex-direction: column;
+	align-items: center;
 	justify-content: space-around;
 }
 
 .hero_dashboard .content-container_totalcost {
+	height: 100%;
+	margin: 0em 2em;
+	font-family: "Montserrat", sans-serif;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	height: 100%;
-	margin: 0em 2em;
 }
 
 .hero_dashboard .cost-wrapper,
 .hero_dashboard .time-wrapper {
+	margin: 0.5em 0;
+	width: 80%;
+	height: 100%;
+	font-family: "Montserrat", sans-serif;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 1em 0;
-	width: 45%;
-	height: 100%;
 	justify-content: space-around;
 }
 
 .hero_dashboard .total-cost-header {
 	margin: 0.5em auto;
+	font-size: 20px;
 }
 
 .hero_dashboard .total-cost-value {
@@ -162,9 +169,9 @@ DAILY COST AND TIME
 	padding: 10px 15px;
 	border-radius: 12px;
 	margin-bottom: 0;
-	font-size: 22px;
+	font-size: 20px;
 	font-weight: bold;
-	width: 80%;
+	width: 100%;
 	border: none;
 	box-shadow: inset 1px 2px 5px 1px #baa3c4d6;
 }
@@ -173,8 +180,9 @@ DAILY COST AND TIME
 	padding: 10px 15px;
 	border-radius: 12px;
 	margin-bottom: 0;
-	font-size: 22px;
+	font-size: 20px;
 	font-weight: bold;
+	width: 100%;
 }
 
 /*
@@ -224,6 +232,11 @@ Overview Sections
 	transition: all 0.3s ease-in-out;
 }
 
+.overview-btn_dashboard p {
+	font-weight: bold;
+	font-size: 19px;
+}
+
 .overview-btn_dashboard:hover,
 .user-btns .log-activity:hover {
 	transform: scale(1.05);
@@ -237,7 +250,7 @@ Overview Sections
 }
 
 .img-wrapper_overview-btn {
-	width: 15%;
+	width: 20%;
 }
 
 .household-options-btn_dashboard {
@@ -283,7 +296,7 @@ Overview Sections
 	width: inherit;
 }
 
-.dashboard-name-dropdown .chore-dropdown-container {
+.dashboard-name-dropdown .chorelogger-wrap {
 	width: 100%;
 	margin: 1em auto 2em;
 	padding: 1em 0;
@@ -294,7 +307,7 @@ Overview Sections
 	margin: auto;
 }
 
-.user-btns .chore-dropdown-container {
+.user-btns .chorelogger-wrap {
 	margin: 0em auto 3em;
 	box-shadow: 0px 12px 16px 0px #536a57;
 	border: 1px solid black;
@@ -303,7 +316,7 @@ Overview Sections
 	max-width: unset;
 }
 
-.user-btns .chore-dropdown-container:hover {
+.user-btns .chorelogger-wrap:hover {
 	transform: scale(1.05);
 }
 
@@ -318,12 +331,12 @@ Overview Sections
 @media screen and (min-width: 750px) {
 	#dashboardContainer {
 		margin: 2em auto;
-		max-width: 800px;
+		max-width: 900px;
 	}
 
 	.main-content_dashboard {
 		flex-direction: row;
-		max-width: 800px;
+		max-width: 900px;
 	}
 
 	.profile-wrapper_dashboard {
@@ -344,8 +357,8 @@ Overview Sections
 	}
 
 	.avatar-wrapper_dashboard {
-		width: 170px;
-		height: 170px;
+		width: 220px;
+		height: 220px;
 	}
 
 	.avatar-wrapper_dashboard img {
@@ -365,6 +378,10 @@ Overview Sections
 
 	.date-wrapper_dashboard h2 {
 		margin: 1.5em 0 0.5em;
+	}
+
+	.totalday_dashboard-wrapper {
+		width: 100%;
 	}
 
 	.hero_dashboard .total-cost-container {
@@ -482,13 +499,13 @@ Overview Sections
 		width: inherit;
 	}
 
-	.dashboard-name-dropdown .chore-dropdown-container {
+	.dashboard-name-dropdown .chorelogger-wrap {
 		width: 100%;
 		margin: 1em auto 2em;
 		padding: 1em 0;
 	}
 
-	.user-btns .chore-dropdown-container {
+	.user-btns .chorelogger-wrap {
 		margin: 2em auto;
 	}
 

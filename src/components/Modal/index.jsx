@@ -5,12 +5,13 @@ import "./modal.css";
 
 const Modal = ({ isOpen, onClose, children }) => {
   useEffect(() => {
+    
     if (isOpen) {
       document.body.classList.add("no-scroll");
     } else {
       document.body.classList.remove("no-scroll");
     }
-    // Cleanup function
+
     return () => {
       document.body.classList.remove("no-scroll");
     };
@@ -19,14 +20,20 @@ const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-backdrop">
-      <div className="modal">
-        <div className="close-modal-btn-container">
-          <button className="close-modal-btn" onClick={onClose}>
+    <div className="modal-backdrop" role="dialog" aria-modal="true">
+      <div className="modal-content">
+        <div className="btn-wrapper_modal">
+          <button
+            className="close-modal-btn"
+            onClick={onClose}
+            aria-label="Close modal"
+          >
             <img src={exit} alt="Close modal" />
           </button>
         </div>
-        {children}
+        <div className="text_modal">
+          {children || <div>No content available</div>}
+        </div>
       </div>
     </div>
   );
@@ -35,7 +42,7 @@ const Modal = ({ isOpen, onClose, children }) => {
 Modal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
 };
 
 export default Modal;

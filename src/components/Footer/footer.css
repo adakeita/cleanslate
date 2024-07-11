@@ -1,9 +1,6 @@
 .footer-wrapper {
-	position: sticky;
-	bottom: 0px;
-	padding: 1em 0;
+	padding: 1em 0 0;
 	width: 100vw;
-	height: 20%;
 	display: flex;
 	justify-content: center;
 	align-items: center;

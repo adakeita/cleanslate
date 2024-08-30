@@ -1,27 +1,48 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
+import {
+  getSession,
+  getUser,
+  apiRequest,
+  saveToSessionStorage,
+  getFromSessionStorage,
+} from "../lib/services/baseApiService";
 import supabase from "../lib/supabaseConfig";
+import { updateUserDetails } from "../lib/services/userService";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   const checkAuthState = useCallback(async () => {
-    const { data: session } = await supabase.auth.getSession();
-    setIsAuthenticated(!!session);
+    let session = getFromSessionStorage("sessionData");
+
+    if (!session) {
+      session = await getSession();
+      if (session) saveToSessionStorage("sessionData", session);
+    }
+
+    const userData = session?.user || null;
+
+    setIsAuthenticated(!!userData);
+    setUser(userData);
   }, []);
 
   useEffect(() => {
     checkAuthState();
-    const authListener = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(!!session);
-    });
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        const userData = session?.user || null;
+        setIsAuthenticated(!!userData);
+        setUser(userData);
+      }
+    );
 
     return () => {
-      if (typeof authListener === "function") {
-        authListener();
-      }
+      authListener?.subscription?.unsubscribe();
     };
   }, [checkAuthState]);
 
@@ -29,7 +50,7 @@ export const AuthProvider = ({ children }) => {
     if (!email || !password || !username || !avatar) {
       throw new Error("All fields are required.");
     }
-    try {
+    return await apiRequest(async () => {
       const { error: signUpError } = await supabase.auth.signUp({
         email,
         password,
@@ -37,69 +58,47 @@ export const AuthProvider = ({ children }) => {
       if (signUpError)
         throw new Error(signUpError.message || "Error during signup");
 
-      const { data: userData, error: userError } =
-        await supabase.auth.getUser();
-      if (userError)
-        throw new Error(userError.message || "Error fetching user data.");
-      if (!userData || !userData.user)
-        throw new Error("User data is not available.");
+      const user = await getUser();
+      if (!user) throw new Error("User data is not available.");
 
-      const user = userData.user;
-      await insertUserDetails(
-        user.id,
-        username,
-        pronouns,
-        avatar
-      );
-      console.log("User details added successfully.");
-
+      await updateUserDetails(username, pronouns, avatar);
+      setUser(user);
+      setIsAuthenticated(true);
       return user;
-    } catch (error) {
-      console.error("Signup process error:", error);
-      throw error;
-    }
+    });
   };
-
-  const insertUserDetails = async (userId, username, pronouns, avatar) => {
-    const { data, error } = await supabase
-      .from("user_details")
-      .insert([{ user_id: userId, username, pronouns, avatar }]);
-    if (error) throw new Error(error.message || "Error inserting user details");
-    return data;
-  };
-  
 
   const signIn = async (email, password) => {
     if (!email || !password) {
       throw new Error("Email and password are required.");
     }
-
-    try {
-      const { user, error } = await supabase.auth.signInWithPassword({
+    return await apiRequest(async () => {
+      const { data: session, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       if (error) throw new Error(error.message || "Error during sign-in");
-      return user;
-    } catch (error) {
-      console.error("Error signing in:", error);
-      throw error;
-    }
+
+      setUser(session.user);
+      setIsAuthenticated(true);
+      return session.user;
+    });
   };
 
   const signOut = async () => {
-    try {
+    return await apiRequest(async () => {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
+
+      setUser(null);
+      setIsAuthenticated(false);
       console.log("Sign out successful");
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
+    });
   };
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, signUp, signIn, signOut, checkAuthState }}
+      value={{ isAuthenticated, user, signUp, signIn, signOut, checkAuthState }}
     >
       {children}
     </AuthContext.Provider>

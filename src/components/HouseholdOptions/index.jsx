@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import HouseholdDetails from "../HousholdDetails";
 import InviteForm from "../InviteForm";
-import { getCompleteUser } from "../../lib/api";
+import { getCompleteUser } from "../../lib/services/userService";
 import Modal from "../Modal";
 import "./household-options.css";
 

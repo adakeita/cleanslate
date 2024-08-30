@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { createNewHousehold, getCompleteUser } from "../../lib/api";
+import { createNewHousehold } from "../../lib/services/householdService"; // Adjusted import
+import { getFromSessionStorage } from "../../lib/services/baseApiService"; // Adjusted import
 import { AuthContext } from "../../contexts/AuthContext";
 import "./housedetails.css";
 
@@ -11,7 +12,6 @@ const HouseholdDetails = () => {
   const [sizeInSqm, setSizeInSqm] = useState("");
   const [sizeInSqmError, setSizeInSqmError] = useState("");
   const [joinExisting, setJoinExisting] = useState(false);
-  const [userDetails, setUserDetails] = useState({});
   const [errors, setErrors] = useState({
     householdNameError: "",
     sizeInSqmError: "",
@@ -54,24 +54,14 @@ const HouseholdDetails = () => {
     if (!validateForm()) return;
 
     try {
-      const completeUser = await getCompleteUser();
+      // Attempt to get completeUser from session storage
+      const completeUser = getFromSessionStorage("completeUser");
+
+      if (!completeUser) {
+        throw new Error("Complete user data not found in session storage.");
+      }
+
       const userId = completeUser.authUserId;
-
-      const fetchUserDetails = async () => {
-        try {
-          const completeUser = await getCompleteUser();
-
-          setUserDetails({
-            username: completeUser.username,
-            household: completeUser.household,
-            householdId: completeUser.household.id,
-            householdName: completeUser.household.name,
-          });
-        } catch (error) {
-          console.error("Error fetching user details:", error);
-        }
-      };
-      fetchUserDetails();
 
       if (joinExisting) {
         await joinExistingHousehold(householdName, userId);
@@ -87,11 +77,12 @@ const HouseholdDetails = () => {
         setHouseholdId(householdId);
         completeUser.household.id = householdId;
 
-        sessionStorage.setItem("householdId", householdId);
+        // Update session storage with the new household ID
         sessionStorage.setItem("completeUser", JSON.stringify(completeUser));
-        
+
         setErrors({ feedbackMessage: "Household created successfully!" });
       }
+
       navigate("/dashboard");
     } catch (error) {
       console.error("Error handling household form submission:", error);

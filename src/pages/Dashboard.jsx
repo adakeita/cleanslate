@@ -7,7 +7,6 @@ import { isWithinInterval } from "date-fns";
 import TotalCostComponent from "../components/TotalCostComponent";
 import { getCurrentDayAndDate } from "../lib/utils";
 import HouseholdOptions from "../components/HouseholdOptions";
-import HouseholdDetails from "../components/HousholdDetails";
 import Modal from "../components/Modal";
 import ChoreDropdown from "../components/ChoreDropdown";
 import UserOverview from "../assets/img/user-btn-color.png";
@@ -17,8 +16,7 @@ import "./pagestyles/dashboard.css";
 const Dashboard = () => {
   useUpdateBodyClass("/dashboard");
   const { chores } = useChores();
-  const { userDetails, fetchAndSetUserDetails } =
-    useContext(UserDetailsContext);
+  const { userDetails } = useContext(UserDetailsContext);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,16 +29,10 @@ const Dashboard = () => {
     setIsDropdownOpen(isOpen);
   };
 
-  useEffect(() => {
-    if (!userDetails) {
-      fetchAndSetUserDetails();
-      console.log("Fetching user details from fallback in Dashboard");
-    }
-  }, [userDetails, fetchAndSetUserDetails]);
-
   const navigate = useNavigate();
 
   const currentDayAndDate = getCurrentDayAndDate();
+
   const determineDateRange = (filter) => {
     const today = new Date();
     let startDate = new Date();
@@ -57,7 +49,7 @@ const Dashboard = () => {
         break;
       case "month":
         startDate = new Date(today.setDate(1));
-        endDate = new Date(today.setDate(0));
+        endDate = new Date(today.setDate(today.getDate() + 30));
         break;
       case "year":
         startDate = new Date(today.setMonth(0, 1));
@@ -111,7 +103,7 @@ const Dashboard = () => {
 
   const handleHouseholdClick = (e) => {
     e.preventDefault();
-    if (userDetails.household && userDetails.household.users.length === 0) {
+    if (userDetails?.household && userDetails.household.users.length === 0) {
       setModalMessage(
         "You need to add someone to your household to compare tasks."
       );
@@ -121,19 +113,21 @@ const Dashboard = () => {
     }
   };
 
+  if (!userDetails) {
+    return <div>Loading...</div>; // Add a simple loading state
+  }
+
   return (
     <div id="dashboardContainer" className="content-container_dashboard">
       <div className="greeting-wrapper">
-        <h1 className="greeting_dashboard">
-          Hi {userDetails?.username || "Loading..."}!
-        </h1>
+        <h1 className="greeting_dashboard">Hi {userDetails.username}!</h1>
       </div>
       <div className="main-content_dashboard">
         <div className="profile-wrapper_dashboard">
           <div className="test-wrapper">
             <div className="avatar-wrapper_dashboard">
               <img
-                src={userDetails?.avatar}
+                src={userDetails.avatar}
                 alt="profile-img"
                 className="profile-img_dashboard"
               />

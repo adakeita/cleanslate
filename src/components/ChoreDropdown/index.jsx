@@ -1,8 +1,11 @@
-// ChoreDropdown.jsx
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
-import { logChore, fetchChoreCategories } from "../../lib/api";
+import {
+  logChore,
+  fetchChoreCategories,
+} from "../../lib/services/choreService";
 import { useChores } from "../../contexts/ChoreContext";
+import { updateChoreDataInCompleteUser } from "../../lib/services/userService"; // Import the function to update chores in session storage
 import PropTypes from "prop-types";
 import plus from "../../assets/svg/plus.svg";
 import minus from "../../assets/svg/minus.svg";
@@ -23,8 +26,17 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
   useEffect(() => {
     const fetchCategoriesAndSubcategories = async () => {
       try {
-        const fetchedCategories = await fetchChoreCategories();
-        setCategories(fetchedCategories);
+        const cachedCategories = sessionStorage.getItem("choreCategories");
+        if (cachedCategories) {
+          setCategories(JSON.parse(cachedCategories));
+        } else {
+          const fetchedCategories = await fetchChoreCategories();
+          setCategories(fetchedCategories);
+          sessionStorage.setItem(
+            "choreCategories",
+            JSON.stringify(fetchedCategories)
+          );
+        }
       } catch (error) {
         console.error("Error fetching categories and subcategories:", error);
       }
@@ -35,11 +47,10 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
   const ModalContent = () => (
     <div>
       <p>
-        Sweet! Your task has been tracked. 
+        Sweet! Your task has been tracked.
         <br />
         <br />
-        You can view your updated pie chart
-        in My overview.
+        You can view your updated pie chart in My overview.
       </p>
       <p>Keep up the good work!</p>
     </div>
@@ -79,6 +90,7 @@ const ChoreDropdown = ({ onToggleDropdown }) => {
         sessions
       );
       updateChores(newChore); // Update the global state with the new chore
+      await updateChoreDataInCompleteUser(); // Ensure session storage is updated
       openModal(<ModalContent />);
 
       setSelectedCategory(null);

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { getUserChoreOverview, getCompleteUser } from "../lib/api";
+import { getUserChoreOverview } from "../lib/services/choreService"; // Updated import from choreService
+import { getFromSessionStorage } from "../lib/services/baseApiService"; // Updated import for session storage handling
 import OverviewPie from "../components/OverviewPie";
 import TotalCostComponent from "../components/TotalCostComponent";
 import OverviewBar from "../components/OverviewBar/overviewbar.jsx";
@@ -21,8 +22,15 @@ const OverviewPage = () => {
 
   const toggleDropdownOpen = (isOpen) => {
     setIsDropdownOpen(isOpen);
-    
   };
+
+  if (isDropdownOpen) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+
+  
 
   const dateFilterOptions = ["day", "week", "month", "year", "all"].map(
     (option) => (
@@ -48,24 +56,33 @@ const OverviewPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const completeUser = await getCompleteUser();
-        const fetchedOverviewData = await getUserChoreOverview(
-          completeUser.userDetailsId,
-          filter
-        );
-        setOverviewData(fetchedOverviewData);
-        setUserDetails(completeUser);
+        // Attempt to get completeUser from session storage
+        const completeUser = getFromSessionStorage("completeUser");
 
-        const totalMinutes = fetchedOverviewData.reduce(
-          (acc, item) => acc + item.total_minutes,
-          0
-        );
-        const totalCost = fetchedOverviewData.reduce(
-          (acc, item) => acc + (parseFloat(item.total_monetary_value) || 0),
-          0
-        );
-        setGrandTotalCost(totalCost);
-        setGrandTotalMinutes(totalMinutes);
+        if (completeUser) {
+          setUserDetails(completeUser);
+
+          // Fetch the chore overview using userDetailsId from completeUser
+          const fetchedOverviewData = await getUserChoreOverview(
+            completeUser.userDetailsId,
+            filter
+          );
+          setOverviewData(fetchedOverviewData);
+
+          // Calculate totals
+          const totalMinutes = fetchedOverviewData.reduce(
+            (acc, item) => acc + item.total_minutes,
+            0
+          );
+          const totalCost = fetchedOverviewData.reduce(
+            (acc, item) => acc + (parseFloat(item.total_monetary_value) || 0),
+            0
+          );
+          setGrandTotalCost(totalCost);
+          setGrandTotalMinutes(totalMinutes);
+        } else {
+          console.error("Complete user data not found in session storage.");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }

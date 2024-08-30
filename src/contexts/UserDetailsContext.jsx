@@ -1,16 +1,13 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { getCompleteUser } from "../lib/api";
-import { AuthContext } from "./AuthContext";
 import PropTypes from "prop-types";
-import { oldAvatars, newAvatars } from "../lib/avatar";
+import { getCompleteUser } from "../lib/services/userService";
+import { AuthContext } from "./AuthContext";
+import {
+  getFromSessionStorage,
+  saveToSessionStorage,
+} from "../lib/services/baseApiService";
 
 export const UserDetailsContext = createContext();
-
-export const getAvatarURL = (avatar) => {
-  const allAvatars = [...oldAvatars, ...newAvatars];
-  const avatarEntry = allAvatars.find((av) => av.url === avatar);
-  return avatarEntry ? avatarEntry.url : "i_need_to_make_a_default_avatar";
-};
 
 export const UserDetailsProvider = ({ children }) => {
   const [userDetails, setUserDetails] = useState(null);
@@ -18,7 +15,13 @@ export const UserDetailsProvider = ({ children }) => {
 
   const fetchAndSetUserDetails = async () => {
     try {
-      const details = await getCompleteUser();
+      let details = getFromSessionStorage("completeUser");
+
+      if (!details) {
+        details = await getCompleteUser(); // Fetch from server if not in session storage
+        if (details) saveToSessionStorage("completeUser", details);
+      }
+
       setUserDetails(details);
     } catch (error) {
       console.error("Error fetching user details:", error);
@@ -27,6 +30,7 @@ export const UserDetailsProvider = ({ children }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
+      console.log("UserDetailsProvider: Fetching user details");
       fetchAndSetUserDetails();
     }
   }, [isAuthenticated]);

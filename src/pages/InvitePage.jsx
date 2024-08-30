@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { joinHouseholdUsingToken } from "../lib/api";
+import { joinHouseholdUsingToken } from "../lib/services/householdService";
 import { UserDetailsContext } from "../contexts/UserDetailsContext";
 
 function InvitePage() {

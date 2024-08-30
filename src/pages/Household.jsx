@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { getHouseholdChoreOverview, getCompleteUser } from "../lib/api";
+import { getHouseholdChoreOverview } from "../lib/services/choreService"; // Updated import
+import { getCompleteUser } from "../lib/services/userService"; // Updated import
 import HouseholdPie from "../components/HousholdPie";
 import HouseholdCostComponent from "../components/HouseholdCostComponent";
 import HouseholdBar from "../components/HouseholdBar/HouseholdBar";
@@ -32,8 +33,8 @@ const HouseholdPage = () => {
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 440);
-    const resizeListener = window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", resizeListener);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {

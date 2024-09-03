@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { getUserChoreOverview } from "../lib/services/choreService"; // Updated import from choreService
-import { getFromSessionStorage } from "../lib/services/baseApiService"; // Updated import for session storage handling
+import { getUserChoreOverview } from "../lib/services/choreService"; 
+import { getFromSessionStorage } from "../lib/services/baseApiService";
 import OverviewPie from "../components/OverviewPie";
 import TotalCostComponent from "../components/TotalCostComponent";
 import OverviewBar from "../components/OverviewBar/overviewbar.jsx";

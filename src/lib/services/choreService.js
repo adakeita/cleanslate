@@ -71,6 +71,16 @@ export const fetchChoreCategories = async () => {
 };
 
 export const getUserChoreOverview = async (userDetailId, filter) => {
+  const cacheKey = `userChoreOverview_${userDetailId}_${filter}`;
+
+  // Check if the data is already cached
+  const cachedData = getFromSessionStorage(cacheKey);
+  if (cachedData) {
+    console.log(`Returning cached data for ${filter}`);
+    return cachedData;
+  }
+
+  // If not cached, proceed with the database call
   return await apiRequest(async () => {
     const userDetailIdInt = parseInt(userDetailId, 10);
     if (isNaN(userDetailIdInt)) throw new Error("Invalid user detail ID");
@@ -105,6 +115,9 @@ export const getUserChoreOverview = async (userDetailId, filter) => {
           : 0,
       };
     });
+
+    // Cache the result
+    saveToSessionStorage(cacheKey, overviewData);
 
     return overviewData;
   });
